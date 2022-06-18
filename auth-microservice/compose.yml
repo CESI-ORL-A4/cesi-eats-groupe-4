@@ -11,7 +11,7 @@ services:
       - ./mssql/scripts:/scripts
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=pkSodmp45ni
+      - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+      - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
     command: bash -c "ls && chmod +x entrypoint.sh setup.sh && ./entrypoint.sh"
-
 
