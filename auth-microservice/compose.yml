@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   auth-service-db:
+    container_name: auth-service-db
     image: mcr.microsoft.com/mssql/server
     working_dir: /scripts
     ports:
@@ -13,5 +14,26 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
       - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+    networks:
+      - auth-microservice-network
     command: bash -c "ls && chmod +x entrypoint.sh setup.sh && ./entrypoint.sh"
+  auth-service-api:
+    image: node
+    container_name: auth-service-api
+    working_dir: /app
+    depends_on:
+      - auth-service-db
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    networks:
+      - auth-microservice-network
+    command: bash -c "npm install -g ts-node && npm install && ts-node src/app.ts"
+
+networks:
+  auth-microservice-network:
+
+
+
 
