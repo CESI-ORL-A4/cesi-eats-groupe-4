@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  auth-service-db:
+    image: mcr.microsoft.com/mssql/server
+    working_dir: /scripts
+    ports:
+      - 1433:1433
+    volumes:
+      - ./mssql/data:/var/lib/mssqlql/data
+      - ./mssql/scripts:/scripts
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=pkSodmp45ni
+    command: bash -c "ls && chmod +x entrypoint.sh setup.sh && ./entrypoint.sh"
+
+

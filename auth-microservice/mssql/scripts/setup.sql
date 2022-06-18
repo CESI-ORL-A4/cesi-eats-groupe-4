@@ -1,0 +1,20 @@
+ALTER DATABASE AUTH_DB SET AUTO_CLOSE OFF;
+
+IF OBJECT_ID('dbo.USERS', 'U') IS NULL
+    CREATE TABLE USERS ( 
+       Id INT NOT NULL, 
+       Email VARCHAR NOT NULL, 
+       Password VARCHAR NOT NULL, 
+       PRIMARY KEY (Id)
+    );
+GO
+
+IF OBJECT_ID('dbo.ACCESS_TOKENS', 'U') IS NULL
+    CREATE TABLE ACCESS_TOKENS ( 
+       Id INT NOT NULL, 
+       UserId INT NOT NULL, 
+       AccessToken VARCHAR NOT NULL, 
+       PRIMARY KEY (Id),
+       FOREIGN KEY(UserId) REFERENCES USERS(Id)
+    );
+GO
