@@ -65,7 +65,7 @@ span {
 }
 
 p{
-  margin: 5px;
+  margin: 12px;
 }
 
 .item {
