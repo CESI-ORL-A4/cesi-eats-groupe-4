@@ -7,18 +7,18 @@
     <div class="positioned">
       <form class="form">
         <table>
-          <thead margin="5px">
+          <thead>
           <tr>
-            <th colspan="2"><label>Inscription</label></th>
+            <th colspan="2"><label>Connexion</label></th>
           </tr>
           </thead>
           <tbody>
           <tr>
-            <th><label for="Email">Email: </label></th>
-            <th><input type="text" id="Email" name="Email" placeholder="Email"></th>
+            <th><label for="Email">Email</label></th>
+            <th><input type="email" id="Email" name="Email" placeholder="Email"></th>
           </tr>
           <tr>
-            <th><label for="Password">Password: </label></th>
+            <th><label for="Password">Password </label></th>
             <th><input type="password" id="Password" name="Password" placeholder="Password" ></th>
           </tr>
           </tbody>
@@ -49,10 +49,8 @@ tfoot{
   font-size: 35px;
 }
 
-tbody,
-tr,
-th{
-  margin-top: 20px;
+tbody {
+  text-align: left;
 }
 
 </style>

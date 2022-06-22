@@ -5,5 +5,8 @@ import Banner from  '@/components/Banner.vue'
 <template>
   <main>
     <Banner/>
+    <div>
+      bonjour le monde
+    </div>
   </main>
 </template>

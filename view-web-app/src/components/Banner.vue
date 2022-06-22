@@ -6,12 +6,16 @@ function btn_sign_up(){
 function btn_sign_in(){
   router.push({name : "SignIn"})
 }
+function homePage(){
+  router.push({name : "home"})
+}
+
 </script>
 
 <template>
   <div class="flex-container">
-    <div class="item">
-      <p>CesiEats</p>
+    <div class="item" @click="homePage">
+      <p> Cesi<span>Eats</span> </p>
     </div>
     <div class="item-x">
       <button type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
@@ -23,6 +27,10 @@ function btn_sign_in(){
 
 
 <style scoped>
+span{
+  color: #ff5404
+}
+
 .item{
   font-size: 24px;
   margin-left: 20px;
