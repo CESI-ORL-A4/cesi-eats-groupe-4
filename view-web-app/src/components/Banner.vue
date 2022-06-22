@@ -18,7 +18,7 @@ function homePage() {
 <template>
   <div class="flex-container">
     <div class="item" @click="homePage">
-      <p><img alt="Redirection home" src="../assets/home.png" width="22" height="22"/> Cesi <span>Eats</span></p>
+      <p><img alt="Redirection home" src="../assets/home.png" width="22" height="22"/> Cesi <span>Eats</span></p> 
     </div>
     <div class="item-x">
       <button type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
