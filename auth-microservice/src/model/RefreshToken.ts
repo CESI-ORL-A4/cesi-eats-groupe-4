@@ -5,7 +5,7 @@ import sequelize from "../DBConnection";
 class RefreshToken extends Model<InferAttributes<RefreshToken>, InferCreationAttributes<Model>> {
     declare id: number | undefined;
     declare email: string;
-    declare refreshToken: string;
+    declare token: string;
 }
 
 RefreshToken.init(
@@ -20,7 +20,7 @@ RefreshToken.init(
             allowNull: false,
             unique: true
         },
-        refreshToken: {
+        token: {
             type: DataTypes.STRING,
             allowNull: false
         }

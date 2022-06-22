@@ -4,7 +4,7 @@ import sequelize from "../DBConnection";
 class AccessToken extends Model<InferAttributes<AccessToken>, InferCreationAttributes<Model>> {
     declare id: number | undefined;
     declare email: string;
-    declare accessToken: string;
+    declare token: string;
 }
 
 AccessToken.init(
@@ -19,7 +19,7 @@ AccessToken.init(
             allowNull: false,
             unique: true
         },
-        accessToken: {
+        token: {
             type: DataTypes.STRING,
             allowNull: false
         }

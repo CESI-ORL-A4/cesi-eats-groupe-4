@@ -1,6 +1,7 @@
 import { Router, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { createUser, userExists } from "../controllers/userController";
+import { createTokens } from "../controllers/authController";
+import { createUser, getUser, userExists } from "../controllers/userController";
 import Role from "../model/Role";
 import { ReqWithBody } from "../types/expressTypes";
 import LoginUserPayload from "../types/user/LoginUserPayload";
@@ -34,8 +35,10 @@ authRouter.post("/login",
             return res.status(400).json({ errors: errors.array() });
         }
         const payload = req.body;
-        if (await userExists(payload.email, payload.password)) {
-            return res.status(200).json({ status: "User exists"});
+        const user = await getUser(payload.email, payload.password);
+        if (user) {
+            const [accessToken, refreshToken] = await createTokens(user.email, user.role);
+            return res.status(200).json({ status: "Logged in", accessToken, refreshToken });
         } 
         return res.status(401).json({ error: "Wrong credentials" });
 });
