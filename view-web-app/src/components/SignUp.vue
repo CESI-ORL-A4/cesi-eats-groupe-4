@@ -46,7 +46,7 @@
           <th><input type="email" id="email" name="email" placeholder="jean@gmail.com" required="required"></th>
         </tr>
         <tr>
-          <th><label for="address">Numéro de rue</label></th>
+          <th><label for="address">Adresse</label></th>
           <th><input type="text" id="address" name="address" placeholder=" " required="required"></th>
         </tr>
         <tr>
@@ -56,16 +56,24 @@
         <br>
         <tr>
           <th><label for="Password">Mot de passe </label></th>
-          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required"></th>
+          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required">
+          </th>
         </tr>
         <tr>
           <th><label for="Password">Confirmer le mot de passe </label></th>
-          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required"></th>
+          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required">
+          </th>
         </tr>
         </tbody>
       </table>
       <div>
         <br>
+        <p><input id="termsOfUses" name="termsOfUses" type="checkbox" required="required">
+          <span>J'accepte les <a href="/CGU" target="_blank">conditions générales d'utilisation</a>.</span>
+        </p>
+<!--        <p><input id="emailOffers" name="emailOffers" type="checkbox">
+          <span>Je souhaite recevoir occasionnellement par email des offres de Cesi Eats.</span></p>
+        <br>-->
         <button class="btn_sign_up_form">S'inscrire</button>
       </div>
     </form>

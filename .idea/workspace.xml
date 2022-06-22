@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/assets/home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/public/favicon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +38,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Didi/Documents/Cesi/A4/Prosits/Bloc_3_Elective_Logiciel/3.07/Autres/WS/Project_3.07_v2/vue-project",
+    "last_opened_file_path": "C:/Users/Didi/Documents/Cesi/A4/Prosits/Bloc_3_Elective_Logiciel/3.06/Autres/Prosit 6",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
