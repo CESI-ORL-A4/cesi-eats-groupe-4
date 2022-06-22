@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
+import TokenPayload from "../types/jwt/TokenPayload";
 
-export function signRefreshToken(email: string, role: string): string {
-    const payload = {email, role};
+export function signRefreshToken(payload: TokenPayload): string {
     return jwt.sign(payload, process.env.AUTH_JWT_REFRESH_SECRET!, {
        expiresIn: process.env.AUTH_JWT_ACCESS_TOKEN_LIFE!
     });

@@ -1,7 +1,8 @@
-import { Router, Response } from "express";
-import { body, validationResult } from "express-validator";
-import { createTokens } from "../controllers/authController";
+import { Router, Request, Response } from "express";
+import { body, param, validationResult } from "express-validator";
+import { createTokens, verifyToken } from "../controllers/authController";
 import { createUser, getUser, userExists } from "../controllers/userController";
+import { decodeToken } from "../jwt/accessToken";
 import Role from "../model/Role";
 import { ReqWithBody } from "../types/expressTypes";
 import LoginUserPayload from "../types/user/LoginUserPayload";
@@ -41,6 +42,20 @@ authRouter.post("/login",
             return res.status(200).json({ status: "Logged in", accessToken, refreshToken });
         } 
         return res.status(401).json({ error: "Wrong credentials" });
+});
+
+authRouter.post("/secure/:token",
+    param("token").exists(),
+    async (req: Request<{ token: string }>, res: Response) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const [isTokenValid, role] = await verifyToken(req.params.token);
+        if (isTokenValid) {
+            return res.status(200).json({ status: "Authentified", role });
+        }
+        return res.status(401).json({ status: "Unauthorized" });
 });
 
 export default authRouter;
