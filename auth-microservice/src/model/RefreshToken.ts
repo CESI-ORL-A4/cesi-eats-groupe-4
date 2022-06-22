@@ -1,36 +1,42 @@
 
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
-import sequelize from "../DBConnection";
+import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from "sequelize";
+import sequelize from "../db/DBConnection";
+import User from "./User";
 
 class RefreshToken extends Model<InferAttributes<RefreshToken>, InferCreationAttributes<Model>> {
     declare id: number | undefined;
-    declare email: string;
+    declare email: ForeignKey<User["email"]>;
     declare token: string;
 }
 
-RefreshToken.init(
-    {
-        id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true
+export function initRefreshToken() {
+    RefreshToken.init(
+        {
+            id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                autoIncrement: true,
+                primaryKey: true
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true
+            },
+            token: {
+                type: DataTypes.STRING,
+                allowNull: false
+            }
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        token: {
-            type: DataTypes.STRING,
-            allowNull: false
+        {
+            sequelize: sequelize,
+            tableName: "RefreshTokens"
         }
-    },
-    {
-        sequelize: sequelize,
-        tableName: "RefreshTokens"
-    }
-);
+    );
 
-RefreshToken.sync({ force: true });
+}
+
+export function syncRefreshToken(force?: boolean) {
+    RefreshToken.sync({ force: !!force });
+}
 
 export default RefreshToken;

@@ -1,5 +1,6 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
-import sequelize from "../DBConnection";
+import sequelize from "../db/DBConnection";
+import AccessToken from "./AccessToken";
 import Role from "./Role";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> {
@@ -9,32 +10,36 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> 
     declare role: Role;
 }
 
-User.init(
-    {
-        id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true
+export function initUser() {
+    User.init(
+        {
+            id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                autoIncrement: true,
+                primaryKey: true
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true
+            },
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            role: {
+                type: DataTypes.ENUM(...Object.values(Role))
+            }
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        role: {
-            type: DataTypes.ENUM(...Object.values(Role))
+        {
+            sequelize: sequelize,
+            tableName: "Users"
         }
-    },
-    {
-        sequelize: sequelize,
-        tableName: "Users"
-    }
-);
+    );
+}
 
-User.sync({ force: true });
+export function syncUser(force?: true) {
+    User.sync({ force: !!force })
+}
 
 export default User;

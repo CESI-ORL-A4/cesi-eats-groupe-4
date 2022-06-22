@@ -14,3 +14,11 @@ export function verifyRefreshToken(token: string): boolean {
         return false;
     }
 }
+
+export function decodeRefreshToken(token: string) {
+    try {
+        return jwt.verify(token, process.env.AUTH_JWT_REFRESH_SECRET!) as TokenPayload;
+    } catch {
+        return undefined;
+    }
+}

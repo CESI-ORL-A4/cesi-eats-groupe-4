@@ -3,9 +3,12 @@ import "dotenv/config"
 import bodyParser from "body-parser";
 import express from "express";
 import authRouter from "./routers/authRouter";
+import setupDB from "./db/setupDB";
 
 const app: express.Express = express();
 const port = 8080;
+
+setupDB();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

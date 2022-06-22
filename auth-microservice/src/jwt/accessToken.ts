@@ -15,7 +15,7 @@ export function verifyAccessToken(token: string): boolean {
     }
 }
 
-export function decodeToken(token: string) {
+export function decodeAccessToken(token: string) {
     try {
         return jwt.verify(token, process.env.AUTH_JWT_ACCESS_SECRET!) as TokenPayload;
     } catch {
