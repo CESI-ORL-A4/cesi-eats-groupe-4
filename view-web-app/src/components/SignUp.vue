@@ -31,23 +31,32 @@
         </tr>
         <tr>
           <th><label for="firstName">Prénom </label></th>
-          <th><input type="text" id="firstName" name="firstName" placeholder="Jean"></th>
+          <th><input type="text" id="firstName" name="firstName" placeholder="Jean" required="required"></th>
         </tr>
         <tr>
           <th><label for="lastName">Nom de famille </label></th>
-          <th><input type="text" id="lastName" name="lastName" placeholder="Martin"></th>
+          <th><input type="text" id="lastName" name="lastName" placeholder="Martin" required="required"></th>
         </tr>
         <tr>
           <th><label for="phone">Téléphone </label></th>
-          <th><input type="number" id="phone" name="phone" placeholder="0665433883"></th>
+          <th><input type="number" id="phone" name="phone" placeholder="0665433883" required="required"></th>
         </tr>
         <tr>
           <th><label for="email">Email </label></th>
-          <th><input type="email" id="email" name="email" placeholder="jean@gmail.com"></th>
+          <th><input type="email" id="email" name="email" placeholder="jean@gmail.com" required="required"></th>
         </tr>
         <tr>
           <th><label for="birthdayDate">Date d'anniversaire </label></th>
-          <th><input type="date" id="birthdayDate" name="birthdayDate" placeholder=" "></th>
+          <th><input type="date" id="birthdayDate" name="birthdayDate" placeholder=" " required="required"></th>
+        </tr>
+        <br>
+        <tr>
+          <th><label for="Password">Mot de passe </label></th>
+          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required"></th>
+        </tr>
+        <tr>
+          <th><label for="Password">Confirmer le mot de passe </label></th>
+          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required"></th>
         </tr>
         </tbody>
       </table>

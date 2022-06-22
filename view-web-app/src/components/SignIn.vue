@@ -15,11 +15,11 @@
           <tbody>
           <tr>
             <th><label for="Email">Email</label></th>
-            <th><input type="email" id="Email" name="Email" placeholder="jeans@gmail.com"></th>
+            <th><input type="email" id="Email" name="Email" placeholder="jeans@gmail.com" required="required"></th>
           </tr>
           <tr>
-            <th><label for="Password">Password </label></th>
-            <th><input type="password" id="Password" name="Password" placeholder="Password//1234!"></th>
+            <th><label for="Password">Mot de passe </label></th>
+            <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required"></th>
           </tr>
           </tbody>
         </table>
