@@ -1,0 +1,4 @@
+apigateway/node/node_modules/*
+.idea/*
+.github/*
+apigateway/node/.env

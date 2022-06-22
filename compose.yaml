@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  apigateway:
+    container_name: apigateway
+    working_dir: /apigateway
+    ports:
+      # local:container
+      - "4411:8080"
+    volumes:
+      # Volume stockant les fichiers web du projet
+      - ./apigateway/node:/apigateway/node
+    build:
+      context: .
+      dockerfile: ./apigateway/Dockerfile
+    command: bash -c "cd node && npm install && npm install -g ts-node && ts-node server.ts"
