@@ -7,34 +7,23 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style>
-@import './assets/base.css';
-
-.flex-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #151515;
-  height: 100%;
-  gap: 5px;
-
+body {
+  margin: 0;
+  font-family: Poppins;
 }
-
-.flex-container > div {
-  border-radius: 5px;
-  padding: 8px;
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+  url(./assets/Fonts/Poppins/Poppins-Regular.ttf) format("truetype");
 }
-
-
-.item {
-  /* flex:0 1 auto; */
-  flex-shrink: 1;
-  align-self: center;
-  color: white;
+@font-face {
+  font-family: "Poppins_bold";
+  src: local("Poppins"),
+  url(./assets/Fonts/Poppins/Poppins-bold.ttf) format("truetype");
 }
-
-.item-x {
-  /* flex:0 1 auto; */
-  align-self: center;
-  color: white;
+@font-face {
+  font-family: "Poppins_semiBold";
+  src: local("Poppins"),
+  url(./assets/Fonts/Poppins/Poppins-SemiBold.ttf) format("truetype");
 }
 </style>

@@ -2,7 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/OFL.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-BlackItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-ExtraLight.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-ExtraLightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Fonts/Poppins/Poppins-ThinItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/views/SignInView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/views/SignInView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +67,12 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Users\Admin\Documents\GitHub\cesi-eats-groupe-4\view-web-app\src\assets\Fonts\Poppins" />
+      <recent name="D:\Users\Admin\Documents\GitHub\cesi-eats-groupe-4\view-web-app\src\assets\Fonts" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -53,7 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1655886218615</updated>
       <workItem from="1655886219883" duration="167000" />
-      <workItem from="1655886389913" duration="4436000" />
+      <workItem from="1655886389913" duration="8429000" />
     </task>
     <servers />
   </component>
