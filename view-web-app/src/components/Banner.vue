@@ -30,10 +30,13 @@ function homePage(){
 span{
   color: #ff5404
 }
-
+p{
+  margin: 5px;
+}
 .item{
-  font-size: 24px;
+  font-size: 40px;
   margin-left: 20px;
+  color: white;
 }
 .item-x{
   margin-right: 20px;
@@ -62,22 +65,5 @@ span{
 
 }
 
-.flex-container > div {
-  border-radius: 5px;
-  padding: 8px;
-}
 
-
-.item {
-  /* flex:0 1 auto; */
-  flex-shrink: 1;
-  align-self: center;
-  color: white;
-}
-
-.item-x {
-  /* flex:0 1 auto; */
-  align-self: center;
-  color: white;
-}
 </style>

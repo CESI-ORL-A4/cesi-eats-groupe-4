@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" afterDir="false" />
-    </list>
+    <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,7 +59,7 @@
       <updated>1655886218615</updated>
       <workItem from="1655886219883" duration="167000" />
       <workItem from="1655886389913" duration="11019000" />
-      <workItem from="1655902846877" duration="2163000" />
+      <workItem from="1655902846877" duration="3192000" />
     </task>
     <servers />
   </component>
