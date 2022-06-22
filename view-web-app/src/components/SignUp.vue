@@ -73,10 +73,8 @@ tfoot {
   font-size: 35px;
 }
 
-tbody,
-tr,
-th {
-  margin-top: 20px;
+tbody {
+  text-align: left;
 }
 
 .btn_sign_up_form{
