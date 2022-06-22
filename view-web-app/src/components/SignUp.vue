@@ -31,23 +31,28 @@
         </tr>
         <tr>
           <th><label for="firstName">Prénom </label></th>
-          <th><input type="text" id="firstName" name="firstName" placeholder=" "></th>
+          <th><input type="text" id="firstName" name="firstName" placeholder="Jean"></th>
+        </tr>
+        <tr>
+          <th><label for="lastName">Nom de famille </label></th>
+          <th><input type="text" id="lastName" name="lastName" placeholder="Martin"></th>
         </tr>
         <tr>
           <th><label for="phone">Téléphone </label></th>
-          <th><input type="number" id="phone" name="phone" placeholder=" "></th>
+          <th><input type="number" id="phone" name="phone" placeholder="0665433883"></th>
         </tr>
         <tr>
           <th><label for="email">Email </label></th>
-          <th><input type="email" id="email" name="email" placeholder=" "></th>
+          <th><input type="email" id="email" name="email" placeholder="jean@gmail.com"></th>
         </tr>
         <tr>
-          <th><label for="birthdayDate">Date d'anniversaire  </label></th>
-          <th><input type="text" id="birthdayDate" name="birthdayDate" placeholder=" "></th>
+          <th><label for="birthdayDate">Date d'anniversaire </label></th>
+          <th><input type="date" id="birthdayDate" name="birthdayDate" placeholder=" "></th>
         </tr>
         </tbody>
       </table>
       <div>
+        <br>
         <button class="btn_sign_up_form">S'inscrire</button>
       </div>
     </form>
@@ -77,11 +82,12 @@ tbody {
   text-align: left;
 }
 
-.btn_sign_up_form{
+.btn_sign_up_form {
   background-color: #F6F6F6;
   border-radius: 100px;
   width: 80px;
   height: 40px;
+  float: right;
 }
 
 </style>
