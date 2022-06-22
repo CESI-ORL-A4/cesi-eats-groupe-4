@@ -16,7 +16,7 @@ services:
       - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
     networks:
       - user-microservice-network
-    command: bash -c "ls && chmod +x entrypoint.sh setup.sh && ./entrypoint.sh"
+    command: bash -c "./entrypoint.sh"
   user-service-api:
     image: node
     container_name: user-service-api
