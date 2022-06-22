@@ -46,6 +46,10 @@
           <th><input type="email" id="email" name="email" placeholder="jean@gmail.com" required="required"></th>
         </tr>
         <tr>
+          <th><label for="address">Numéro de rue</label></th>
+          <th><input type="text" id="address" name="address" placeholder=" " required="required"></th>
+        </tr>
+        <tr>
           <th><label for="birthdayDate">Date d'anniversaire </label></th>
           <th><input type="date" id="birthdayDate" name="birthdayDate" placeholder=" " required="required"></th>
         </tr>

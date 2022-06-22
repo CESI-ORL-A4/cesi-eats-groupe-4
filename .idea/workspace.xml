@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/assets/home.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
