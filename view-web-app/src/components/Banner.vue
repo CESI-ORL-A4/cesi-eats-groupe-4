@@ -64,6 +64,9 @@ span {
   padding: 0px;
 }
 
+p{
+  margin: 5px;
+}
 
 .item {
   /* flex:0 1 auto; */
