@@ -16,7 +16,7 @@ services:
       - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
     networks:
       - auth-microservice-network
-    command: bash -c "ls && chmod +x entrypoint.sh setup.sh && ./entrypoint.sh"
+    command: bash -c "chmod +x entrypoint.sh setup.sh && ./entrypoint.sh"
   auth-service-api:
     image: node
     container_name: auth-service-api
@@ -33,7 +33,3 @@ services:
 
 networks:
   auth-microservice-network:
-
-
-
-
