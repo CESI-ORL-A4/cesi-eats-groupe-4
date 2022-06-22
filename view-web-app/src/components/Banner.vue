@@ -7,6 +7,7 @@ function btn_sign_in(){
   router.push({name : "SignIn"})
 }
 
+
 </script>
 
 <template>
@@ -15,8 +16,8 @@ function btn_sign_in(){
       <p>CesiEats</p>
     </div>
     <div class="item-x">
-      <button type="button" class="btn_sign_up" onclick="btn_sign_up">Connexion</button>
-      <button type="button" class="btn_sign_in" onclick="btn_sign_in">Inscription</button>
+      <button type="button" class="btn_sign_up" @click="btn_sign_up">Connexion</button>
+      <button type="button" class="btn_sign_in" @click="btn_sign_in">Inscription</button>
 
     </div>
   </div>
