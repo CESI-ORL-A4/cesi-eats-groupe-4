@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/view-web-app/src/assets/Logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/Banner.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignIn.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,19 +32,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Users/Admin/Documents/GitHub/cesi-eats-groupe-4&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Users\\Admin\\Documents\\GitHub\\cesi-eats-groupe-4\\view-web-app\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Didi/Documents/Cesi/A4/Prosits/Bloc_3_Elective_Logiciel/3.07/Autres/WS/Project_3.07_v2/vue-project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Didi\\Documents\\GitHub\\cesi-eats-groupe-4\\view-web-app\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Users\Admin\Documents\GitHub\cesi-eats-groupe-4\view-web-app\src\assets" />
