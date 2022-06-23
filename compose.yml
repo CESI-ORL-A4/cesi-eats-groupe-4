@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  # =============== AUTH MICROSERVICE ===============
+  auth-service-db:
+    container_name: auth-service-db
+    build: 
+      context: ./auth-microservice
+      dockerfile: ./dockerfiles/mssql/Dockerfile
+    volumes:
+      - ./auth-microservice/mssql/data:/var/opt/mssql
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+        - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+    env_file:
+        - .env
+    ports:
+      - ${AUTH_SERVICE_DB_PORT}:1433
+    networks:
+      - auth-microservice-network
+    command: bash -c "./entrypoint.sh"
+  auth-service-api:
+    container_name: auth-service-api
+    build:
+      context: ./auth-microservice
+      dockerfile: ./dockerfiles/node-app/Dockerfile
+    env_file:
+        - .env
+    depends_on:
+      - auth-service-db
+    restart: on-failure
+    ports:
+      - ${AUTH_SERVICE_API_PORT}:${AUTH_SERVICE_API_PORT}
+    networks:
+      - auth-microservice-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== USER MICROSERVICE ===============
+  user-service-db:
+    container_name: user-service-db
+    build:
+      context: ./user-details-microservice
+      dockerfile: ./dockerfiles/mssql/Dockerfile
+    volumes:
+      - ./user-details-microservice/mssql/data:/var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+      - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+    env_file:
+        - .env
+    networks:
+      - user-microservice-network
+    command: bash -c "./entrypoint.sh"
+  user-service-api:
+    container_name: user-service-api
+    build:
+      context: ./user-details-microservice
+      dockerfile: ./dockerfiles/node-app/Dockerfile
+    env_file:
+        - .env
+    depends_on:
+      - user-service-db
+    restart: on-failure
+    ports:
+      - 8080:8080
+    networks:
+      - user-microservice-network
+    command: bash -c "ts-node src/app.ts"
+
+networks:
+  auth-microservice-network:
+  user-microservice-network:
