@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  user-service-db:
+    container_name: user-service-db
+    image: mcr.microsoft.com/mssql/server
+    working_dir: /scripts
+    ports:
+      - 1433:1433
+    volumes:
+      - ./mssql/data:/var/lib/mssqlql/data
+      - ./mssql/scripts:/scripts
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+      - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+    networks:
+      - user-microservice-network
+    command: bash -c "./entrypoint.sh"
+  user-service-api:
+    image: node
+    container_name: user-service-api
+    working_dir: /app
+    depends_on:
+      - user-service-db
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    networks:
+      - user-microservice-network
+    command: bash -c "npm install -g ts-node && npm install && ts-node src/app.ts"
+
+networks:
+  user-microservice-network:
+
+
+
+
