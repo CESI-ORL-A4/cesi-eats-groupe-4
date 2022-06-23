@@ -1,4 +1,4 @@
-# Setup env variables
+# Setup environment variables
 
 Create a .env file in the root directory with the following variables defined:
 
@@ -30,4 +30,5 @@ Docker is required to run the app.
 From the root directory execute:
 
 `docker-composer build`
+
 `docker-composer up`
