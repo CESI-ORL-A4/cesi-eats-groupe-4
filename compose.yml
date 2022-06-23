@@ -15,8 +15,6 @@ services:
         - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
     env_file:
         - .env
-    ports:
-      - ${AUTH_SERVICE_DB_PORT}:1433
     networks:
       - auth-microservice-network
     command: bash -c "./entrypoint.sh"
@@ -63,7 +61,7 @@ services:
       - user-service-db
     restart: on-failure
     ports:
-      - 8080:8080
+      - ${USER_SERVICE_API_PORT}:${USER_SERVICE_API_PORT}
     networks:
       - user-microservice-network
     command: bash -c "ts-node src/app.ts"
