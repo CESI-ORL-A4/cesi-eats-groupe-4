@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import Banner from  '@/components/Banner.vue'
+import Home from '@/components/Home.vue'
 </script>
 
 <template>
-  <main>
-    <Banner/>
-    <div>
-      bonjour le monde
-    </div>
-  </main>
+  <Banner/>
+  <Home/>
 </template>

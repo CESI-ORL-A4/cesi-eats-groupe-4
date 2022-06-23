@@ -5,10 +5,7 @@ import Banner from '@/components/Banner.vue'
 
 <template>
   <Banner/>
-  <div>
-    <SignIn/>
-  </div>
-
+  <SignIn/>
 </template>
 
 

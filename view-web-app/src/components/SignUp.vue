@@ -16,16 +16,16 @@
           <th><label for="type_user">Vous êtes : </label></th>
           <th>
             <div>
-              <input type="radio" id="customer" name="drone" value="customer" checked>
-              <label htmlFor="customer">Un client</label>
+              <input type="radio" id="basic" name="drone" value="basic" checked>
+              <label htmlFor="basic">Un client</label>
             </div>
             <div>
               <input type="radio" id="deliverer" name="drone" value="deliverer">
               <label htmlFor="deliverer">Un livreur</label>
             </div>
             <div>
-              <input type="radio" id="restaurateur" name="drone" value="restaurateur">
-              <label htmlFor="restaurateur">Un restaurateur</label>
+              <input type="radio" id="owner" name="drone" value="owner">
+              <label htmlFor="owner">Un restaurateur</label>
             </div>
           </th>
         </tr>
