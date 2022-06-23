@@ -9,10 +9,15 @@ function btn_sign_in() {
   router.push({name: "SignIn"})
 }
 
+function btn_account() {
+  router.push({name: "Account"})
+}
+
 function homePage() {
   router.push({name: "home"})
 }
 
+const connected = false;
 </script>
 
 <template>
@@ -21,8 +26,9 @@ function homePage() {
       <p> Cesi <span>Eats</span></p>
     </div>
     <div class="item-x">
-      <button type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
-      <button type="button" class="btn_sign_up" @click="btn_sign_up">Inscription</button>
+      <button v-show="connected" type="button" class="btn_account" @click="btn_account">Mon compte</button>
+      <button v-show="!connected" type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
+      <button v-show="!connected" type="button" class="btn_sign_up" @click="btn_sign_up">Inscription</button>
     </div>
   </div>
 </template>
@@ -33,6 +39,13 @@ span {
   color: #ff5404
 }
 
+.btn_account {
+  margin-right: 20px;
+  background-color: #F6F6F6;
+  border-radius: 100px;
+  width: 126px;
+  height: 43px;
+}
 
 .btn_sign_up {
   background-color: #F6F6F6;
@@ -49,6 +62,7 @@ span {
   height: 43px;
 }
 
+
 .flex-container {
   display: flex;
   align-items: center;
@@ -64,7 +78,7 @@ span {
   padding: 0px;
 }
 
-p{
+p {
   margin: 12px;
 }
 

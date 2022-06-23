@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('jwt') == null) {
             next({
-                path: '/SignUp',
+                path: '/SignIn',
                 params: {nextUrl: to.fullPath}
             })
         } else {
@@ -81,25 +81,26 @@ router.beforeEach((to, from, next) => {
                 if (role === "basic") {
                     next()
                 }
-            }
-            else if (to.matched.some(record => record.meta.is_deliverer)) {
+            } else if (to.matched.some(record => record.meta.is_deliverer)) {
                 console.log(role);
                 if (role === "deliverer") {
                     next()
                 }
-            }
-           else if (to.matched.some(record => record.meta.is_owner)) {
+            } else if (to.matched.some(record => record.meta.is_owner)) {
                 console.log(role);
                 if (role === "owner") {
                     next()
                 }
-            }
-            else {
+            } else {
                 next()
             }
         }
-    } else if (to.matched.some(record => record.meta.guest)) {
+    }
+    else if (to.matched.some(record => record.meta.guest)) {
         if (localStorage.getItem('jwt') == null) {
+            next()
+        }
+        else {
             next()
         }
     } else {
