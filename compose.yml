@@ -1,6 +1,14 @@
 version: "3.8"
 
 services:
+  # =============== RABBITMQ ===============
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    env_file:
+        - .env
+    networks:
+      - rabbitmq-network
   # =============== AUTH MICROSERVICE ===============
   auth-service-db:
     container_name: auth-service-db
@@ -27,11 +35,13 @@ services:
         - .env
     depends_on:
       - auth-service-db
+      - rabbitmq
     restart: on-failure
     ports:
       - ${AUTH_SERVICE_API_PORT}:${AUTH_SERVICE_API_PORT}
     networks:
       - auth-microservice-network
+      - rabbitmq-network
     command: bash -c "ts-node src/app.ts"
   # =============== USER MICROSERVICE ===============
   user-service-db:
@@ -59,13 +69,16 @@ services:
         - .env
     depends_on:
       - user-service-db
+      - rabbitmq
     restart: on-failure
     ports:
       - ${USER_SERVICE_API_PORT}:${USER_SERVICE_API_PORT}
     networks:
       - user-microservice-network
+      - rabbitmq-network
     command: bash -c "ts-node src/app.ts"
 
 networks:
+  rabbitmq-network:
   auth-microservice-network:
   user-microservice-network:

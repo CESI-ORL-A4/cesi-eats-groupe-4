@@ -3,6 +3,12 @@
 Create a .env file in the root directory with the following variables defined:
 
 ```ini
+############## RABBITMQ ##############
+
+RABBITMQ_HOST=rabbitmq
+RABBITMQ_DEFAULT_PASS=dkoefi!ooz93
+RABBITMQ_DEFAULT_USER=admin
+
 ############## AUTH MICROSERVICE ##############
 
 AUTH_JWT_ACCESS_SECRET=llkdkofp20
