@@ -46,8 +46,16 @@
           <th><input type="email" id="email" name="email" placeholder="jean@gmail.com" required="required"></th>
         </tr>
         <tr>
-          <th><label for="address">Adresse</label></th>
-          <th><input type="text" id="address" name="address" placeholder="330 rue du chat à Olivet" required="required"></th>
+          <th><label for="address" class="control-label">Adresse</label></th>
+          <th>
+            <div class="form-row">
+              <div class="form-group col">
+                <input type="text" class="form-control" v-model="address" id="adresse" name="adresse" autocomplete="off" data-toggle="tooltip" data-placement="top" title="Ce champ est intelligent... essaie d'y taper à peu près n'importequoi, par exemple : barry 65150 ;)" />
+                <div class="address-feedback position-absolute list-group" style="z-index:1100;">
+                </div>
+              </div>
+            </div>
+          </th>
         </tr>
         <tr>
           <th><label for="birthdayDate">Date d'anniversaire </label></th>
@@ -76,6 +84,7 @@
         <br>-->
         <button class="btn_sign_up_form">S'inscrire</button>
       </div>
+
     </form>
   </div>
 </template>

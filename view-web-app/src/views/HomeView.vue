@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import Banner from  '@/components/Banner.vue'
-import Home from '@/components/Home.vue'
+import addressAutocomplete from '@/components/addressAutocomplete.vue'
 </script>
 
 <template>
-  <Banner/>
-  <Home/>
+  <main>
+    <Banner/>
+    <addressAutocomplete/>
+  </main>
 </template>
+
+<style scoped>
+.getAddress{
+  height: 20px;
+  width: 120px;
+}
+
+</style>
