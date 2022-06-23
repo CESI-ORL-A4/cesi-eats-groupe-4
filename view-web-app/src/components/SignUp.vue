@@ -75,7 +75,7 @@ import AddressAutocomplete from "@/components/AddressAutocomplete.vue"
       <div>
         <br>
         <p><input id="termsOfUses" name="termsOfUses" type="checkbox" required="required">
-          <span>J'accepte les <a href="/CGU" target="_blank">conditions générales d'utilisation</a>.</span>
+          <span>J'accepte les <a href="/cgu" target="_blank">conditions générales d'utilisation</a>.</span>
         </p>
 <!--        <p><input id="emailOffers" name="emailOffers" type="checkbox">
           <span>Je souhaite recevoir occasionnellement par email des offres de Cesi Eats.</span></p>

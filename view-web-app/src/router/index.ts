@@ -30,6 +30,14 @@ const router = createRouter({
             }
         },
         {
+            path: '/cgu',
+            name: 'cgu',
+            component: () => import('../views/CGUView.vue'),
+            meta: {
+                guest: true
+            }
+        },
+        {
             path: '/account',
             name: 'account',
             component: () => import('../views/AccountView.vue'),
