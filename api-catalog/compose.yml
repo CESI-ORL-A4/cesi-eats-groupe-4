@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  catalog-service-db:
+    container_name: catalog-service-db
+    image: mongo:latest
+    restart: always
+    ports:
+      - ${CATALOG_DB_PORT}:27017
+    volumes:
+     - ./Mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: ${CATALOG_DB_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${CATALOG_DB_PASSWORD}
+        MONGO_INITDB_DATABASE: ${CATALOG_DB_DATABASE}
+    networks:
+      - catalog-microservice-network
+  catalog-service-api:
+    image: node
+    container_name: catalog-service-api
+    working_dir: /app
+    depends_on:
+      - catalog-service-db
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    networks:
+      - catalog-microservice-network
+    command: bash -c "npm install -g ts-node && npm install && ts-node src/app.ts"
+
+networks:
+  catalog-microservice-network:
+
+
+
