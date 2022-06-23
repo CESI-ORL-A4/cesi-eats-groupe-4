@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div>
     <div class="positioned">
@@ -15,17 +11,19 @@
           <tbody>
           <tr>
             <th><label for="Email">Email</label></th>
-            <th><input type="email" id="Email" name="Email" placeholder="jeans@gmail.com" required="required"></th>
+            <th><input v-model="email" type="email" id="Email" name="Email" placeholder="jeans@gmail.com"
+                       required="required"></th>
           </tr>
           <tr>
             <th><label for="Password">Mot de passe </label></th>
-            <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required"></th>
+            <th><input v-model="password" type="password" id="Password" name="Password" placeholder="**********"
+                       required="required"></th>
           </tr>
           </tbody>
         </table>
         <div>
           <br>
-          <button class="btn_sign_in_form">Se connecter</button>
+          <button @click="login" type="submit" class="btn_sign_in_form">Se connecter</button>
         </div>
       </form>
     </div>
@@ -33,12 +31,38 @@
 </template>
 
 
+<script lang="ts" setup>
+import {ref} from "vue";
+import {loginAPI} from "@/modules/identify";
+import {useRouter} from "vue-router";
+
+const email = ref("");
+const password = ref("");
+const router = useRouter()
+
+const login = (e) => {
+  e.preventDefault();
+  loginAPI(email.value, password.value).then((result) => {
+    if (!result)
+      router.push('/')
+    else if (result.role==="basic")
+      router.push('/basic')
+    else if (result.role==="deliverer")
+      router.push('/deliverer')
+    else if (result.role==="owner")
+      router.push('/owner')
+    else
+      router.push('/account')
+  })
+}
+</script>
+
+
 <style scoped>
 .positioned {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .form {
