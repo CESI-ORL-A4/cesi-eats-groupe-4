@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-catalog/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/api-catalog/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-catalog/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api-catalog/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-catalog/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api-catalog/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-catalog/src/image/uploadImage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api-catalog/src/image/uploadImage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-catalog/src/validators/restaurantValidator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api-catalog/src/validators/restaurantValidator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/Owner.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/Owner.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/modules/identify.ts" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/modules/identify.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view-web-app/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/router/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,8 +51,9 @@
     "last_opened_file_path": "D:/Users/Admin/Documents/GitHub/cesi-eats-groupe-4",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Users\\Didi\\Documents\\GitHub\\cesi-eats-groupe-4\\view-web-app\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\Paulin\\Desktop\\CESI-Eats\\cesi-eats-groupe-4\\api-catalog\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>

@@ -17,7 +17,7 @@ let restaurantValidator = Joi.object({
     imageName: Joi.string()
         .min(1)
         .max(255),
-    imageData: Joi.object(),
+    imageData: Joi.any(),
 
 });
 

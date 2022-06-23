@@ -59,10 +59,6 @@ const router = createRouter({
             path: '/Owner',
             name: 'Owner',
             component: () => import('../views/OwnerView.vue'),
-            meta: {
-                requiresAuth: true,
-                is_owner: true
-            }
         },
     ]
 })
