@@ -2,15 +2,15 @@
 import router from "@/router"
 
 function btn_sign_up() {
-  router.push({name: "SignUp"})
+  router.push({name: "signUp"})
 }
 
 function btn_sign_in() {
-  router.push({name: "SignIn"})
+  router.push({name: "signIn"})
 }
 
 function btn_account() {
-  router.push({name: "Account"})
+  router.push({name: "account"})
 }
 
 function homePage() {
