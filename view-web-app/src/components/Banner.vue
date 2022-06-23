@@ -17,7 +17,7 @@ function homePage() {
   router.push({name: "home"})
 }
 
-const connected = false;
+const connected = localStorage.getItem('role');
 </script>
 
 <template>
