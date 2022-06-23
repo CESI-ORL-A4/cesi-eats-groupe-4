@@ -4,7 +4,6 @@ import express from "express";
 import restaurantRouter from "./routers/restaurantRouter";
 import {connectMongoose} from "./DBConnection";
 
-
 const app: express.Express = express();
 const port = process.env.CATALOG_API_PORT;
 connectMongoose();

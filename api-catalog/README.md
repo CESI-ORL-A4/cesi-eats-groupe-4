@@ -1,7 +1,13 @@
 # Setup
 
 - Create .env file at the root with the following variables:
-    - AUTH_SERVICE_DB_PASSWORD: Password of the SQL Server database
+    - CATALOG_DB_USERNAME=admin
+    -  CATALOG_DB_PASSWORD=admin
+    -  CATALOG_DB_DATABASE=command_db
+    -  CATALOG_DB_PORT=27017
+    -  CATALOG_DB_NETWORK_NAME=catalog-service-db
+    -  CATALOG_API_PORT=8080
+
 
 # Run
 
