@@ -3,7 +3,7 @@ import {createUser, userExists, isUserGoodFormat, getUser, updateUser, deleteUse
 import { ReqWithBody } from "../types/expressTypes";
 import GetUserPayload from "../types/user/GetUserPayload";
 import AddUserPayload from "../types/user/AddUserPayload";
-import emailSchema from "../schema/emailSchema";
+import emailValidator from "../validator/emailValidator";
 import Joi, {ValidationResult} from "joi";
 const userRouter = Router();
 
@@ -12,7 +12,7 @@ userRouter.post("/create",
         const payload = req.body;
         console.log("create ");
         console.log(payload);
-        if (emailSchema.validate(payload.email).error) {
+        if (emailValidator.validate(payload.email).error) {
             return res.status(400).json({ error: "email is required" });
         }
         if (!await userExists(payload.email)) {
@@ -36,7 +36,7 @@ userRouter.post("/get",
         const payload = req.body;
         console.log("get ");
         console.log(payload);
-        if (emailSchema.validate(payload.email).error) {
+        if (emailValidator.validate(payload.email).error) {
             return res.status(400).json({ error: "email is required" });
         }
         if (await userExists(payload.email)) {
@@ -50,7 +50,7 @@ userRouter.post("/update",
         const payload = req.body;
         console.log("update ");
         console.log(payload);
-        if (emailSchema.validate(payload.email).error) {
+        if (emailValidator.validate(payload.email).error) {
             return res.status(400).json({ error: "email is required" });
         }
         if (await userExists(payload.email)) {
@@ -74,7 +74,7 @@ userRouter.delete("/delete",
         const payload = req.body;
         console.log("get ");
         console.log(payload);
-        if (emailSchema.validate(payload.email).error) {
+        if (emailValidator.validate(payload.email).error) {
             return res.status(400).json({ error: "email is required" });
         }
         if (await userExists(payload.email)) {

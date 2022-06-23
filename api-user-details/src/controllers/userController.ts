@@ -1,6 +1,6 @@
 import User from "../model/user";
 import AddUserPayload from "../types/user/AddUserPayload";
-import userSchema from "../schema/userSchema";
+import userValidator from "../validator/userValidator";
 import GetUserPayload from "../types/user/GetUserPayload";
 
 export async function userExists(email: string) {
@@ -28,7 +28,7 @@ export async function createUser(payload: AddUserPayload) {
 }
 
 export function isUserGoodFormat(payload: AddUserPayload) {
-    return userSchema.validate(payload);
+    return userValidator.validate(payload);
 }
 
 export async function deleteUser(email: string) {

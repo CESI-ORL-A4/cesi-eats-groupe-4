@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-let userSchema = Joi.object({
+let userValidator = Joi.object({
     firstName: Joi.string()
         .alphanum()
         .min(1)
@@ -27,4 +27,4 @@ let userSchema = Joi.object({
         .required(),
 });
 
-export default userSchema;
+export default userValidator;
