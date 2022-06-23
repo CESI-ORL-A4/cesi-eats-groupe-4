@@ -25,6 +25,7 @@ let userValidator = Joi.object({
         .min(1)
         .max(200)
         .required(),
+    sponsorship: Joi.date(),
 });
 
 export default userValidator;

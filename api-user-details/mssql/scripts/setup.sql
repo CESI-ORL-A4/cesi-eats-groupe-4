@@ -8,6 +8,7 @@ IF OBJECT_ID('dbo.Users', 'U') IS NULL
       Email VARCHAR(45) NOT NULL,
       BirthDate DATE NOT NULL,
       Adress VARCHAR(255) NOT NULL,
+      Sponsorship DATE,
       PRIMARY KEY (Id)
     );
 GO

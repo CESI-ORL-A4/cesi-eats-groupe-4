@@ -5,6 +5,9 @@ import GetUserPayload from "../types/user/GetUserPayload";
 import AddUserPayload from "../types/user/AddUserPayload";
 import emailValidator from "../validator/emailValidator";
 import Joi, {ValidationResult} from "joi";
+import SponsorshipPayload from "../types/sponsorship/SponsorshipPayload";
+import sponsorValidator from "../validator/sponsorValidator";
+import {addSponsorship, getSponsorship} from "../controllers/sponsorshipController";
 const userRouter = Router();
 
 userRouter.post("/create",
@@ -83,5 +86,32 @@ userRouter.delete("/delete",
         else
             return res.status(400).json({ error: "user does not exist" });
     });
-
+userRouter.post("/sponsorship/add",
+    async (req: ReqWithBody<SponsorshipPayload>, res: Response) => {
+        const payload = req.body;
+        console.log("add sponsor ");
+        console.log(payload);
+        if (sponsorValidator.validate(payload).error) {
+            return res.status(400).json({ error: "email is required" });
+        }
+        if (await userExists(payload.email)) {
+            return res.status(200).json({ status: "User delete",sponsorship:await addSponsorship(payload)});
+        }
+        else
+            return res.status(400).json({ error: "user does not exist" });
+    });
+userRouter.get("/sponsorship/get",
+    async (req: ReqWithBody<{email: string}>, res: Response) => {
+        const payload = req.body;
+        console.log("get sponsor ");
+        console.log(payload);
+        if (emailValidator.validate(payload.email).error) {
+            return res.status(400).json({ error: "email is required" });
+        }
+        if (await userExists(payload.email)) {
+            return res.status(200).json({ status: "User delete",sponsorship:await getSponsorship(payload.email)});
+        }
+        else
+            return res.status(400).json({ error: "user does not exist" });
+    });
 export default userRouter;

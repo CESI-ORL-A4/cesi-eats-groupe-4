@@ -9,6 +9,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> 
     declare phone: string;
     declare birthdate: Date;
     declare address : string;
+    declare sponsorship: Date | undefined;
 }
 
 User.init(
@@ -42,6 +43,10 @@ User.init(
         address: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        sponsorship: {
+            type: DataTypes.DATE,
+            allowNull: true
         },
     },
     {
