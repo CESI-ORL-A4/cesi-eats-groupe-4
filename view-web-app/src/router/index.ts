@@ -71,33 +71,30 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('jwt') == null) {
             next({
-                path: '/SignIn',
+                path: '/SignUp',
                 params: {nextUrl: to.fullPath}
             })
         } else {
             const role = JSON.parse(localStorage.getItem('role')!)
             if (to.matched.some(record => record.meta.is_basic)) {
                 console.log(role);
-                if (role === "Basic") {
+                if (role === "basic") {
                     next()
-                } else {
-                    next({name: 'Basic'})
                 }
-            } else if (to.matched.some(record => record.meta.is_deliverer)) {
+            }
+            else if (to.matched.some(record => record.meta.is_deliverer)) {
                 console.log(role);
-                if (role === "Deliverer") {
+                if (role === "deliverer") {
                     next()
-                } else {
-                    next({name: 'Deliverer'})
                 }
-            } else if (to.matched.some(record => record.meta.is_owner)) {
+            }
+           else if (to.matched.some(record => record.meta.is_owner)) {
                 console.log(role);
-                if (role === "Owner") {
+                if (role === "owner") {
                     next()
-                } else {
-                    next({name: 'Owner'})
                 }
-            } else {
+            }
+            else {
                 next()
             }
         }
