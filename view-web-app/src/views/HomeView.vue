@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import Banner from  '@/components/Banner.vue'
+import Banner from '@/components/Banner.vue'
+import Home from '@/components/Home.vue'
 
 </script>
 
 <template>
-  <main>
-    <Banner/>
-  </main>
+  <Banner/>
+  <Home/>
 </template>
 
 <style scoped>
-.getAddress{
+.getAddress {
   height: 20px;
   width: 120px;
 }
