@@ -1,6 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "../db/DBConnection";
-import AccessToken from "./AccessToken";
 import Role from "./Role";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> {
@@ -33,13 +32,14 @@ export function initUser() {
         },
         {
             sequelize: sequelize,
-            tableName: "Users"
+            tableName: "Users",
+            timestamps: false
         }
     );
 }
 
-export function syncUser(force?: true) {
-    User.sync({ force: !!force })
+export async function syncUser(force?: boolean) {
+    await User.sync({ force: !!force })
 }
 
 export default User;

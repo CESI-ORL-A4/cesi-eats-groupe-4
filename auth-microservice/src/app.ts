@@ -6,7 +6,7 @@ import authRouter from "./routers/authRouter";
 import setupDB from "./db/setupDB";
 
 const app: express.Express = express();
-const port = 8080;
+const port = process.env.AUTH_SERVICE_API_PORT || 8080;
 
 setupDB();
 

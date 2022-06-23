@@ -23,8 +23,8 @@ export default async function() {
     initAccessToken();
     initRefreshToken();
     setupAssociations();
-    syncAccessToken();
-    syncRefreshToken();
-    syncUser();
+    await syncUser();
+    await syncAccessToken();
+    await syncRefreshToken();
     await createDefaultTechnicAccount();
 }

@@ -28,13 +28,14 @@ export function initAccessToken() {
         },
         {
             sequelize: sequelize,
-            tableName: "AccessTokens"
+            tableName: "AccessTokens",
+            timestamps: false
         }
     );
 }
 
-export function syncAccessToken(force?: boolean) {
-    AccessToken.sync({ force: !!force });
+export async function syncAccessToken(force?: boolean) {
+    await AccessToken.sync({ force: !!force });
 }
 
 export default AccessToken;

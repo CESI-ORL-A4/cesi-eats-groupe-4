@@ -3,33 +3,33 @@ version: "3.8"
 services:
   auth-service-db:
     container_name: auth-service-db
-    image: mcr.microsoft.com/mssql/server
-    working_dir: /scripts
-    ports:
-      - 1433:1433
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/mssql/Dockerfile
     volumes:
-      - ./mssql/data:/var/lib/mssqlql/data
-      - ./mssql/scripts:/scripts
+      - ./mssql/data:/var/opt/mssql
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
-      - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+        - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+    ports:
+      - ${AUTH_SERVICE_DB_PORT}:1433
     networks:
       - auth-microservice-network
-    command: bash -c "chmod +x entrypoint.sh setup.sh && ./entrypoint.sh"
+    command: bash -c "./entrypoint.sh"
   auth-service-api:
-    image: node
     container_name: auth-service-api
-    working_dir: /app
     depends_on:
       - auth-service-db
+    restart: on-failure
     ports:
-      - 8080:8080
-    volumes:
-      - ./:/app
+      - ${AUTH_SERVICE_API_PORT}:${AUTH_SERVICE_API_PORT}
+    build:
+      context: .
+      dockerfile: ./dockerfiles/node-app/Dockerfile
     networks:
       - auth-microservice-network
-    command: bash -c "npm install -g ts-node && npm install && ts-node src/app.ts"
+    command: bash -c "ts-node src/app.ts"
 
 networks:
   auth-microservice-network:

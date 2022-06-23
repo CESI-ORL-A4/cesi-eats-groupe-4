@@ -29,14 +29,15 @@ export function initRefreshToken() {
         },
         {
             sequelize: sequelize,
-            tableName: "RefreshTokens"
+            tableName: "RefreshTokens",
+            timestamps: false
         }
     );
 
 }
 
-export function syncRefreshToken(force?: boolean) {
-    RefreshToken.sync({ force: !!force });
+export async function syncRefreshToken(force?: boolean) {
+    await RefreshToken.sync({ force: !!force });
 }
 
 export default RefreshToken;

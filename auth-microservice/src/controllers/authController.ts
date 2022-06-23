@@ -4,6 +4,7 @@ import AccessToken from "../model/AccessToken";
 import RefreshToken from "../model/RefreshToken";
 import Role from "../model/Role";
 import TokenPayload from "../types/jwt/TokenPayload";
+import {Request, Response} from "express";
 
 export async function createTokens(email: string, role: Role):
     Promise<[accessToken: string, refreshToken: string]>
@@ -43,4 +44,23 @@ export async function validateRefreshToken(token: string):
 export async function removeTokens(email: string) {
     await AccessToken.destroy({ where: { email } });
     await RefreshToken.destroy({ where: { email } });
+}
+
+export async function verifyAuthToken(
+    req: Request, res: Response, callback: (isTokenValid: boolean, payload?: TokenPayload) => void)
+{
+    let token = req.headers["authorization"];
+
+    if (!token) {
+        return res.status(401).json({ error: "No authentification token provided" });
+    }
+
+    if (token.startsWith('Bearer ')) {
+        token = token.slice(7, token.length);
+    } else {
+        return res.status(401).json({ error: "Token should be sent following the HTTP Bearer authentification scheme" });
+    }
+
+    const [isTokenValid, tokenPayload] = await validateAccessToken(token);
+    callback(isTokenValid, tokenPayload);
 }

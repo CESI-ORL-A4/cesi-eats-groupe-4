@@ -1,1 +1,1 @@
-./setup.sh & /opt/mssql/bin/sqlservr
+./setup.sh & ls & /opt/mssql/bin/sqlservr
