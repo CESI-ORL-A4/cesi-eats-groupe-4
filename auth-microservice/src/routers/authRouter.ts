@@ -1,29 +1,41 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { body, validationResult } from "express-validator";
 import { createTokens, removeTokens, validateAccessToken, validateRefreshToken } from "../controllers/authController";
-import { createUser, deleteUser, getAllUsers, getUser, userExists, validateUserPassword } from "../controllers/userController";
+import { createUser, deleteUser, getAllUsers, getUser, updateUser, userExists, validateUserPassword } from "../controllers/userController";
 import Role from "../model/Role";
 import { ReqWithBody } from "../types/expressTypes";
 import TokenPayload from "../types/jwt/TokenPayload";
 import LoginUserPayload from "../types/user/LoginUserPayload";
-import RegisterUserPayload from "../types/user/RegisterUserPayload";
+import UserAttributesPayload from "../types/user/UserAttributesPayload";
 
 const authRouter = Router();
 
 authRouter.post("/register", 
     body("email").isEmail(),
     body("password").isString(),
-    body("role").isIn(Object.values(Role)),
-    async (req: ReqWithBody<RegisterUserPayload>, res: Response) => {
-        validateInputData(req, res, async () => {
-            const payload = req.body;
-            if (!await userExists(payload.email)) {
-                const addedUser = await createUser(payload);
-                return res.status(201).json({ status: "User registered", user: addedUser });
-            } 
-            return res.status(409).json({ error: "User already exists" });
-        })
+    body("role").isIn(["BASIC", "OWNER", "DELIVERER"]),
+    async (req: ReqWithBody<UserAttributesPayload>, res: Response) => {
+        registerUser(req, res);
 });
+
+authRouter.post("/register-admin", 
+    body("email").isEmail(),
+    body("password").isString(),
+    body("role").isIn(Object.values(Role)),
+    async (req: ReqWithBody<UserAttributesPayload>, res: Response) => {
+        registerUser(req, res);
+});
+
+function registerUser(req: ReqWithBody<UserAttributesPayload>, res: Response) {
+    validateInputData(req, res, async () => {
+        const payload = req.body;
+        if (!await userExists(payload.email)) {
+            const addedUser = await createUser(payload);
+            return res.status(201).json({ status: "User registered", user: addedUser });
+        } 
+        return res.status(409).json({ error: "User already exists" });
+    })
+}
 
 authRouter.post("/login",
     body("email").isEmail(),
@@ -78,6 +90,21 @@ authRouter.get("/users", async (_: Request, res: Response) => {
     return res.status(200).json({ users });
 });
 
+authRouter.put("/user",
+    body("email").isEmail(),
+    body("password").isString(),
+    body("role").isString(),
+    isAuthorized([Role.TECHNIC, Role.COMMERCIAL]),
+    async (req: ReqWithBody<UserAttributesPayload>, res: Response) => {
+        validateInputData(req, res, async () => {
+            const [updatedUser, created] = await updateUser(req.body);
+            if (created) {
+                return res.status(201).json({ status: "User created", user: updatedUser });
+            } 
+            return res.status(200).json({ status: "User updated", user: updatedUser })
+        });
+});
+
 authRouter.delete("/user", body("email").isEmail(), async (req: ReqWithBody<{ email: string }>, res: Response) => {
     validateInputData(req, res, async () => {
         const email = req.body.email;
@@ -88,6 +115,20 @@ authRouter.delete("/user", body("email").isEmail(), async (req: ReqWithBody<{ em
         return res.status(404).json({ error: "User not found" });
     });
 });
+
+function isAuthorized(strictRoles?: Role[]) {
+    return (req: Request, res: Response, next: NextFunction) => {
+        verifyAuthToken(req, res, (isTokenValid: boolean, tokenPayload?: TokenPayload) => {
+            if (isTokenValid && tokenPayload) {
+                if (strictRoles && !(Object.values(strictRoles).includes(tokenPayload.role))) {
+                    return res.status(403).json({ error: "Forbidden" });
+                }
+                return next();
+            }
+            return res.status(401).json({ error: "Unauthorized" });
+        });
+    }
+}
 
 async function verifyAuthToken(
     req: Request, res: Response, callback: (isTokenValid: boolean, payload?: TokenPayload) => void) {

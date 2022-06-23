@@ -1,9 +1,9 @@
 import Role from "../../model/Role";
 
-type RegisterUserPayload = {
+type UserAttributesPayload = {
     email: string;
     password: string;
     role: Role;
 }
 
-export default RegisterUserPayload;
+export default UserAttributesPayload;

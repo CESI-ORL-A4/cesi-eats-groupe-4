@@ -1,10 +1,11 @@
 import { decodeAccessToken, signAccessToken } from "../jwt/accessToken";
-import { decodeRefreshToken, signRefreshToken, verifyRefreshToken } from "../jwt/refreshToken";
+import { decodeRefreshToken, signRefreshToken } from "../jwt/refreshToken";
 import AccessToken from "../model/AccessToken";
 import RefreshToken from "../model/RefreshToken";
+import Role from "../model/Role";
 import TokenPayload from "../types/jwt/TokenPayload";
 
-export async function createTokens(email: string, role: string):
+export async function createTokens(email: string, role: Role):
     Promise<[accessToken: string, refreshToken: string]>
 {
     const signedAccessToken = signAccessToken({ email, role });
