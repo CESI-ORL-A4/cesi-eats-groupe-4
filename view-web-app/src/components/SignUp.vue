@@ -47,7 +47,7 @@
         </tr>
         <tr>
           <th><label for="address">Adresse</label></th>
-          <th><input type="text" id="address" name="address" placeholder=" " required="required"></th>
+          <th><input type="text" id="address" name="address" placeholder="330 rue du chat à Olivet" required="required"></th>
         </tr>
         <tr>
           <th><label for="birthdayDate">Date d'anniversaire </label></th>
