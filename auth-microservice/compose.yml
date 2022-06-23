@@ -19,14 +19,14 @@ services:
     command: bash -c "./entrypoint.sh"
   auth-service-api:
     container_name: auth-service-api
+    build:
+      context: .
+      dockerfile: ./dockerfiles/node-app/Dockerfile
     depends_on:
       - auth-service-db
     restart: on-failure
     ports:
       - ${AUTH_SERVICE_API_PORT}:${AUTH_SERVICE_API_PORT}
-    build:
-      context: .
-      dockerfile: ./dockerfiles/node-app/Dockerfile
     networks:
       - auth-microservice-network
     command: bash -c "ts-node src/app.ts"
