@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/AddressAutocomplete.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/AddressAutocomplete.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/addressAutocomplete.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/AddressAutocomplete.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +66,7 @@
       <workItem from="1655886389913" duration="11019000" />
       <workItem from="1655902846877" duration="2163000" />
       <workItem from="1655969407362" duration="16747000" />
-      <workItem from="1655992055256" duration="802000" />
+      <workItem from="1655992055256" duration="5651000" />
     </task>
     <servers />
   </component>
