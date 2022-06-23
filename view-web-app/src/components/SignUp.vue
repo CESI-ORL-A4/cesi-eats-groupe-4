@@ -3,7 +3,7 @@ import AddressAutocomplete from "@/components/AddressAutocomplete.vue"
 </script>
 
 <template>
-  <div class="positioned">
+  <div class="positioned" >
     <form class="form">
       <table>
         <thead margin="5px">
@@ -46,18 +46,18 @@ import AddressAutocomplete from "@/components/AddressAutocomplete.vue"
           <th><input type="email" id="email" name="email" placeholder="jean@gmail.com" required="required"></th>
         </tr>
         <tr>
+          <th><label for="birthdayDate">Date d'anniversaire </label></th>
+          <th><input type="date" id="birthdayDate" name="birthdayDate" placeholder=" " required="required"></th>
+        </tr>
+        <tr>
           <th><label for="address" class="control-label">Adresse</label></th>
-          <th>
-            <div class="form-row">
-              <div class="form-group col">
+          <th id="container">
+            <div class="form-row" id="navi">
+              <div class="form-group col" style="z-index:1100;" id="infoi">
                 <AddressAutocomplete />
               </div>
             </div>
           </th>
-        </tr>
-        <tr>
-          <th><label for="birthdayDate">Date d'anniversaire </label></th>
-          <th><input type="date" id="birthdayDate" name="birthdayDate" placeholder=" " required="required"></th>
         </tr>
         <br>
         <tr>
@@ -116,6 +116,21 @@ tbody {
   width: 80px;
   height: 40px;
   float: right;
+}
+#container {
+  width: 100px;
+  height: 10px;
+  position: relative;
+}
+
+#infoi {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+#infoi {
+  z-index: 1100;
+  border-radius: 100px;
 }
 
 </style>
