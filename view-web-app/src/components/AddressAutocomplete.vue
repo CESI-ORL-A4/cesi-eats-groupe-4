@@ -4,6 +4,7 @@ import {ref} from "vue";
 let address_feedback= ref([])
 const address = ref("");
 function getAddress(){
+  console.log("ahh");
   address_feedback.value=[];
   console.log("address", address.value);
   axios.get('https://api-adresse.data.gouv.fr/search/', {

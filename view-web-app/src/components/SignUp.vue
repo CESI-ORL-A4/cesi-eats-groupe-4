@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import AddressAutocomplete from "@/components/AddressAutocomplete.vue"
 </script>
 
 <template>
@@ -50,9 +50,7 @@
           <th>
             <div class="form-row">
               <div class="form-group col">
-                <input type="text" class="form-control" v-model="address" id="adresse" name="adresse" autocomplete="off" data-toggle="tooltip" data-placement="top" title="Ce champ est intelligent... essaie d'y taper à peu près n'importequoi, par exemple : barry 65150 ;)" />
-                <div class="address-feedback position-absolute list-group" style="z-index:1100;">
-                </div>
+                <AddressAutocomplete />
               </div>
             </div>
           </th>

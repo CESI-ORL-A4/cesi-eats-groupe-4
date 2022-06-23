@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="" />
+    <list default="true" id="b3e3ecba-41af-4d07-8a28-0783ad18a86a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/SignUp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/components/addressAutocomplete.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/components/AddressAutocomplete.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view-web-app/src/views/HomeView.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,11 +39,11 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Didi/Documents/Cesi/A4/Prosits/Bloc_3_Elective_Logiciel/3.07/Autres/WS/Project_3.07_v2/vue-project",
+    "last_opened_file_path": "D:/Users/Admin/Documents/GitHub/cesi-eats-groupe-4",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2022.1.1\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "D:\\Users\\Admin\\Documents\\GitHub\\cesi-eats-groupe-4\\view-web-app\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -60,7 +65,8 @@
       <workItem from="1655886219883" duration="167000" />
       <workItem from="1655886389913" duration="11019000" />
       <workItem from="1655902846877" duration="2163000" />
-      <workItem from="1655969407362" duration="16509000" />
+      <workItem from="1655969407362" duration="16747000" />
+      <workItem from="1655992055256" duration="802000" />
     </task>
     <servers />
   </component>
