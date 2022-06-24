@@ -30,12 +30,6 @@ const onFilePicked = (event) => {
 
 <template>
   <div>
-    <p>Gestion des infos du resto</p>
-    <p>Gestion des menus</p>
-    <p>Gestion des articles</p>
-    <p>Gestion commandes</p>
-  </div>
-  <div>
     <div class="positioned">
       <form class="form">
         <table>

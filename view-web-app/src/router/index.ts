@@ -67,10 +67,51 @@ const router = createRouter({
             path: '/owner',
             name: 'owner',
             component: () => import('../views/OwnerView.vue'),
+            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }
+            }*/
+        },
+        {
+            path: '/owner/articles',
+            name: 'owner-articles',
+            component: () => import('../views/Owners/Owner-ArticlesView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/commands',
+            name: 'owner-commands',
+            component: () => import('../views/Owners/Owner-CommandsView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/menus',
+            name: 'owner-menus',
+            component: () => import('../views/Owners/Owner-MenusView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/restaurant',
+            name: 'owner-restaurant',
+            component: () => import('../views/Owners/Owner-RestaurantView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
         },
         {
             path: '/restaurant',
@@ -94,17 +135,17 @@ router.beforeEach((to, from, next) => {
         } else {
             const role = localStorage.getItem('role')
             if (to.matched.some(record => record.meta.is_basic)) {
-                console.log(role);
+                //console.log(role);
                 if (role === "BASIC") {
                     next()
                 }
             } else if (to.matched.some(record => record.meta.is_deliverer)) {
-                console.log(role);
+                //console.log(role);
                 if (role === "DELIVERER") {
                     next()
                 }
             } else if (to.matched.some(record => record.meta.is_owner)) {
-                console.log(role);
+                //console.log(role);
                 if (role === "OWNER") {
                     next()
                 }
