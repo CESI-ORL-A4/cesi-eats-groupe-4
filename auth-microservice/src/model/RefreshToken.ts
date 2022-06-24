@@ -5,7 +5,7 @@ import User from "./User";
 
 class RefreshToken extends Model<InferAttributes<RefreshToken>, InferCreationAttributes<Model>> {
     declare id: number | undefined;
-    declare email: ForeignKey<User["email"]>;
+    declare userId: ForeignKey<User["userId"]>;
     declare token: string;
 }
 
@@ -17,8 +17,8 @@ export function initRefreshToken() {
                 autoIncrement: true,
                 primaryKey: true
             },
-            email: {
-                type: DataTypes.STRING,
+            userId: {
+                type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
                 unique: true
             },

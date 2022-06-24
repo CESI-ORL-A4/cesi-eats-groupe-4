@@ -5,19 +5,19 @@ import User from "./User";
 export function setupAssociations() {
     User.hasOne(AccessToken, { 
         foreignKey: {
-            name: "email",
+            name: "userId",
             allowNull: false,
         },
-        sourceKey: "email",
+        sourceKey: "userId",
         onDelete: "CASCADE"
     });
 
     User.hasOne(RefreshToken, { 
         foreignKey: {
-            name: "email",
+            name: "userId",
             allowNull: false,
         },
-        sourceKey: "email",
+        sourceKey: "userId",
         onDelete: "CASCADE"
     });
 }

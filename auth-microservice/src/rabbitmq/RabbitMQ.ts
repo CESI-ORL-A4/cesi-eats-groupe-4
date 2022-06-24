@@ -1,4 +1,4 @@
-import amqp, { Channel, Connection } from "amqplib";
+import amqp, { Channel, Connection, ConsumeMessage } from "amqplib";
 
 const rabbitmqHost = process.env.RABBITMQ_HOST || "localhost";
 const rabbitmqUser = process.env.RABBITMQ_DEFAULT_USER || "guest";
@@ -35,6 +35,22 @@ export default class RabbitMQ {
             const bufferMessage = Buffer.from(message, "utf-8");
             this._channel.sendToQueue(queue, bufferMessage);
             console.log("Message sent", message);
+        }
+    }
+
+    async subscribe(queue: string, handler: (message: ConsumeMessage, ack: () => void) => void) {
+        if (!this._connection) {
+            this.connect();
+        }
+
+        if (this._channel) {
+            await this._channel.assertQueue(queue, { durable: true });
+            this._channel.consume(queue, async (message: ConsumeMessage | null) => {
+                if (message) {
+                    const ack = () => this._channel?.ack(message);
+                    handler(message, ack);
+                }
+            })
         }
     }
 }

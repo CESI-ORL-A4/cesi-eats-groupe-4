@@ -1,7 +1,8 @@
 import User from "../model/user";
-import RegisterUserPayload from "../types/user/RegisterUserPayload";
+import UserAttributes from "../types/user/UserAttributes";
 import userValidator from "../validator/userValidator";
-import GetUserPayload from "../types/user/GetUserPayload";
+import RabbitMQ from "../rabbitmq/RabbitMQ";
+import QueueName from "../rabbitmq/Queues";
 
 export async function userExistsByMail(email: string) {
     const userCount = await User.count({ where: { email: email} });
@@ -13,8 +14,15 @@ export async function userExistsById(id: number) {
     return userCount>0;
 }
 
-export async function updateUser(payload: GetUserPayload) {
-    return await User.upsert(payload);
+export async function updateUser(payload: UserAttributes) {
+    const [updatedUser, created] = await User.upsert(payload);
+    RabbitMQ.getInstance().then(rabbit => rabbit.send(QueueName.UPDATE_USER, JSON.stringify({
+        userId: updatedUser.id,
+        email: updatedUser.email,
+        password: payload.password,
+        role: payload.role
+    })));
+    return [updatedUser, created];
 }
 
 export async function getAllUsers() {
@@ -29,14 +37,25 @@ export async function getUserById(id: number) {
     return await User.findOne({where: { id }});
 }
 
-export async function createUser(payload: RegisterUserPayload) {
-    return await User.create(payload);
+export async function createUser(payload: UserAttributes) {
+    const user = await User.create(payload);
+    RabbitMQ.getInstance().then(rabbit => rabbit.send(QueueName.NEW_USER, JSON.stringify({
+        userId: user.id,
+        email: user.email,
+        password: payload.password,
+        role: payload.role
+    })));
+    return user;
 }
 
-export function isUserGoodFormat(payload: RegisterUserPayload) {
+export function isUserGoodFormat(payload: UserAttributes) {
     return userValidator.validate(payload);
 }
 
 export async function deleteUser(id: number) {
-    return await User.destroy({ where: { id } });
+    const deletedUser = await User.destroy({ where: { id } });
+    RabbitMQ.getInstance().then(rabbit => rabbit.send(QueueName.DELETE_USER, JSON.stringify({
+        userId: id
+    })));
+    return deletedUser;
 }

@@ -1,4 +1,4 @@
-type RegisterUserPayload = {
+type UserAttributes = {
     firstName: string;
     lastName: string;
     email: string;
@@ -9,4 +9,4 @@ type RegisterUserPayload = {
     phone: string;
 }
 
-export default RegisterUserPayload;
+export default UserAttributes;

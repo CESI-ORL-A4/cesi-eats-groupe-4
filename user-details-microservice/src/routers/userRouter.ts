@@ -1,14 +1,14 @@
 import { Router, Response, Request } from "express";
 import {createUser, userExistsByMail, isUserGoodFormat, updateUser, deleteUser, getUserById, userExistsById, getAllUsers} from "../controllers/userController";
 import { ReqWithBody } from "../types/expressTypes";
-import RegisterUserPayload from "../types/user/RegisterUserPayload";
+import UserAttributes from "../types/user/UserAttributes";
 import emailValidator from "../validator/emailValidator";
 import {ValidationResult} from "joi";
 import {getSponsorship} from "../controllers/sponsorshipController";
 const userRouter = Router();
 
 userRouter.post("/register",
-    async (req: ReqWithBody<RegisterUserPayload>, res: Response) => {
+    async (req: ReqWithBody<UserAttributes>, res: Response) => {
         const payload = req.body;
         if (emailValidator.validate(payload.email).error) {
             return res.status(400).json({ error: "email is required" });
@@ -45,7 +45,7 @@ userRouter.get("/:id",
 });
 
 userRouter.put("/",
-    async (req: ReqWithBody<RegisterUserPayload>, res: Response) => {
+    async (req: ReqWithBody<UserAttributes>, res: Response) => {
         const payload = req.body;
         if (emailValidator.validate(payload.email).error) {
             return res.status(400).json({ error: "email is required" });
@@ -68,12 +68,12 @@ userRouter.put("/",
             return res.status(400).json({ error: "User does not exist" });
     });
 
-userRouter.delete("/",
+userRouter.delete("/:id",
     async (req: Request<{ id: number }>, res: Response) => {
         const userId = req.params.id;
         if (await userExistsById(userId)) {
-            const deletedUser = await deleteUser(userId);
-            return res.status(200).json({ status: "User deleted", deletedUser });
+            await deleteUser(userId);
+            return res.status(200).send();
         }
         else {
             return res.status(404).json({ error: "user does not exist" });

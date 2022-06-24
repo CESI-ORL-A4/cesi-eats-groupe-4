@@ -4,6 +4,7 @@ import Role from "./Role";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> {
     declare id: number | undefined;
+    declare userId: number;
     declare email: string;
     declare password: string;
     declare role: Role;
@@ -16,6 +17,11 @@ export function initUser() {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true
+            },
+            userId: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
+                unique: true
             },
             email: {
                 type: DataTypes.STRING,

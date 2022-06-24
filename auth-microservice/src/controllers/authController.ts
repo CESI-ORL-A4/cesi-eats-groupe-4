@@ -6,14 +6,14 @@ import Role from "../model/Role";
 import TokenPayload from "../types/jwt/TokenPayload";
 import {Request, Response} from "express";
 
-export async function createTokens(email: string, role: Role):
+export async function createTokens(id: number, email: string, role: Role):
     Promise<[accessToken: string, refreshToken: string]>
 {
-    const signedAccessToken = signAccessToken({ email, role });
-    const signedRefreshToken = signRefreshToken({ email, role });
+    const signedAccessToken = signAccessToken({ id, email, role });
+    const signedRefreshToken = signRefreshToken({ id, email, role });
 
-    const [accessToken, _] = await AccessToken.upsert({ email, token: signedAccessToken });
-    const [refreshToken, __] = await RefreshToken.upsert({ email, token: signedRefreshToken });
+    const [accessToken, _] = await AccessToken.upsert({ userId: id, email, token: signedAccessToken });
+    const [refreshToken, __] = await RefreshToken.upsert({ userId: id, email, token: signedRefreshToken });
     return [accessToken.token, refreshToken.token];
 } 
 
@@ -22,7 +22,7 @@ export async function validateAccessToken(token: string):
 {
     const decodedToken = decodeAccessToken(token);
     if (!!decodedToken) {
-        const dbToken = await AccessToken.findOne({ where: { email: decodedToken.email, token } });
+        const dbToken = await AccessToken.findOne({ where: { userId: decodedToken.id, token } });
         const isValid = !!dbToken;
         return [isValid, decodedToken];
     }
@@ -34,16 +34,16 @@ export async function validateRefreshToken(token: string):
 {
     const decodedToken = decodeRefreshToken(token);
     if (decodedToken) {
-        const dbRefreshToken = await RefreshToken.findOne({ where: { email: decodedToken.email, token } });
+        const dbRefreshToken = await RefreshToken.findOne({ where: { userId: decodedToken.id, token } });
         const isValid = !!dbRefreshToken;
         return [isValid, decodedToken]; 
     }
     return [false, undefined];
 }
 
-export async function removeTokens(email: string) {
-    await AccessToken.destroy({ where: { email } });
-    await RefreshToken.destroy({ where: { email } });
+export async function removeTokens(userId: number) {
+    await AccessToken.destroy({ where: { userId } });
+    await RefreshToken.destroy({ where: { userId } });
 }
 
 export async function verifyAuthToken(

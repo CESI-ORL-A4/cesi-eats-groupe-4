@@ -4,7 +4,7 @@ import User from "./User";
 
 class AccessToken extends Model<InferAttributes<AccessToken>, InferCreationAttributes<Model>> {
     declare id: number | undefined;
-    declare email: ForeignKey<User["email"]>;
+    declare userId: ForeignKey<User["userId"]>;
     declare token: string;
 }
 
@@ -16,8 +16,8 @@ export function initAccessToken() {
                 autoIncrement: true,
                 primaryKey: true
             },
-            email: {
-                type: DataTypes.STRING,
+            userId: {
+                type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
                 unique: true
             },
