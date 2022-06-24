@@ -31,6 +31,7 @@ export async function deleteArticle(restaurantId: string,articleId: string) {
 export async function isArticleDeletable() {
     const result = false;
     //TODO faire quand menu seront fait
+    return true;
 }
 
 export async function updateArticle(restaurantId: string,articleId: string,payload:UpdateArticlePayload,file?:any) {
@@ -48,21 +49,6 @@ export async function updateArticle(restaurantId: string,articleId: string,paylo
     }
     return false;
 }
-/*
-export async function updateArticle(payload: any,id:string){
-    if(payload.ownerId)
-        ({ ownerId: payload.ownerId, ...payload } = payload);
-    if (payload.imageName && payload.imageData){
-        const linkImage = uploadImage(payload.imageData,payload.imageName);
-        ({ imageData: payload.imageData,imageName: payload.imageName, ...payload } = payload);
-        payload.linkImage = linkImage;
-    }
-    return await articleModel.updateOne({ _id: id }, payload);
-}
-
-export async function deleteArticle(id: string) {
-    return await articleModel.deleteOne({ _id: id });
-}*/
 
 export async function getArticle(restaurantId: string,articleId: string) {
     const restaurant = await getRestaurant(restaurantId);
