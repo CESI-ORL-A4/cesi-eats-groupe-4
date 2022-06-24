@@ -30,10 +30,10 @@ export async function getRestaurants() {
     return restaurantModel.find().exec();
 }
 
-export async function createRestaurant(payload: AddRestaurantPayload) {
+export async function createRestaurant(payload: AddRestaurantPayload, file?: any) {
     let linkImage = ""
-    if (payload.imageName && payload.imageData)
-        linkImage = uploadImage(payload.imageData,payload.imageName);
+    if (payload.imageName)
+        linkImage = uploadImage(file,payload.imageName);
     let newImage:UploadRestaurantPayload = {name: payload.name,description:payload.description,address:payload.address,email:payload.email,imageLink: linkImage};
     const restaurant = new restaurantModel(newImage)
     await restaurant.save();

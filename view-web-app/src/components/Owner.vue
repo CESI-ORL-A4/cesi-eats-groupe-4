@@ -1,18 +1,24 @@
 <script lang="ts" setup>
 import {ref} from "vue";
 import {addRestaurant} from "@/modules/identify";
-
+import FormData from "form-data"
 const name = ref("");
 const address = ref("");
 const email = ref("");
 const file = ref();
 let filename: string;
 let fileData: any;
-let fileT: any;
 
 const addRestaurantEvent = async (e) => {
   e.preventDefault();
-  await addRestaurant(name.value, address.value, email.value, fileData, filename);
+  const formData = new FormData();
+  console.log(fileData);
+  formData.append("imageData", fileData);
+  formData.append("name",name.value);
+  formData.append("email",email.value);
+  formData.append("imageName",filename);
+  formData.append("address",address.value);
+  await addRestaurant(formData);
 }
 
 const onFilePicked = (event) => {

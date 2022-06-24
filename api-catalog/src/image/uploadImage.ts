@@ -15,11 +15,11 @@ const s3 = new AWS.S3({
     secretAccessKey: SECRET
 });
 
-export const uploadImage = (data:any, imageName:string):string => {
+export const uploadImage = (data: any, imageName: string): string => {
     const params = {
-        Bucket: 'cesieats',
+        Bucket: BUCKET_NAME,
         Key: imageName,
-        Body: JSON.stringify(data, null, 2),
+        Body: data,
         ACL: 'public-read',
     };
     s3.upload(params, function (s3Err: any, data: { Location: any; }) {

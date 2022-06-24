@@ -1,14 +1,12 @@
 import axios from "axios";
+import FormData from "form-data";
 
-export async function addRestaurant(name: string, address: string,email: string,fileData: string,filename:string) {
+export async function addRestaurant(form:FormData) {
     try {
-        const response = await axios.post('http://localhost:8080/catalog/restaurant/', {
-            name,
-            address,
-            email,
-            imageData:fileData,
-            imageName:filename,
-        })
+        const response = await axios.post('http://localhost:8080/catalog/restaurants/', form,{
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },})
         if (response.status == 200) {
             console.log(response);
         }

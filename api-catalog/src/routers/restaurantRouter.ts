@@ -10,12 +10,14 @@ import GetRestaurantPayload from "../types/restaurant/GetRestaurantPayload";
 import AddRestaurantPayload from "../types/restaurant/AddRestaurantPayload";
 import {ValidationResult} from "joi";
 const restaurantRouter = Router();
+const multer = require('multer');
+const upload = multer();
 
-restaurantRouter.post("/",
-    async (req: ReqWithBody<AddRestaurantPayload>, res: Response) => {
+
+restaurantRouter.post("/",upload.single('imageData'),
+    async (req: any, res: Response) => {
         const payload = req.body;
-        console.log("create ");
-        console.log(payload);
+        console.log(req);
         const testFormatted = isRestaurantGoodFormat(payload);
         console.log(testFormatted);
         if (!testFormatted.error)
@@ -23,7 +25,7 @@ restaurantRouter.post("/",
             console.log(await restaurantExist(payload.email));
             if (await restaurantExist(payload.email))
                 return res.status(400).json({error:"restaurant already exists"});
-            const addedRestaurant = await createRestaurant(payload);
+            const addedRestaurant = await createRestaurant(payload,req.file.buffer);
             return res.status(201).json({status: "Restaurant registered", restaurant: addedRestaurant});
         }
         else{
