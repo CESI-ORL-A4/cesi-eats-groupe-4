@@ -7,13 +7,13 @@ import UploadRestaurantPayload from "../types/restaurant/UploadRestaurantPayload
 import {string} from "joi";
 import restaurantUpdateValidator from "../validators/restaurantUpdateValidator";
 
-export async function restaurantExist(email: string) {
-    return await restaurantModel.count({ email}) >0;
+export async function restaurantExist(ownerId: string) {
+    return await restaurantModel.count({ ownerId}) >0;
 }
 
 export async function updateRestaurant(payload: any,id:string){
-    if(payload.email)
-        ({ email: payload.email, ...payload } = payload);
+    if(payload.ownerId)
+        ({ ownerId: payload.ownerId, ...payload } = payload);
     if (payload.imageName && payload.imageData){
         const linkImage = uploadImage(payload.imageData,payload.imageName);
         ({ imageData: payload.imageData,imageName: payload.imageName, ...payload } = payload);
@@ -30,11 +30,11 @@ export async function getRestaurants() {
     return restaurantModel.find().exec();
 }
 
-export async function createRestaurant(payload: AddRestaurantPayload) {
+export async function createRestaurant(payload: AddRestaurantPayload, file?: any) {
     let linkImage = ""
-    if (payload.imageName && payload.imageData)
-        linkImage = uploadImage(payload.imageData,payload.imageName);
-    let newImage:UploadRestaurantPayload = {name: payload.name,description:payload.description,address:payload.address,email:payload.email,imageLink: linkImage};
+    if (payload.imageName)
+        linkImage = uploadImage(file,payload.imageName);
+    let newImage:UploadRestaurantPayload = {name: payload.name,description:payload.description,address:payload.address,ownerId:payload.ownerId,imageLink: linkImage};
     const restaurant = new restaurantModel(newImage)
     await restaurant.save();
     return restaurant;

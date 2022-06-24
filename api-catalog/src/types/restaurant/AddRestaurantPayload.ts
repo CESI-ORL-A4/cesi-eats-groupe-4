@@ -1,5 +1,5 @@
 type AddRestaurantPayload = {
-    email: string;
+    ownerId: string;
     name: string;
     address: string;
     id: string|undefined;

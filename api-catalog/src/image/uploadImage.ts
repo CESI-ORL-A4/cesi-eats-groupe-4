@@ -15,21 +15,18 @@ const s3 = new AWS.S3({
     secretAccessKey: SECRET
 });
 
-export const uploadImage = (data: any, imageName:string):string => {
-    return fs.readFile("README.md", (err: any, data: any) => {
-        if (err)
+export const uploadImage = (data: any, imageName: string): string => {
+    const params = {
+        Bucket: BUCKET_NAME,
+        Key: imageName,
+        Body: data,
+        ACL: 'public-read',
+    };
+    s3.upload(params, function (s3Err: any, data: { Location: any; }) {
+        if (s3Err)
             return "";
-        const params = {
-            Bucket: 'cesieats',
-            Key: imageName,
-            Body: JSON.stringify(data, null, 2),
-            ACL: 'public-read',
-        };
-        s3.upload(params, function (s3Err: any, data: { Location: any; }) {
-            if (s3Err)
-                return "";
-            console.log(`File uploaded successfully at ${data.Location}`);
-            return data.Location;
-        });
+        console.log(`File uploaded successfully at ${data.Location}`);
+        return data.Location;
     });
+    return "";
 };

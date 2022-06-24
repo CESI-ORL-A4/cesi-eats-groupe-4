@@ -1,8 +1,7 @@
 const Joi = require('joi');
 
 let restaurantValidator = Joi.object({
-    email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net','fr'] } }).required(),
+    ownerId: Joi.string().required(),
     address: Joi.string()
         .min(1)
         .max(255)
@@ -17,7 +16,7 @@ let restaurantValidator = Joi.object({
     imageName: Joi.string()
         .min(1)
         .max(255),
-    imageData: Joi.object(),
+    imageData: Joi.any(),
 
 });
 
