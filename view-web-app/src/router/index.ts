@@ -73,9 +73,20 @@ const router = createRouter({
             }
         },
         {
+
             path: '/restaurant',
             name: 'restaurant',
             component: () => import('../views/restaurantView.vue'),
+            meta: {
+                requiresAuth: true,
+                is_basic: true
+            }
+        },
+        {
+
+            path: '/menu/:id',
+            name: 'menu',
+            component: () => import('../views/MenuView.vue'),
             meta: {
                 requiresAuth: true,
                 is_basic: true

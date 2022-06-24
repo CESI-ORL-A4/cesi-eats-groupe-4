@@ -16,7 +16,6 @@ function btn_account() {
 }
 
 function homePage() {
-  debugger;
   if(!role)
   {
     router.push({name: "home"})
