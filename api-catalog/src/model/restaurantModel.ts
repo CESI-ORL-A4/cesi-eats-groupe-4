@@ -1,3 +1,6 @@
+import articleSchema from "./articleModel";
+import menuSchema from "./menuModel";
+
 const mongoose = require('mongoose');
 
 const restaurantSchema = new mongoose.Schema({
@@ -21,7 +24,9 @@ const restaurantSchema = new mongoose.Schema({
     image: {
         type: String,
         required: false,
-    }
+    },
+    articles: [articleSchema],
+    menu: [menuSchema]
 });
 
 export default mongoose.model('restaurant', restaurantSchema);

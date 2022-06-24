@@ -4,10 +4,9 @@ import {
     getRestaurant,
     restaurantExist, deleteRestaurant,
     isRestaurantGoodFormat,
-    createRestaurant, getRestaurants, updateRestaurant, isRestaurantUpdateGoodFormat
+    createRestaurant, getRestaurants, updateRestaurant, isRestaurantUpdateGoodFormat, restaurantExistByIdRestaurant
 } from "../controllers/restaurantController";
 import GetRestaurantPayload from "../types/restaurant/GetRestaurantPayload";
-import AddRestaurantPayload from "../types/restaurant/AddRestaurantPayload";
 import {ValidationResult} from "joi";
 const restaurantRouter = Router();
 const multer = require('multer');
@@ -23,9 +22,9 @@ restaurantRouter.post("/",upload.single('imageData'),
         if (!testFormatted.error)
         {
             if (await restaurantExist(payload.ownerId))
-                return res.status(400).json({error:"restaurant already exists"});
+                return res.status(400).json({error:"Owner have restaurant"});
             const addedRestaurant = await createRestaurant(payload,req.file?.buffer);
-            return res.status(201).json({status: "Restaurant registered", restaurant: addedRestaurant});
+            return res.status(200).json({status: "Restaurant registered", restaurant: addedRestaurant});
         }
         else{
             return res.status(400).json({error:testFormatted?.error?.message});
@@ -33,18 +32,18 @@ restaurantRouter.post("/",upload.single('imageData'),
 });
 
 
-restaurantRouter.get("/:id",
+restaurantRouter.get("/:idRestaurant",
     async (req: ReqWithParams<GetRestaurantPayload>, res: Response) => {
         const payload = req.params;
         console.log("get ");
         console.log(payload);
-        if (!payload.id) {
+        if (!payload.idRestaurant) {
             return res.status(400).json({ error: "Id is required" });
         }
-        if (await restaurantExist(payload.id)) {
-            return res.status(200).json({ status: "Restaurant exist",restaurant:await getRestaurant(payload.id)});
+        if (await restaurantExistByIdRestaurant(payload.idRestaurant)) {
+            return res.status(200).json({ status: "Restaurant exist",restaurant:await getRestaurant(payload.idRestaurant)});
         }
-        return res.status(401).json({ error: "Wrong credentials" });
+        return res.status(401).json({ error: "Error" });
 });
 
 restaurantRouter.get("/",
@@ -59,22 +58,22 @@ restaurantRouter.get("/",
     return res.status(200).json({ status: "Restaurants",restaurants});
     });
 
-restaurantRouter.put("/:id",
+restaurantRouter.put("/:idRestaurant",
     async (req: any, res: Response) => {
 
-        const id = req.params?.id;
+        const idRestaurant = req.params?.idRestaurant;
         const payload = req.body;
         console.log("update ");
-        console.log(id);
-        if (!id) {
+        console.log(idRestaurant);
+        if (!idRestaurant) {
             return res.status(400).json({ error: "Id is required" });
         }
-        if (await getRestaurant(id)) {
+        if (await restaurantExistByIdRestaurant(idRestaurant)) {
             const testFormatted : ValidationResult = isRestaurantUpdateGoodFormat(payload);
             console.log(testFormatted);
             if (!testFormatted.error)
             {
-                const addedUser = await updateRestaurant(payload,id);
+                const addedUser = await updateRestaurant(payload,idRestaurant);
                 return res.status(201).json({status: "Restaurant registered", Restaurant: addedUser});
             }
             else{
@@ -85,16 +84,16 @@ restaurantRouter.put("/:id",
             return res.status(400).json({ error: "Restaurant does not exist" });
     });
 
-restaurantRouter.delete("/",
-    async (req: ReqWithBody<GetRestaurantPayload>, res: Response) => {
-        const payload = req.body;
+restaurantRouter.delete("/:idRestaurant",
+    async (req: ReqWithParams<GetRestaurantPayload>, res: Response) => {
+        const idRestaurant = req.params?.idRestaurant;
         console.log("get ");
-        console.log(payload);
-        if (!payload.id) {
+        console.log(idRestaurant);
+        if (!idRestaurant) {
             return res.status(400).json({ error: "Id is required" });
         }
-        if (await getRestaurant(payload.id)) {
-            return res.status(200).json({ status: "Restaurant delete",user:await deleteRestaurant(payload.id)});
+        if (await getRestaurant(idRestaurant)) {
+            return res.status(200).json({ status: "Restaurant delete",user:await deleteRestaurant(idRestaurant)});
         }
         else
             return res.status(400).json({ error: "Restaurant does not exist" });

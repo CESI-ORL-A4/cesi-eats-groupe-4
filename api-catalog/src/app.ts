@@ -4,6 +4,8 @@ import express from "express";
 import restaurantRouter from "./routers/restaurantRouter";
 import {connectMongoose} from "./DBConnection";
 import cors from "cors";
+import articleRouter from "./routers/articleRouter";
+import menuRouter from "./routers/menuRouter";
 
 const app: express.Express = express();
 const port = process.env.CATALOG_API_PORT;
@@ -14,8 +16,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/catalog/restaurants", restaurantRouter);
-app.use("/catalog/restaurants/menus", restaurantRouter);
-app.use("/catalog/restaurants/articles", restaurantRouter);
+app.use("/catalog/restaurants/:idRestaurant/articles", articleRouter);
+app.use("/catalog/restaurants/:idRestaurant/menu", menuRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at https://localhost:${port}`);
