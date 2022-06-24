@@ -14,9 +14,9 @@ function ownerPage() {
 }
 
 const role = localStorage.getItem('role');
-const role_basic = '"BASIC"';
-const role_deliverer = '"DELIVERER"';
-const role_owner = '"OWNER"';
+const role_basic = "BASIC";
+const role_deliverer = "DELIVERER";
+const role_owner = "OWNER";
 console.log(role);
 
 </script>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import router from "@/router"
 
+const role = localStorage.getItem('role');
+
 function btn_sign_up() {
   router.push({name: "signUp"})
 }
@@ -14,10 +16,18 @@ function btn_account() {
 }
 
 function homePage() {
-  router.push({name: "home"})
+  debugger;
+  if(!role)
+  {
+    router.push({name: "home"})
+  }
+  else if(role == "BASIC")
+  {
+    router.push({name: "restaurant"})
+  }
+
 }
 
-const connected = localStorage.getItem('role');
 </script>
 
 <template>
@@ -26,9 +36,9 @@ const connected = localStorage.getItem('role');
       <p> Cesi <span>Eats</span></p>
     </div>
     <div class="item-x">
-      <button v-show="connected" type="button" class="btn_account" @click="btn_account">Mon compte</button>
-      <button v-show="!connected" type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
-      <button v-show="!connected" type="button" class="btn_sign_up" @click="btn_sign_up">Inscription</button>
+      <button v-show="role" type="button" class="btn_account" @click="btn_account">Mon compte</button>
+      <button v-show="!role" type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
+      <button v-show="!role" type="button" class="btn_sign_up" @click="btn_sign_up">Inscription</button>
     </div>
   </div>
 </template>

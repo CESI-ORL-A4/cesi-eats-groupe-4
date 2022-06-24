@@ -72,6 +72,15 @@ const router = createRouter({
                 is_owner: true
             }
         },
+        {
+            path: '/restaurant',
+            name: 'restaurant',
+            component: () => import('../views/restaurantView.vue'),
+            meta: {
+                requiresAuth: true,
+                is_basic: true
+            }
+        },
     ]
 })
 
@@ -83,7 +92,7 @@ router.beforeEach((to, from, next) => {
                 params: {nextUrl: to.fullPath}
             })
         } else {
-            const role = JSON.parse(localStorage.getItem('role')!)
+            const role = localStorage.getItem('role')
             if (to.matched.some(record => record.meta.is_basic)) {
                 console.log(role);
                 if (role === "BASIC") {
