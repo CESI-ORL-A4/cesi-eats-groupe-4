@@ -38,3 +38,11 @@ From the root directory execute:
 `docker-composer build`
 
 `docker-composer up`
+
+# Data persistence
+
+To keep the data of the two SQL Server database when the containers go down, create two empty directories by executing the two following commands from the root directory:
+
+`mkdir auth-microservice/mssql/data`
+
+`mkdir user-details-microservice/mssql/data`
