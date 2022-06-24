@@ -1,5 +1,5 @@
 type UploadRestaurantPayload = {
-    email: string;
+    ownerId: string;
     name: string;
     address: string;
     description: string|undefined;

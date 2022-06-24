@@ -22,10 +22,9 @@ restaurantRouter.post("/",upload.single('imageData'),
         console.log(testFormatted);
         if (!testFormatted.error)
         {
-            console.log(await restaurantExist(payload.email));
-            if (await restaurantExist(payload.email))
+            if (await restaurantExist(payload.ownerId))
                 return res.status(400).json({error:"restaurant already exists"});
-            const addedRestaurant = await createRestaurant(payload,req.file.buffer);
+            const addedRestaurant = await createRestaurant(payload,req.file?.buffer);
             return res.status(201).json({status: "Restaurant registered", restaurant: addedRestaurant});
         }
         else{
