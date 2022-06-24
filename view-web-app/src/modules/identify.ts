@@ -9,8 +9,6 @@ export async function loginAPI(email: string, password: string) {
         if (response.status == 200) {
             localStorage.setItem('jwt', JSON.stringify(response?.data?.token));
             localStorage.setItem('role', JSON.stringify(response?.data?.role));
-            console.log(response.data)
-
             return {role: response?.data?.role};
         }
         // Don't forget to return something
