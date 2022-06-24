@@ -1,42 +1,42 @@
 import User from "../model/user";
-import AddUserPayload from "../types/user/AddUserPayload";
+import RegisterUserPayload from "../types/user/RegisterUserPayload";
 import userValidator from "../validator/userValidator";
 import GetUserPayload from "../types/user/GetUserPayload";
 
-export async function userExists(email: string) {
+export async function userExistsByMail(email: string) {
     const userCount = await User.count({ where: { email: email} });
-    console.log("userCount exists :" + userCount);
+    return userCount>0;
+}
+
+export async function userExistsById(id: number) {
+    const userCount = await User.count({ where: { id } });
     return userCount>0;
 }
 
 export async function updateUser(payload: GetUserPayload) {
-    let user = await getUser(payload.email);
-    if (user)
-    {
-        user.set(payload);
-        user = await user.save();
-    }
-    return user;
+    return await User.upsert(payload);
 }
 
-export async function getUser(email: string) {
+export async function getAllUsers() {
+    return await User.findAll();
+}
+
+export async function getUserByMail(email: string) {
     return await User.findOne({where: {email: email}});
 }
 
-export async function createUser(payload: AddUserPayload) {
+export async function getUserById(id: number) {
+    return await User.findOne({where: { id }});
+}
+
+export async function createUser(payload: RegisterUserPayload) {
     return await User.create(payload);
 }
 
-export function isUserGoodFormat(payload: AddUserPayload) {
+export function isUserGoodFormat(payload: RegisterUserPayload) {
     return userValidator.validate(payload);
 }
 
-export async function deleteUser(email: string) {
-    let user = await getUser(email);
-    if (user)
-    {
-        await user.destroy();
-        return "delete with success"
-    }
-
+export async function deleteUser(id: number) {
+    return await User.destroy({ where: { id } });
 }

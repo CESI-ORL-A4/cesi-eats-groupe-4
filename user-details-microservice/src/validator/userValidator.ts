@@ -13,7 +13,12 @@ let userValidator = Joi.object({
         .required(),
     email: Joi.string()
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net','fr'] } }).required(),
-    birthdate: Joi.date()
+    role: Joi.string()
+        .valid(...["BASIC", "DELIVERER", "OWNER", "COMMERCIAL", "TECHNIC"])
+        .required(),
+    password: Joi.string()
+        .required(),
+    birthdate: Joi.string()
         .required(),
     phone: Joi.string()
         .alphanum()

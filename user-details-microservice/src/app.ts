@@ -17,7 +17,7 @@ RabbitMQ.getInstance().then(rabbit => rabbit.subscribe("mainQueue", (message: Co
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use("/user", userRouter);
+app.use("/users", userRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at https://localhost:${port}`);

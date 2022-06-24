@@ -1,10 +1,9 @@
 import User from "../model/user";
-import SponsorshipPayload from "../types/sponsorship/SponsorshipPayload";
 
-export async function getSponsorship(email: string) {
-    return await User.findOne({where: {email: email}});
+export async function getSponsorship(id: number) {
+    return await User.findOne({where: { id }});
 }
 
-export async function addSponsorship(payload: SponsorshipPayload) {
-    return await User.update({ sponsorship: payload.sponsorship },{ where: { email: payload.email } });
+export async function addSponsorship(id: number) {
+    return await User.update({ sponsorship: new Date() },{ where: { id } });
 }

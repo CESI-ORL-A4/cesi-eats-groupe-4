@@ -15,6 +15,7 @@ import UserAttributesPayload from "../types/user/UserAttributesPayload";
 import isAuthorized from "../middlewares/isAuthorized";
 import validateInputData from "../middlewares/validateInputData";
 import validateUserAttributesPayload from "../middlewares/validateUserAttributesPayload";
+import RabbitMQ from "../rabbitmq/RabbitMQ";
 
 const authRouter = Router();
 
@@ -29,6 +30,7 @@ authRouter.post("/register-admin",
     validateUserAttributesPayload(),
     validateInputData(),
     async (req: ReqWithBody<UserAttributesPayload>, res: Response) => {
+        await RabbitMQ.getInstance().then(rabbit => rabbit.send("mainQueue", "Registered new user"));
         await registerUser(req, res);
 });
 
