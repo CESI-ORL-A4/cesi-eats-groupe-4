@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Banner from '@/components/Banner.vue'
-import Owners_Restaurant from '@/components/Owners/Owner-Restaurant.vue'
+import Owners_New from '@/components/Owners/Owner-New.vue'
 </script>
 
 <template>
   <Banner/>
-  <Owners_Restaurant/>
+  <Owners_New/>
 </template>

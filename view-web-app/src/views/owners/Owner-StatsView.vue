@@ -1,0 +1,9 @@
+<script setup lang="ts">
+import Banner from '@/components/Banner.vue'
+import Owners_Stats from '@/components/Owners/Owner-Stats.vue'
+</script>
+
+<template>
+  <Banner/>
+  <Owners_Stats/>
+</template>

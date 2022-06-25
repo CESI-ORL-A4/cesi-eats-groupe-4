@@ -76,7 +76,7 @@ const router = createRouter({
         {
             path: '/owner/articles',
             name: 'owner-articles',
-            component: () => import('../views/Owners/Owner-ArticlesView.vue'),
+            component: () => import('../views/owners/Owner-ArticlesView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -86,7 +86,17 @@ const router = createRouter({
         {
             path: '/owner/commands',
             name: 'owner-commands',
-            component: () => import('../views/Owners/Owner-CommandsView.vue'),
+            component: () => import('../views/owners/Owner-CommandsView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/history',
+            name: 'owner-history',
+            component: () => import('../views/owners/Owner-HistoryView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -96,7 +106,7 @@ const router = createRouter({
         {
             path: '/owner/menus',
             name: 'owner-menus',
-            component: () => import('../views/Owners/Owner-MenusView.vue'),
+            component: () => import('../views/owners/Owner-MenusView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -104,9 +114,29 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/owner/restaurant',
-            name: 'owner-restaurant',
-            component: () => import('../views/Owners/Owner-RestaurantView.vue'),
+            path: '/owner/new',
+            name: 'owner-new',
+            component: () => import('../views/owners/Owner-NewView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/restaurant-information',
+            name: 'owner-restaurant-information',
+            component: () => import('../views/owners/Owner-RestaurantInformationView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/stats',
+            name: 'owner-stats',
+            component: () => import('../views/owners/Owner-StatsView.vue'),
             /*
             meta: {
                 requiresAuth: true,

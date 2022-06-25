@@ -18,6 +18,22 @@ const role_basic = "BASIC";
 const role_deliverer = "DELIVERER";
 const role_owner = "OWNER";
 
+const account_information = {
+  first_name: "Anthime",
+  last_name: "Didi",
+  birthdate: "31/03/1999",
+  address: "338 rue aux chiens à Olivet",
+  phone: "06 65 43 38 84",
+  email: "owner@gmail.com",
+  password: "********",
+  sponsorship_code: "D54P9POX12",
+};
+const restaurant_information = {
+  name: "Bunny's",
+  address: "5 Av. de la Bolière à Orléans",
+  description: "Kebabier de père en fils !",
+  image: "https://matchpint-cdn.matchpint.cloud/shared/img/pub/110551/1070624494-1585304178_banner.jpeg",
+};
 </script>
 
 <template>
@@ -25,14 +41,23 @@ const role_owner = "OWNER";
     <div>
       <h2>Informations sur votre compte :</h2>
       <ul>
-        <li><p>Prénom : xxxxx</p></li>
-        <li><p>Nom de famille : xxxxx</p></li>
-        <li><p>Date de naissance : xx/xx/xxxx</p></li>
-        <li><p>Téléphone : xx xx xx xx xx</p></li>
-        <li><p>Email : xxxxxxxx@gmail.com</p></li>
-        <li><p>Mot de passe : ********</p></li>
+        <li><p>Prénom : {{ account_information.first_name }} </p></li>
+        <li><p>Nom de famille : {{ account_information.last_name }}</p></li>
+        <li><p>Date de naissance : {{ account_information.birthdate }}</p></li>
+        <li><p>Adresse : {{ account_information.address }}</p></li>
+        <li><p>Téléphone : {{ account_information.phone }}</p></li>
+        <li><p>Email : {{ account_information.email }}</p></li>
+        <li><p>Mot de passe : {{ account_information.password }}</p></li>
       </ul>
-      <button type="button" class="btn_manage">Modifier mes informations</button>
+      <p>
+        <button type="button" class="btn_manage">Modifier mes informations</button>
+      </p>
+      <br>
+      <h2>Parrainage :</h2>
+      <p>Votre code de parrainage : {{ account_information.sponsorship_code }} </p><br><br>
+      <p>
+        <button type="button" class="btn_manage">Supprimer mon compte</button>
+      </p>
     </div>
     <div v-if="role === role_basic">
       <h2>Dernière commande :</h2>
@@ -52,12 +77,17 @@ const role_owner = "OWNER";
     <div v-if="role === role_owner">
       <h2>Informations sur votre restaurant :</h2>
       <ul>
-        <li><p>Nom : xxxxxx</p></li>
-        <li><p>Adresse : xxxxxx</p></li>
-        <li><p>Description : xxxxxx</p></li>
-        <li><p>[Image]</p></li>
+        <li><p>Nom : {{ restaurant_information.name }} </p></li>
+        <li><p>Adresse : {{ restaurant_information.address }}</p></li>
+        <li><p>Description : {{ restaurant_information.description }}</p></li>
+        <img height="180" alt="Restaurant" :src="restaurant_information.image">
       </ul>
-      <button type="button" class="btn_manage" @click="ownerPage">Gérer mon restaurant</button>
+      <p>
+        <button type="button" class="btn_manage">Modifier les informations de mon restaurant</button>
+      </p>
+      <p>
+        <button type="button" class="btn_manage" @click="ownerPage">Gérer mon restaurant</button>
+      </p>
     </div>
   </div>
 </template>

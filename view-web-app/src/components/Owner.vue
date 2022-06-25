@@ -1,108 +1,45 @@
 <script lang="ts" setup>
-import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
-import FormData from "form-data"
+import router from "@/router";
 
-const name = ref("");
-const address = ref("");
-const email = ref("");
-const file = ref();
-let filename: string;
-let fileData: any;
-
-const addRestaurantEvent = async (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  console.log(fileData);
-  formData.append("imageData", fileData);
-  formData.append("name", name.value);
-  formData.append("ownerId", email.value);
-  formData.append("imageName", filename);
-  formData.append("address", address.value);
-  await addRestaurant(formData);
+function ownerArticlesPage() {
+  router.push({name: "owner-articles"})
 }
-
-const onFilePicked = (event) => {
-  fileData = event.target.files[0];
-  filename = fileData.name;
+function ownerCommandsPage() {
+  router.push({name: "owner-commands"})
+}
+function ownerHistoryPage() {
+  router.push({name: "owner-history"})
+}
+function ownerMenusPage() {
+  router.push({name: "owner-menus"})
+}
+function ownerStatsPage() {
+  router.push({name: "owner-stats"})
 }
 </script>
 
 <template>
   <div>
-    <p>Gestion des infos du resto</p>
-    <p>Gestion des menus</p>
-    <p>Gestion des articles</p>
-    <p>Gestion commandes</p>
-  </div>
-  <div>
-    <div class="positioned">
-      <form class="form">
-        <table>
-          <thead>
-          <tr>
-            <th colspan="2"><label>owner</label></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th><label for="Email">address</label></th>
-            <th><input v-model="address" type="text" id="Email" name="address"
-                       required="required"></th>
-          </tr>
-          <tr>
-            <th><label>name</label></th>
-            <th><input v-model="name" type="text"
-                       required="required"></th>
-          </tr>
-          <tr>
-            <th><label>email</label></th>
-            <th><input v-model="email" type="text"
-                       required="required"></th>
-          </tr>
-          <tr>
-            <th><label>file</label></th>
-            <th><input type="file" id="file" ref="file" accept="image/*" v-on:change="onFilePicked" required/></th>
-          </tr>
-          </tbody>
-        </table>
-        <div>
-          <br>
-          <button @click="addRestaurantEvent" type="submit" class="btn_sign_in_form">Add</button>
-        </div>
-      </form>
-    </div>
+    <p><button type="button" class="btn_manage" @click="ownerCommandsPage">Gérer les commandes</button></p><br>
+    <p><button type="button" class="btn_manage" @click="ownerMenusPage">Accéder aux menus</button></p>
+    <p><button type="button" class="btn_manage" @click="ownerArticlesPage">Accéder aux articles</button></p><br>
+    <p><button type="button" class="btn_manage" @click="ownerHistoryPage">Voir l'historique des commandes</button></p>
+    <p><button type="button" class="btn_manage" @click="ownerStatsPage">Statistiques du restaurant</button></p>
   </div>
 </template>
 
-<style scoped>
-.positioned {
+<style>
+.flex-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
-.form {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 20px;
-}
-
-thead,
-tfoot {
-  font-size: 35px;
-}
-
-tbody {
-  text-align: left;
-}
-
-.btn_sign_in_form {
+.btn_manage {
+  margin-right: 20px;
   background-color: #F6F6F6;
   border-radius: 100px;
-  width: 100px;
-  height: 40px;
-  float: right;
+  width: 200px;
+  height: 43px;
 }
-
 </style>
+
