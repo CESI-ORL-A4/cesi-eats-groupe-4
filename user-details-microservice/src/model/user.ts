@@ -1,4 +1,4 @@
-import {DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model, NonAttribute} from "sequelize";
+import {DataTypes, InferAttributes, InferCreationAttributes, Model} from "sequelize";
 import sequelize from "../DBConnection";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> {
@@ -12,49 +12,51 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> 
     declare sponsorship: Date | undefined;
 }
 
-User.init(
-    {
-        id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true
+export async function initUser() {
+    User.init(
+        {
+            id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                autoIncrement: true,
+                primaryKey: true
+            },
+            firstName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            lastName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true
+            },
+            birthdate: {
+                type: DataTypes.DATE,
+                allowNull: false
+            },
+            phone: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            address: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            sponsorship: {
+                type: DataTypes.DATE,
+                allowNull: true
+            },
         },
-        firstName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        lastName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        birthdate: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        phone: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        sponsorship: {
-            type: DataTypes.DATE,
-            allowNull: true
-        },
-    },
-    {
-        sequelize: sequelize,
-        tableName: "Users"
-    }
-);
+        {
+            sequelize: sequelize,
+            tableName: "Users"
+        }
+    );
+    await User.sync({ force: false });
+}
 
-User.sync({ force: false });
 
 export default User;
