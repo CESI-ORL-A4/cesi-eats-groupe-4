@@ -4,3 +4,4 @@ node_modules/
 .github/
 .idea/
 .env
+swagger_output.json
