@@ -9,6 +9,10 @@ RABBITMQ_HOST=rabbitmq
 RABBITMQ_DEFAULT_PASS=dkoefi!ooz93
 RABBITMQ_DEFAULT_USER=admin
 
+############## API GATEWAY ##############
+
+API_GATEWAY_PORT=4000
+
 ############## AUTH MICROSERVICE ##############
 
 AUTH_JWT_ACCESS_SECRET=llkdkofp20

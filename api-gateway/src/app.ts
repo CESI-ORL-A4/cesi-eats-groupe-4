@@ -6,7 +6,7 @@ import setupAuthRoutes from "./routes/authRoutes";
 import setupUserRoutes from "./routes/userRoutes";
 
 const app: express.Express = express();
-const port = 4000;
+const port = process.env.API_GATEWAY_PORT;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

@@ -9,6 +9,18 @@ services:
         - .env
     networks:
       - rabbitmq-network
+  # =============== API GATEWAY ===============
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+    env_file:
+        - .env
+    ports:
+      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
+    networks:
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
   # =============== AUTH MICROSERVICE ===============
   auth-service-db:
     container_name: auth-service-db
@@ -42,6 +54,7 @@ services:
     networks:
       - auth-microservice-network
       - rabbitmq-network
+      - app-api-network
     command: bash -c "ts-node src/app.ts"
   # =============== USER MICROSERVICE ===============
   user-service-db:
@@ -76,9 +89,11 @@ services:
     networks:
       - user-microservice-network
       - rabbitmq-network
+      - app-api-network
     command: bash -c "ts-node src/app.ts"
 
 networks:
   rabbitmq-network:
+  app-api-network:
   auth-microservice-network:
   user-microservice-network:
