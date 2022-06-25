@@ -51,4 +51,4 @@ To keep the data of the two SQL Server database when the containers go down, cre
 
 `mkdir auth-microservice/mssql/data`
 
-`mkdir user-details-microservice/mssql/data`
+`mkdir user-microservice/mssql/data`
