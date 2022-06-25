@@ -16,7 +16,7 @@ services:
       context: ./auth-microservice
       dockerfile: ./dockerfiles/mssql/Dockerfile
     volumes:
-      - ./auth-microservice/mssql/data:/var/opt/mssql
+      - ./auth-microservice/mssql/data:/var/opt/mssql/data
     environment:
         - ACCEPT_EULA=Y
         - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
@@ -50,7 +50,7 @@ services:
       context: ./user-details-microservice
       dockerfile: ./dockerfiles/mssql/Dockerfile
     volumes:
-      - ./user-details-microservice/mssql/data:/var/opt/mssql
+      - ./user-details-microservice/mssql/data:/var/opt/mssql/data
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${USER_SERVICE_DB_PASSWORD}
