@@ -74,9 +74,19 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/owner/articles',
-            name: 'owner-articles',
-            component: () => import('../views/owners/Owner-ArticlesView.vue'),
+            path: '/owner/products',
+            name: 'owner-products',
+            component: () => import('../views/owners/Owner-ProductsView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/product/add',
+            name: 'owner-product-add',
+            component: () => import('../views/owners/Owner-ProductAddView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -107,6 +117,16 @@ const router = createRouter({
             path: '/owner/menus',
             name: 'owner-menus',
             component: () => import('../views/owners/Owner-MenusView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/menu/add',
+            name: 'owner-menu-add',
+            component: () => import('../views/owners/Owner-MenuAddView.vue'),
             /*
             meta: {
                 requiresAuth: true,

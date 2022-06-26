@@ -40,8 +40,8 @@ const onFilePicked = (event) => {
           </thead>
           <tbody>
           <tr>
-            <th><label for="Email">address</label></th>
-            <th><input v-model="address" type="text" id="Email" name="address"
+            <th><label for="address">address</label></th>
+            <th><input v-model="address" type="text" id="address" name="address"
                        required="required"></th>
           </tr>
           <tr>
@@ -51,7 +51,7 @@ const onFilePicked = (event) => {
           </tr>
           <tr>
             <th><label>email</label></th>
-            <th><input v-model="email" type="text"
+            <th><input v-model="email" type="email"
                        required="required"></th>
           </tr>
           <tr>

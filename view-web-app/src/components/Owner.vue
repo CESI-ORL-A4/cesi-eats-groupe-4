@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import router from "@/router";
 
-function ownerArticlesPage() {
-  router.push({name: "owner-articles"})
+function ownerProductsPage() {
+  router.push({name: "owner-products"})
 }
 function ownerCommandsPage() {
   router.push({name: "owner-commands"})
@@ -22,7 +22,7 @@ function ownerStatsPage() {
   <div>
     <p><button type="button" class="btn_manage" @click="ownerCommandsPage">Gérer les commandes</button></p><br>
     <p><button type="button" class="btn_manage" @click="ownerMenusPage">Accéder aux menus</button></p>
-    <p><button type="button" class="btn_manage" @click="ownerArticlesPage">Accéder aux articles</button></p><br>
+    <p><button type="button" class="btn_manage" @click="ownerProductsPage">Accéder aux articles</button></p><br>
     <p><button type="button" class="btn_manage" @click="ownerHistoryPage">Voir l'historique des commandes</button></p>
     <p><button type="button" class="btn_manage" @click="ownerStatsPage">Statistiques du restaurant</button></p>
   </div>

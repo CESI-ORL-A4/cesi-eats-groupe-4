@@ -6,7 +6,7 @@ function pushMenuUpdatePage(id: string) {
   router.push({path: `/owner/menus/${id}`})
 }
 function pushMenuAddPage() {
-  router.push({path: `/owner/menus/add`})
+  router.push({name: "owner-menu-add"})
 }
 
 const list_menus = [
