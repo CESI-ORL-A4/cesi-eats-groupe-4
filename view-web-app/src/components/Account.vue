@@ -13,6 +13,10 @@ function ownerPage() {
   router.push({name: "owner"})
 }
 
+function ownerRestaurantInformationPage() {
+  router.push({name: "owner-restaurant-information"})
+}
+
 const role = localStorage.getItem('role');
 const role_basic = "BASIC";
 const role_deliverer = "DELIVERER";
@@ -83,7 +87,7 @@ const restaurant_information = {
         <img height="180" alt="Restaurant" :src="restaurant_information.image">
       </ul>
       <p>
-        <button type="button" class="btn_manage">Modifier les informations de mon restaurant</button>
+        <button type="button" class="btn_manage"  @click="ownerRestaurantInformationPage">Modifier les informations de mon restaurant</button>
       </p>
       <p>
         <button type="button" class="btn_manage" @click="ownerPage">Gérer mon restaurant</button>

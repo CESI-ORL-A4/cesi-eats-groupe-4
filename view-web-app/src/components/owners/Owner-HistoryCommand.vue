@@ -2,7 +2,7 @@
 
 import router from "@/router";
 
-function pushProductShowPage(id: string) {
+function pushCommandShowPage(id: string) {
   router.push({path: `/owner/history-command/${id}`})
 }
 
@@ -50,13 +50,13 @@ const list_history_command = [
     </div>
     <div class="product-wrapper">
       <div class="product-card product-border" :key="history_command" v-for="history_command in list_history_command"
-           @click="pushProductShowPage(history_command.id)">
+           @click="pushCommandShowPage(history_command.id)">
         <h3>Commande n°{{ history_command.id }}</h3>
         <ul>
           <li>Client : {{ history_command.first_name }} {{ history_command.last_name }}</li>
           <li>Adresse : {{ history_command.address }}</li>
           <li>Téléphone : {{ history_command.phone }}</li>
-          <li>Menus :</li>
+          <li>Menu(s) acheté(s) :</li>
           <ul>
           <li>{{ history_command.articles.menu1 }}</li>
           <li>{{ history_command.articles.menu2 }}</li>

@@ -5,7 +5,7 @@ import FormData from "form-data"
 
 const name = ref("");
 const address = ref("");
-const email = ref("");
+const description = ref("");
 const file = ref();
 let filename: string;
 let fileData: any;
@@ -16,9 +16,10 @@ const addRestaurantEvent = async (e) => {
   console.log(fileData);
   formData.append("imageData", fileData);
   formData.append("name", name.value);
-  formData.append("ownerId", email.value);
-  formData.append("imageName", filename);
   formData.append("address", address.value);
+  formData.append("description", address.value);
+  formData.append("imageName", filename);
+
   await addRestaurant(formData);
 }
 
@@ -35,27 +36,27 @@ const onFilePicked = (event) => {
         <table>
           <thead>
           <tr>
-            <th colspan="2"><label>owner</label></th>
+            <th colspan="2"><label>Informations</label></th>
           </tr>
           </thead>
           <tbody>
           <tr>
-            <th><label for="address">address</label></th>
-            <th><input v-model="address" type="text" id="address" name="address"
-                       required="required"></th>
-          </tr>
-          <tr>
-            <th><label>name</label></th>
+            <th><label>Nom</label></th>
             <th><input v-model="name" type="text"
                        required="required"></th>
           </tr>
           <tr>
-            <th><label>email</label></th>
-            <th><input v-model="email" type="email"
+            <th><label for="address">Address</label></th>
+            <th><input v-model="address" type="text"
                        required="required"></th>
           </tr>
           <tr>
-            <th><label>file</label></th>
+            <th><label>Description</label></th>
+            <th><input v-model="description" type="text"
+                       required="required"></th>
+          </tr>
+          <tr>
+            <th><label>Image</label></th>
             <th><input type="file" id="file" ref="file" accept="image/*" v-on:change="onFilePicked" required/></th>
           </tr>
           </tbody>
