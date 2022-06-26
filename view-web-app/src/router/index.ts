@@ -104,9 +104,9 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/owner/history',
-            name: 'owner-history',
-            component: () => import('../views/owners/Owner-HistoryView.vue'),
+            path: '/owner/history-command',
+            name: 'owner-history-command',
+            component: () => import('../views/owners/Owner-HistoryCommandView.vue'),
             /*
             meta: {
                 requiresAuth: true,
