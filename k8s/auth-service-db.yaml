@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service-db-deployment
+  labels:
+    app: auth-service-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service-db
+  template:
+    metadata:
+      labels:
+        app: auth-service-db
+    spec:
+      containers:
+      - name: auth-service-db
+        image: cesieatsimages.azurecr.io/auth-service-db-image
+        ports:
+        - containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: auth-service-db-secret
+              key: mssql-sa-password
+        - name: AUTH_SERVICE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: auth-service-db-secret
+              key : mssql-sa-password
+        command: ["bash", "-c", "./entrypoint.sh"]
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service-db-service
+spec:
+  selector:
+    app: auth-service-db
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
