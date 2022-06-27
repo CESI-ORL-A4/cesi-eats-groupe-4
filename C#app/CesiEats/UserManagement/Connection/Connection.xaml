@@ -28,7 +28,7 @@
   ToolTip="Se connecter"
   Content="Se connecter"
   IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" VerticalAlignment="Top" Width="250" Margin="275,433,275,0" Click="ConnectAsync" Cursor="Hand" />
-        <TextBlock Foreground="Red" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,25,0,0" Height="34" Width="120" FontFamily="Microsoft JhengHei UI" FontSize="16" FontWeight="Normal"><Run Language="fr-fr" Text=""/></TextBlock>
+        <Label HorizontalContentAlignment="Center" Foreground="Red" HorizontalAlignment="Center"  VerticalAlignment="Top" Margin="0,25,0,0" Height="34" Width="460" FontFamily="Microsoft JhengHei UI" FontSize="16" FontWeight="Normal"><Run Language="fr-fr" Text="{Binding userConnection.Errror}"/></Label>
 
     </Grid>
 </Page>

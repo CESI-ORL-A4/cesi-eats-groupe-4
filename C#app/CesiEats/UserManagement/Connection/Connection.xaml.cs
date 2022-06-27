@@ -47,6 +47,9 @@ namespace CesiEats.UserManagement.Connection
 
             string url = "http://localhost:8080/login";
             var data = new FormUrlEncodedContent(values);
+            VM.userConnection.Errror = "Pas de connection";
+            
+
             HttpResponseMessage response = null;
             try
             {
@@ -55,6 +58,7 @@ namespace CesiEats.UserManagement.Connection
             catch
             {
                 VM.userConnection.Errror = "Pas de connection";
+                return;
             }
             
             if (response.IsSuccessStatusCode)
