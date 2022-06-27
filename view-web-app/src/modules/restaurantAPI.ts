@@ -13,6 +13,7 @@ export async function getRestaurantByOwnerId(ownerId:string) {
             return null;
         }
         // Don't forget to return something
+        console.log(response);
         return response.data.restaurant;
     } catch (err) {
         console.error(err);

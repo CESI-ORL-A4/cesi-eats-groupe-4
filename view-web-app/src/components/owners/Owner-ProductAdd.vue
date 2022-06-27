@@ -1,25 +1,23 @@
 <script lang="ts" setup>
-import router from "@/router";
-
-import {ref} from "vue";
 import FormData from "form-data"
 import {addArticle} from "@/modules/articleAPI";
 
-const name = ref("");
-const product_type = ref("");
+const name = "";
+const product_type = "";
 //const file = ref();
 //let filename: string;
 //let fileData: any;
 
+const restaurantId = localStorage.getItem('restaurantId');
 const addProductEvent = async (e) => {
   e.preventDefault();
+  console.log("aa");
+  if(!restaurantId)
+    return;
   const formData = new FormData();
-  //console.log(fileData);
-  //formData.append("imageData", fileData);
-  formData.append("name", name.value);
-  formData.append("product_type", product_type.value);
-  //formData.append("imageName", filename);
-  await addArticle(formData);
+  formData.append("name", name);
+  formData.append("product_type", product_type);
+  await addArticle(restaurantId,formData);
 }
 
 /*
@@ -135,7 +133,7 @@ const list_products = [
         </table>
         <div>
           <br>
-          <button @click="addProductEvent" type="submit" class="btn_add_form">Ajouter</button>
+          <button @click="addProductEvent" class="btn_add_form">Ajouter</button>
         </div>
       </form>
     </div>

@@ -20,10 +20,13 @@ function ownerRestaurantInformationPage() {
 }
 
 onBeforeMount(async () => {
-  const restaurant = await getRestaurantByOwnerId(localStorage.getItem('id'));
-  console.log(restaurant);
-  restaurant_information.value = restaurant;
-  return "";
+    const restaurant = await getRestaurantByOwnerId(localStorage.getItem('id'));
+    console.log(restaurant);
+    if(restaurant){
+      restaurant_information.value = restaurant;
+      console.log(restaurant_information);
+      localStorage.setItem('restaurantId', restaurant._id);
+    }
 });
 
 const role = localStorage.getItem('role');
