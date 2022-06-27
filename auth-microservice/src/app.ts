@@ -20,5 +20,5 @@ app.use(cors());
 app.use("/auth", authRouter);
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running at https://localhost:${port}`);
+  console.log(`[server]: Auth microservice API is running at https://localhost:${port}`);
 });
