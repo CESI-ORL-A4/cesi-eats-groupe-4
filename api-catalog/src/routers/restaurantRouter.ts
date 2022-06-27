@@ -2,12 +2,19 @@ import { Router, Response } from "express";
 import {ReqWithBody,ReqWithParams} from "../types/expressTypes";
 import {
     getRestaurant,
-    restaurantExist, deleteRestaurant,
+    restaurantExist,
+    deleteRestaurant,
     isRestaurantGoodFormat,
-    createRestaurant, getRestaurants, updateRestaurant, isRestaurantUpdateGoodFormat, restaurantExistByIdRestaurant
+    createRestaurant,
+    getRestaurants,
+    updateRestaurant,
+    isRestaurantUpdateGoodFormat,
+    restaurantExistByIdRestaurant,
+    getRestaurantByOwnerId
 } from "../controllers/restaurantController";
 import GetRestaurantPayload from "../types/restaurant/GetRestaurantPayload";
 import {ValidationResult} from "joi";
+import GetRestaurantByOwnerIdPayload from "../types/restaurant/GetRestaurantByOwnerIdPayload";
 const restaurantRouter = Router({mergeParams: true});
 const multer = require('multer');
 const upload = multer();
@@ -56,6 +63,21 @@ restaurantRouter.get("/",
         return res.status(400).json({ error: "error" });
     }
     return res.status(200).json({ status: "Restaurants",restaurants});
+    });
+
+restaurantRouter.get("/ownerId/:ownerId",
+    async (req: ReqWithParams<GetRestaurantByOwnerIdPayload>, res: Response) => {
+        let restaurants;
+        if (!req.params.ownerId)
+            return res.status(400).json({ error: "OwnerId is required" });
+
+        try{
+            restaurants = await getRestaurantByOwnerId(req.params.ownerId);
+        }
+        catch {
+            return res.status(400).json({ error: "error" });
+        }
+        return res.status(200).json({ status: "Restaurants",restaurants});
     });
 
 restaurantRouter.put("/:idRestaurant",

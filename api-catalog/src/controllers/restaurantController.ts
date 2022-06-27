@@ -14,6 +14,10 @@ export async function restaurantExistByIdRestaurant(id: string) {
     return await restaurantModel.count({ _id: id}) >0;
 }
 
+export async function getRestaurantByOwnerId(ownerId: string){
+    return await restaurantModel.findOne({ ownerId: ownerId}).exec();
+}
+
 
 export async function updateRestaurant(payload: any,id:string){
     if(payload.ownerId)
