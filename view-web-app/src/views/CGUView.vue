@@ -4,6 +4,5 @@ import CGU from '@/components/CGU.vue'
 </script>
 
 <template>
-  <Banner/>
   <CGU/>
 </template>

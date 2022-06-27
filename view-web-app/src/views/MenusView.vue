@@ -1,8 +1,14 @@
 <script setup lang="ts">
+import Menu from '@/components/Menu.vue'
 import Banner from '@/components/Banner.vue'
-import Deliverer from '@/components/Deliverer.vue'
 </script>
 
+
 <template>
-  <Deliverer/>
+
+  <Menu/>
 </template>
+
+<style scoped>
+
+</style>

@@ -74,9 +74,9 @@ const router = createRouter({
         },
         {
 
-            path: '/restaurant',
-            name: 'restaurant',
-            component: () => import('../views/RestaurantView.vue'),
+            path: '/restaurants',
+            name: 'restaurants',
+            component: () => import('../views/RestaurantsView.vue'),
             meta: {
                 requiresAuth: true,
                 is_basic: true
@@ -84,9 +84,9 @@ const router = createRouter({
         },
         {
 
-            path: '/menu/:id',
-            name: 'menu',
-            component: () => import('../views/MenuView.vue'),
+            path: '/restaurant/:id',
+            name: 'restaurant',
+            component: () => import('../views/MenusView.vue'),
 
         },
     ]
