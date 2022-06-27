@@ -20,12 +20,13 @@ export async function addRestaurant(form:FormData) {
 
 export async function loginAPI(email: string, password: string) {
     try {
-        const response = await axios.post('http://localhost:8090/login', {
+        //API hors docker : http://localhost:8090/login
+        const response = await axios.post('http://localhost:4000/auth/login', {
             email,
             password
         })
         if (response.status == 200) {
-            localStorage.setItem('jwt', response?.data?.token);
+            localStorage.setItem('jwt', response?.data?.accessToken);
             localStorage.setItem('role', response?.data?.role);
             console.log(response.data)
 

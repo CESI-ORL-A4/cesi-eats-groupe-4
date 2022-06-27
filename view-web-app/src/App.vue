@@ -5,7 +5,6 @@ import Banner from '@/components/Banner.vue'
 </script>
 
 <template>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <Banner />
   <RouterView />
 
