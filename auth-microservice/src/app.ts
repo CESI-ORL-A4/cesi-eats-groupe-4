@@ -1,6 +1,7 @@
 import "dotenv/config"
 
 import bodyParser from "body-parser";
+import cors from "cors";
 import express from "express";
 import authRouter from "./routers/authRouter";
 import setupDB from "./db/setupDB";
@@ -14,6 +15,7 @@ registerRabbitMQListeners();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use("/auth", authRouter);
 
