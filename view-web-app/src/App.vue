@@ -18,6 +18,8 @@ body, html {
 
 #app {
   height: 100%;
+  background-color: #fcfcfc;
+
 }
 
 @font-face {

@@ -1,136 +1,169 @@
 <script setup lang="ts">
-import AddressAutocomplete from "@/components/AddressAutocomplete.vue"
+import AddressAutocomplete from "@/components/AddressAutocomplete.vue";
+
+let selection = "client";
+let dateValue = "";
+let userTypeOptions = [
+    { value: "client", text: "Je suis un client" },
+    { value: "deliverer", text: "Je suis un livreur" },
+    { value: "owner", text: "Je suis un restaurateur" },
+]
 </script>
 
 <template>
-  <div class="positioned" >
-    <form class="form">
-      <table>
-        <thead margin="5px">
-        <tr>
-          <th colspan="2"><label>Inscription</label></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <th><label for="type_user">Vous êtes : </label></th>
-          <th>
-            <div>
-              <input type="radio" id="basic" name="drone" value="basic" checked>
-              <label htmlFor="basic">Un client</label>
-            </div>
-            <div>
-              <input type="radio" id="deliverer" name="drone" value="deliverer">
-              <label htmlFor="deliverer">Un livreur</label>
-            </div>
-            <div>
-              <input type="radio" id="owner" name="drone" value="owner">
-              <label htmlFor="owner">Un restaurateur</label>
-            </div>
-          </th>
-        </tr>
-        <tr>
-          <th><label for="firstName">Prénom </label></th>
-          <th><input type="text" id="firstName" name="firstName" placeholder="Jean" required="required"></th>
-        </tr>
-        <tr>
-          <th><label for="lastName">Nom de famille </label></th>
-          <th><input type="text" id="lastName" name="lastName" placeholder="Martin" required="required"></th>
-        </tr>
-        <tr>
-          <th><label for="phone">Téléphone </label></th>
-          <th><input type="number" id="phone" name="phone" placeholder="0665433883" required="required"></th>
-        </tr>
-        <tr>
-          <th><label for="email">Email </label></th>
-          <th><input type="email" id="email" name="email" placeholder="jean@gmail.com" required="required"></th>
-        </tr>
-        <tr>
-          <th><label for="birthdayDate">Date d'anniversaire </label></th>
-          <th><input type="date" id="birthdayDate" name="birthdayDate" placeholder=" " required="required"></th>
-        </tr>
-        <tr>
-          <th><label for="address" class="control-label">Adresse</label></th>
-          <th id="container">
-            <div class="form-row" id="navi">
-              <div class="form-group col" style="z-index:1100;" id="infoi">
-                <AddressAutocomplete />
-              </div>
-            </div>
-          </th>
-        </tr>
-        <br>
-        <tr>
-          <th><label for="Password">Mot de passe </label></th>
-          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required">
-          </th>
-        </tr>
-        <tr>
-          <th><label for="Password">Confirmer le mot de passe </label></th>
-          <th><input type="password" id="Password" name="Password" placeholder="Password//1234!" required="required">
-          </th>
-        </tr>
-        </tbody>
-      </table>
-      <div>
-        <br>
-        <p><input id="termsOfUses" name="termsOfUses" type="checkbox" required="required">
-          <span>J'accepte les <a href="/cgu" target="_blank">conditions générales d'utilisation</a>.</span>
-        </p>
-<!--        <p><input id="emailOffers" name="emailOffers" type="checkbox">
-          <span>Je souhaite recevoir occasionnellement par email des offres de Cesi Eats.</span></p>
-        <br>-->
-        <button class="btn_sign_up_form">S'inscrire</button>
-      </div>
-
-    </form>
-  </div>
+    <div class="signup-page" >
+        <div class="signup-wrapper">
+            <h2>Inscription</h2>
+            <b-form>
+                <div class="client-type-selector">
+                    <b-form-select v-model="selection" :options="userTypeOptions"></b-form-select>
+                </div>
+                <b-form-row>
+                    <b-col>
+                        <b-form-group
+                            label="Prénom :"
+                            label-for="firstname-input"
+                        >
+                            <b-form-input
+                                id="firstname-input"
+                                placeholder="Jean"
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group
+                            label="Nom :"
+                            label-for="lastname-input"
+                        >
+                            <b-form-input
+                                id="lastname-input"
+                                placeholder="Martin"
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-form-row>
+                <b-form-group
+                    label="Email :"
+                    label-for="email-input"
+                >
+                    <b-form-input
+                        id="email-input"
+                        placeholder="jean@gmail.com"
+                        type="email"
+                        required
+                    >
+                    </b-form-input>
+                </b-form-group>
+                <b-form-row>
+                    <b-col>
+                        <b-form-group
+                            label="Téléphone :"
+                            label-for="phone-input"
+                        >
+                            <b-form-input
+                                id="phone-input"
+                                placeholder="0689387644"
+                                type="phone"
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <label for="birthday-picker">Date d'anniversaire :</label>
+                        <div class="form-datepicker">
+                            <Datepicker/>
+                        </div>
+                    </b-col>
+                </b-form-row>
+                <b-form-group
+                    label="Adresse :"
+                    label-for="address-input"
+                >
+                    <b-form-input
+                        id="address-input"
+                        required
+                    >
+                    </b-form-input>
+                </b-form-group>
+                <b-form-row>
+                    <b-col>
+                        <b-form-group
+                            label="Mot de passe :"
+                            label-for="password-input"
+                        >
+                            <b-form-input
+                                id="password-input"
+                                type="password"
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group
+                            label="Confirmation :"
+                            label-for="password-confirm-input"
+                        >
+                            <b-form-input
+                                id="password-confirm-input"
+                                type="password"
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-form-row>
+                <b-button type="submit" variant="dark">S'inscrire</b-button>
+            </b-form>
+        </div>
+    </div>
 </template>
 
 
 <style scoped>
-.positioned {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.signup-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
 }
 
-.form {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 20px;
+.signup-wrapper {
+    display: flex;
+    flex-direction: column;
 }
 
-thead,
-tfoot {
-  font-size: 35px;
+h2 {
+    margin-bottom: 15px;
 }
 
-tbody {
-  text-align: left;
+.form-line {
+    display: flex;
 }
 
-.btn_sign_up_form {
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 80px;
-  height: 40px;
-  float: right;
-}
-#container {
-  width: 100px;
-  height: 10px;
-  position: relative;
+.top-spacing {
+    margin-top: 10px;
 }
 
-#infoi {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-}
-#infoi {
-  z-index: 1100;
-  border-radius: 100px;
+.spaced-childs {
+    justify-content: space-between;
 }
 
+.spaced-element {
+    margin-left: 20px;
+}
+
+.client-type-selector {
+    margin-bottom: 1rem;
+}
+
+.form-datepicker {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
 </style>
