@@ -1,4 +1,5 @@
-type UpdateMenuPayload = {
+type MenuType = {
+    _id:string;
     name: string|undefined;
     idRestaurant: string|undefined;
     description: string|undefined;
@@ -10,4 +11,4 @@ type UpdateMenuPayload = {
 }
 
 
-export default UpdateMenuPayload;
+export default MenuType;

@@ -1,6 +1,6 @@
 type DeleteMenuPayload = {
     restaurantId: string;
-    articleId: string;
+    menuId: string;
 }
 
 export default DeleteMenuPayload;

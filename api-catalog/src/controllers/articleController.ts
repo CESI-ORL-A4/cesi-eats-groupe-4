@@ -5,6 +5,7 @@ import {uploadImage} from "../image/uploadImage";
 import UploadArticlePayload from "../types/article/UploadArticlePayload";
 import {getRestaurant} from "./restaurantController";
 import UpdateArticlePayload from "../types/article/UpdateArticlePayload";
+import menuUpdateValidator from "../validators/menu/menuUpdateValidator";
 
 
 export async function createArticle(payload: AddArticlePayload,restaurantId:string, file?: any) {
@@ -23,7 +24,7 @@ export async function deleteArticle(restaurantId: string,articleId: string) {
     const restaurant = await getRestaurant(restaurantId);
     const articles= restaurant.articles;
     if (articles)
-        articles.filter(article => article.id !== articleId);
+        articles.filter((article: { id: string; }) => article.id !== articleId);
     await restaurant.save();
     return restaurant;
 }
@@ -38,7 +39,7 @@ export async function updateArticle(restaurantId: string,articleId: string,paylo
     const restaurant = await getRestaurant(restaurantId);
     const articles= restaurant.articles;
     if (articles){
-        let article = articles.find(_article => _article.id == articleId);
+        let article = articles.find((_article: { id: string; }) => _article.id == articleId);
         let linkImage = ""
         if (payload.imageName)
             linkImage = uploadImage(file,payload.imageName);
@@ -54,7 +55,7 @@ export async function getArticle(restaurantId: string,articleId: string) {
     const restaurant = await getRestaurant(restaurantId);
     const articles= restaurant.articles;
     if (articles){
-        return articles.find(article => article.id == articleId);
+        return articles.find((article: { id: string; }) => article.id == articleId);
     }
     return null;
 }
@@ -68,7 +69,7 @@ export async function articleExist(restaurantId: string,articleId: string) {
     const restaurant = await getRestaurant(restaurantId);
     const articles= restaurant.articles;
     if (articles){
-        return !!articles.find(article => article.id == articleId);
+        return !!articles.find((article: { id: string; }) => article.id == articleId);
     }
     return false;
 }

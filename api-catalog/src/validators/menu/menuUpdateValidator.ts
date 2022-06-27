@@ -1,27 +1,26 @@
 const Joi = require('joi');
 
 let menuUpdateValidator = Joi.object({
-    ownerId: Joi.string(),
-    address: Joi.string()
+    idRestaurant: Joi.string()
         .min(1)
         .max(255),
     name: Joi.string()
         .min(1)
-        .max(100)
-        .required(),
+        .max(100),
+    price: Joi.string()
+        .min(1)
+        .max(100),
+    currency: Joi.string()
+        .min(1)
+        .max(100),
     description: Joi.string()
         .min(1)
         .max(255),
     imageName: Joi.string()
         .min(1)
         .max(255),
-    imageData: Joi.object(),
-    imageLink: Joi.string()
-        .min(1)
-        .max(255),
+    imageData: Joi.any(),
 
 });
 
-//TODO à faire
-
-//export default articleUpdateValidator;
+export default menuUpdateValidator;

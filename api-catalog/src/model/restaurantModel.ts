@@ -25,7 +25,7 @@ const restaurantSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    articles: [articleSchema],
+    articles: [],
     menu: [menuSchema]
 });
 

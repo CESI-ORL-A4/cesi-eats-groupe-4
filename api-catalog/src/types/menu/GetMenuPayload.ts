@@ -1,6 +1,6 @@
 type GetMenuPayload = {
     restaurantId: string;
-    articleId: string;
+    menuId: string;
 }
 
 export default GetMenuPayload;

@@ -34,24 +34,24 @@ menuRouter.post("/",upload.single('imageData'),
 });
 
 
-menuRouter.get("/:menuId",(req: ReqWithParams<GetMenuPayload>, res: Response) => {
+menuRouter.get("/:menuId",async (req: ReqWithParams<GetMenuPayload>, res: Response) => {
     const payload = req.params;
     const restaurantId = req.params?.restaurantId;
     const menuId = req.params?.menuId;
     console.log("get menu ");
     console.log(payload);
     if (!menuId || !restaurantId) {
-        return res.status(400).json({ error: "Restaurant or Menu ID missing" });
+        return res.status(400).json({error: "Restaurant or Menu ID missing"});
     }
     if (!await restaurantExistByIdRestaurant(restaurantId)) {
-        return res.status(400).json({ error: "Restaurant does not exist" });
+        return res.status(400).json({error: "Restaurant does not exist"});
     }
-    if (await menuExist(restaurantId,menuId)) {
-        return res.status(200).json({ status: "Menu exist",menu:await getMenu(restaurantId,menuId)});
+    if (await menuExist(restaurantId, menuId)) {
+        return res.status(200).json({status: "Menu exist", menu: await getMenu(restaurantId, menuId)});
+    } else {
+        return res.status(400).json({error: "Menu does not exist"});
     }
-    else{
-        return res.status(400).json({ error: "Menu does not exist" });
-    }});
+});
 
 menuRouter.get("/",
     async (req: ReqWithParams<GetMenusPayload>, res: Response) => {

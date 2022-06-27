@@ -38,22 +38,25 @@ articleRouter.post("/",upload.single('imageData'),
 });
 
 
-articleRouter.get("/:articleId",(req: ReqWithParams<GetArticlePayload>, res: Response) => {
+articleRouter.get("/:articleId",async (req: ReqWithParams<GetArticlePayload>, res: Response) => {
     const payload = req.params;
     console.log("get article ");
     console.log(payload);
     if (!payload.articleId || !payload.restaurantId) {
-        return res.status(400).json({ error: "Restaurant or Article ID missing" });
+        return res.status(400).json({error: "Restaurant or Article ID missing"});
     }
     if (!await restaurantExistByIdRestaurant(payload.restaurantId)) {
-        return res.status(400).json({ error: "Restaurant does not exist" });
+        return res.status(400).json({error: "Restaurant does not exist"});
     }
-    if (await articleExist(payload.restaurantId,payload.articleId)) {
-        return res.status(200).json({ status: "Article exist",article:await getArticle(payload.restaurantId,payload.articleId)});
+    if (await articleExist(payload.restaurantId, payload.articleId)) {
+        return res.status(200).json({
+            status: "Article exist",
+            article: await getArticle(payload.restaurantId, payload.articleId)
+        });
+    } else {
+        return res.status(400).json({error: "Article does not exist"});
     }
-    else{
-        return res.status(400).json({ error: "Article does not exist" });
-    }});
+});
 
 articleRouter.get("/",
     async (req: ReqWithParams<GetArticlesPayload>, res: Response) => {
