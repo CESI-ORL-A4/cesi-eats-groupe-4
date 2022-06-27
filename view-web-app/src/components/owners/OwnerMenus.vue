@@ -63,11 +63,25 @@ const list_menus = [
       <div><p><button type="button" class="btn_manage" @click="pushMenuAddPage">Ajouter un menu</button></p><br></div>
     </div>
     <div class="menu-wrapper">
-      <div class="menu-card menu-border" :key="menu" v-for="menu in list_menus"
+      <div class="menu-card" :key="menu" v-for="menu in list_menus"
            @click="pushMenuUpdatePage(menu.id)">
-        <p>{{ menu.name }} - {{ menu.price }}</p>
-        <img height="180" alt="Menu" :src="menu.image">
-        <center><p><button type="button" class="btn_update_menu">Modifier / Supprimer le menu</button></p></center>
+        <div>
+          <b-card
+              title="Card Title"
+              :img-src="menu.image"
+              :img-alt="menu.name"
+              img-top
+              tag="article"
+              style="max-width: 20rem;"
+              class="mb-2"
+          >
+            <b-card-text>
+              {{ menu.name }} - {{ menu.price }}
+            </b-card-text>
+
+            <b-button href="#" variant="warning">Modifier / Supprimer le menu</b-button>
+          </b-card>
+        </div>
       </div>
     </div>
   </div>
@@ -87,13 +101,6 @@ const list_menus = [
   height: 43px;
 }
 
-.btn_update_menu {
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 200px;
-  height: 43px;
-}
-
 .menu-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -101,13 +108,8 @@ const list_menus = [
 }
 
 .menu-card {
-  margin-left: 20px;
-}
-
-.menu-border {
-  border: 1px solid black;
+  margin-left: 30px;
   margin-top: 20px;
-  padding: 20px;
+  padding: 10px;
 }
-
 </style>

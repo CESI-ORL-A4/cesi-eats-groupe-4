@@ -4,28 +4,19 @@ import {addArticle} from "@/modules/articleAPI";
 
 const name = "";
 const product_type = "";
-//const file = ref();
-//let filename: string;
-//let fileData: any;
 
 const restaurantId = localStorage.getItem('restaurantId');
 const addProductEvent = async (e) => {
   e.preventDefault();
   console.log("aa");
-  if(!restaurantId)
+  if (!restaurantId)
     return;
   const formData = new FormData();
   formData.append("name", name);
   formData.append("product_type", product_type);
-  await addArticle(restaurantId,formData);
+  await addArticle(restaurantId, formData);
 }
 
-/*
-const onFilePicked = (event) => {
-  fileData = event.target.files[0];
-  filename = fileData.name;
-}
-*/
 
 const list_products = [
   {

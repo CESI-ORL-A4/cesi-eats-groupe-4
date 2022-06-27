@@ -1,30 +1,32 @@
 <script lang="ts" setup>
-import router from "@/router";
-
-import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
 import FormData from "form-data"
+import {addMenu} from "@/modules/menuAPI";
+import {addArticle} from "@/modules/articleAPI";
 
-const name = ref("");
-const description = ref("");
-const products = ref("");
-const price = ref("");
-const file = ref();
+const name = "";
+const description = "";
+const products = "";
+const price = "";
+const file = "";
 let filename: string;
 let fileData: any;
 
+const restaurantId = localStorage.getItem('restaurantId');
 const addMenuEvent = async (e) => {
   e.preventDefault();
+  if (!restaurantId)
+    return;
   const formData = new FormData();
   console.log(fileData);
   formData.append("imageData", fileData);
-  formData.append("name", name.value);
-  formData.append("description", description.value);
-  formData.append("products", products.value);
-  formData.append("price", price.value);
+  formData.append("name", name);
+  formData.append("description", description);
+  formData.append("products", products);
+  formData.append("price", price);
   formData.append("imageName", filename);
-  await addRestaurant(formData);
+  await addArticle(restaurantId, formData);
 }
+
 
 const onFilePicked = (event) => {
   fileData = event.target.files[0];
@@ -127,7 +129,7 @@ const list_products = [
           </tr>
           <tr>
             <th><label>Prix (en €)</label></th>
-            <th><input v-model="price" type="number" step="0.01"  placeholder="8,50" required="required"></th>
+            <th><input v-model="price" type="number" step="0.01" placeholder="8,50" required="required"></th>
           </tr>
           <tr>
             <th><label>Image</label></th>
