@@ -42,7 +42,7 @@ export async function createRestaurant(payload: AddRestaurantPayload, file?: any
     let linkImage = ""
     if (payload.imageName)
         linkImage = uploadImage(file,payload.imageName);
-    let newRestaurant:UploadRestaurantPayload = {name: payload.name,description:payload.description,address:payload.address,ownerId:payload.ownerId,imageLink: linkImage};
+    let newRestaurant:UploadRestaurantPayload = {name: payload.name,description:payload.description,address:payload.address,ownerId:payload.ownerId,image: linkImage};
     const restaurant = new restaurantModel(newRestaurant)
     await restaurant.save();
     return restaurant;
