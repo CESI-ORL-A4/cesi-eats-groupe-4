@@ -20,9 +20,12 @@ function homePage() {
   {
     router.push({name: "home"})
   }
-  else if(role == "BASIC")
+  else if(role == "TECHNIC")
   {
-    router.push({name: "restaurant"})
+    router.push({name: "restaurants"})
+  }
+  else{
+    router.push({name: "home"})
   }
 
 }

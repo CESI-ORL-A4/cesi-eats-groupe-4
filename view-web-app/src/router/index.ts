@@ -169,8 +169,7 @@ const router = createRouter({
             name: 'restaurants',
             component: () => import('../views/RestaurantsView.vue'),
             meta: {
-                requiresAuth: true,
-                is_basic: true
+                guest: true
             }
         },
         {

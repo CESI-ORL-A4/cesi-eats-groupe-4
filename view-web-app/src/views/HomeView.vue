@@ -7,7 +7,6 @@ import Restaurant from '@/components/Restaurant.vue'
 
 <template>
   <Home/>
-  <Restaurant/>
 </template>
 
 <style scoped>
