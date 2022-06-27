@@ -39,7 +39,7 @@ export async function getRestaurants() {
 }
 
 export async function createRestaurant(payload: AddRestaurantPayload, file?: any) {
-    let linkImage = ""
+    let linkImage = "";
     if (payload.imageName)
         linkImage = await uploadImage(file, payload.imageName);
     let newRestaurant:UploadRestaurantPayload = {name: payload.name,description:payload.description,address:payload.address,ownerId:payload.ownerId,image: linkImage};

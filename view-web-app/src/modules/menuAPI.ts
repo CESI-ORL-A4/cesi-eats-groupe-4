@@ -54,7 +54,7 @@ export async function deleteMenu(restaurantsId:string,menuId:string) {
     }
 }
 
-export async function addMenu(restaurantsId:string,menuId:string,form:FormData) {
+export async function addMenu(restaurantsId:string,form:FormData) {
     try {
         const response = await axios.post('http://localhost:8080/catalog/restaurants'+restaurantsId+"/menus/",form, {
             headers: {

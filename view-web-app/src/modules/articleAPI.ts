@@ -54,7 +54,7 @@ export async function deleteArticle(restaurantsId:string,articleId:string) {
     }
 }
 
-export async function addArticle(restaurantsId:string,articleId:string,form:FormData) {
+export async function addArticle(restaurantsId:string,form:FormData) {
     try {
         const response = await axios.post('http://localhost:8080/catalog/restaurants'+restaurantsId+"/articles/",form, {
             headers: {
