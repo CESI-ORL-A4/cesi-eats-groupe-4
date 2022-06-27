@@ -1,46 +1,48 @@
 <script setup lang="ts">
 import {ref} from "vue";
 
-let showModal = ref(false);
+let showPopup = ref(false);
 
 function btn_add_cart(id: string){
-  showModal.value = false;
+  showPopup.value = false;
   console.log(id);
 }
+
+
 
 const props = defineProps({
   menu:{}
 })
 </script>
 
+
 <template>
-  <div>
-    <button class="button btn_menu" @click="showModal = true">
+  <div id="app">
+    <button class="button" @click="showPopup = true">
       Voir
     </button>
     <transition name="fade" appear>
-      <div class="modal-overlay" v-if="showModal" @click="showModal = false"></div>
+      <div class="popup-overlay" v-if="showPopup" @click="showPopup = false"></div>
     </transition>
     <transition name="slide" appear>
-      <div class="modal" v-if="showModal">
-        <div></div>
-        <img alt="menu" :src="menu.image">
+      <div class="popup" v-if="showPopup">
+        <img class="image_popup" alt="menu" :src="menu.image"/>
         <h1>{{menu.name}}</h1>
         <p>{{menu.description}}</p>
+        <p>{{menu.price}}</p>
         <ul>
           <li>Article : </li>
           <ul>
-            <li :key="article" v-for="article in menu.articles" class="article_name"> {{article.name}}</li>
+            <li :key="article" v-for="article in menu.articles">{{article.name}}</li>
           </ul>
         </ul>
-        <p>{{menu.price}}</p>
-        <div class="space">
-          <button class="button" @click="showModal = false">
-            Quitter
-          </button>
-          <button class="button"  @click="btn_add_cart(menu.id)">
-            Ajouter au panier
-          </button>
+        <div class="flex_btn">
+        <button class="btn_cancel" @click="showPopup = false">
+          Quitter
+        </button>
+        <button class="btn_cart" @click="btn_add_cart(menu.id)">
+          Ajouter au panier
+        </button>
         </div>
       </div>
     </transition>
@@ -50,31 +52,26 @@ const props = defineProps({
 
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+.image_popup{
+  height: 230px;
+  border-radius: 100px;
 }
 
-body {
-  font-family: 'montserrat', sans-serif;
-}
-
-#app {
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-.space{
+.flex_btn{
   display: flex;
   justify-content: space-between;
 }
+
+.btn_cart{
+  background-color: #F6F6F6;
+  float: right;
+}
+
+img{
+  height: 310px;
+}
+
 .button {
   appearance: none;
   outline: none;
@@ -83,10 +80,11 @@ body {
   cursor: pointer;
 
   display: inline-block;
-  background-image: linear-gradient(to right, #CC2E5D, #FF5858);
+  padding: 15px 25px;
+  background-image: linear-gradient(to left, #000000, #22780F);
   border-radius: 8px;
 
-  color: #FFF;
+  color: Black;
   font-size: 18px;
   font-weight: 700;
 
@@ -98,7 +96,7 @@ body {
  }
 }
 
-.modal-overlay {
+.popup-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -108,29 +106,28 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.modal {
+.popup {
   position: fixed;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
-
   width: 100%;
   max-width: 400px;
-  background-color: #FFF;
+  background-color: white;
   border-radius: 16px;
 
   padding: 25px;
 
 h1 {
-  color: #222;
+  color: white;
   font-size: 32px;
   font-weight: 900;
   margin-bottom: 15px;
 }
 
 p {
-  color: #666;
+  color: #ffffff;
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 15px;
@@ -155,17 +152,5 @@ p {
 .slide-enter,
 .slide-leave-to {
   transform: translateY(-50%) translateX(100vw);
-}
-.btn_menu{
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 80px;
-  height: 40px;
-  float: right;
-  margin-top: -27px;
-}
-
-img{
-  height: 130px;
 }
 </style>

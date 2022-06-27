@@ -178,7 +178,9 @@ const router = createRouter({
             path: '/restaurant/:id',
             name: 'restaurant',
             component: () => import('../views/MenusView.vue'),
-
+            meta: {
+                guest: true
+            },
         },
     ]
 })

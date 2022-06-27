@@ -8,7 +8,7 @@ const list_menus = [
     description: "Tacos triple cordon bleu.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "6,50 €",
-    article: [
+    articles: [
       {name: "Coca-cola"},
       {name: "Kebab Jambon"},
       {name: "Glace Vanille"},
@@ -20,7 +20,7 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "7,50 €",
-    article: [
+    articles: [
       {name: "Coca-cola"},
       {name: "Kebab Jambon"},
       {name: "Glace Vanille"},
@@ -32,7 +32,7 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "8,50 €",
-    article: [
+    articles: [
       {name: "Coca-cola"},
       {name: "Kebab Jambon"},
       {name: "Glace Vanille"},
@@ -44,7 +44,7 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "9,50 €",
-    article: [
+    articles: [
       {name: "Coca-cola"},
       {name: "Kebab Jambon"},
       {name: "Glace Vanille"},
@@ -56,7 +56,7 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "9,00 €",
-    article: [
+    articles: [
       {name: "Coca-cola"},
       {name: "Kebab Jambon"},
       {name: "Glace Vanille"},
