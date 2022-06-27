@@ -114,6 +114,7 @@ p {
   align-self: center;
   color: white;
   margin: 0;
+  cursor: pointer;
 }
 
 .header-title span {
