@@ -87,9 +87,37 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
+  # =============== ORDER MICROSERVICE ===============
+  order-service-db:
+    container_name: order-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${ORDER_SERVICE_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${ORDER_SERVICE_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${ORDER_SERVICE_DB_NAME}
+    volumes:
+      - ./order-microservice/mongo/data:/data/db
+    networks:
+      - order-microservice-network
+  order-service-api:
+    container_name: order-service-api
+    build:
+      context: ./order-microservice
+    env_file:
+        - .env
+    depends_on:
+      - order-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - order-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
 
 networks:
   rabbitmq-network:
   app-api-network:
   auth-microservice-network:
   user-microservice-network:
+  order-microservice-network:

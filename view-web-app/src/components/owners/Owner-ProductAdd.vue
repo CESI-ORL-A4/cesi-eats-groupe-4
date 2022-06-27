@@ -2,8 +2,8 @@
 import router from "@/router";
 
 import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
 import FormData from "form-data"
+import {addArticle} from "@/modules/articleAPI";
 
 const name = ref("");
 const product_type = ref("");
@@ -19,7 +19,7 @@ const addProductEvent = async (e) => {
   formData.append("name", name.value);
   formData.append("product_type", product_type.value);
   //formData.append("imageName", filename);
-  await addRestaurant(formData);
+  await addArticle(formData);
 }
 
 /*

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
+import {addRestaurant} from "@/modules/restaurantAPI";
 import FormData from "form-data"
 
 const name = ref("");
@@ -17,8 +17,10 @@ const addRestaurantEvent = async (e) => {
   formData.append("imageData", fileData);
   formData.append("name", name.value);
   formData.append("address", address.value);
-  formData.append("description", address.value);
-  formData.append("imageName", filename);
+  formData.append("description", description.value);
+  if(filename)
+    formData.append("imageName", filename);
+  formData.append("ownerId", localStorage.getItem('id'));
 
   await addRestaurant(formData);
 }
