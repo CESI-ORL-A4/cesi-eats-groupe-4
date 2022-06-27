@@ -23,7 +23,7 @@ export async function updateRestaurant(payload: any,id:string){
     if(payload.ownerId)
         ({ ownerId: payload.ownerId, ...payload } = payload);
     if (payload.imageName && payload.imageData){
-        const linkImage = uploadImage(payload.imageData,payload.imageName);
+        const linkImage = await uploadImage(payload.imageData,payload.imageName);
         ({ imageData: payload.imageData,imageName: payload.imageName, ...payload } = payload);
         payload.linkImage = linkImage;
     }
@@ -41,7 +41,7 @@ export async function getRestaurants() {
 export async function createRestaurant(payload: AddRestaurantPayload, file?: any) {
     let linkImage = ""
     if (payload.imageName)
-        linkImage = uploadImage(file,payload.imageName);
+        linkImage = await uploadImage(file, payload.imageName);
     let newRestaurant:UploadRestaurantPayload = {name: payload.name,description:payload.description,address:payload.address,ownerId:payload.ownerId,image: linkImage};
     const restaurant = new restaurantModel(newRestaurant)
     await restaurant.save();

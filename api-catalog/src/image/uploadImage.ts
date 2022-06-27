@@ -15,18 +15,15 @@ const s3 = new AWS.S3({
     secretAccessKey: SECRET
 });
 
-export const uploadImage = (data: any, imageName: string): string => {
+export const uploadImage = async (data: any, imageName: string):Promise<string> => {
     const params = {
         Bucket: BUCKET_NAME,
         Key: imageName,
         Body: data,
         ACL: 'public-read',
     };
-    s3.upload(params, function (s3Err: any, data: { Location: any; }) {
-        if (s3Err)
-            return "";
-        console.log(`File uploaded successfully at ${data.Location}`);
-        return data.Location;
-    });
-    return "";
+    const result = await s3.upload(params).promise();
+    console.log(result);
+    console.log(`File uploaded successfully at ${result.Location}`);
+    return result.Location;
 };

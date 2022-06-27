@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import router from "@/router";
+import {onBeforeMount, ref} from "vue";
+import {getRestaurantByOwnerId} from "@/modules/restaurantAPI";
 
 function basicPage() {
   router.push({name: "basic"})
@@ -17,11 +19,20 @@ function ownerRestaurantInformationPage() {
   router.push({name: "owner-restaurant-information"})
 }
 
+onBeforeMount(async () => {
+  const restaurant = await getRestaurantByOwnerId(localStorage.getItem('id'));
+  console.log(restaurant);
+  restaurant_information.value = restaurant;
+  return "";
+});
+
 const role = localStorage.getItem('role');
 const role_basic = "BASIC";
 const role_deliverer = "DELIVERER";
 const role_owner = "OWNER";
 
+
+const restaurant_information = ref({});
 const account_information = {
   first_name: "Anthime",
   last_name: "Didi",
@@ -32,7 +43,7 @@ const account_information = {
   password: "********",
   sponsorship_code: "D54P9POX12",
 };
-const restaurant_information = {
+const restaurant_information_bis = {
   name: "Bunny's",
   address: "5 Av. de la Bolière à Orléans",
   description: "Kebabier de père en fils !",
