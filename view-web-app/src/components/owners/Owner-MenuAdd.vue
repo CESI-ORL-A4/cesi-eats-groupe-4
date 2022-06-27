@@ -2,7 +2,7 @@
 import router from "@/router";
 
 import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
+import {addMenu} from "@/modules/menuAPI";
 import FormData from "form-data"
 
 const name = ref("");
@@ -23,7 +23,7 @@ const addMenuEvent = async (e) => {
   formData.append("products", products.value);
   formData.append("price", price.value);
   formData.append("imageName", filename);
-  await addRestaurant(formData);
+  await addMenu(formData);
 }
 
 const onFilePicked = (event) => {

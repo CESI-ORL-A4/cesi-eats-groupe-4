@@ -1,36 +1,3 @@
-<template>
-  <div>
-    <div class="positioned">
-      <form class="form">
-        <table>
-          <thead>
-          <tr>
-            <th colspan="2"><label>Connexion</label></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th><label for="Email">Email</label></th>
-            <th><input v-model="email" type="email" id="Email" name="Email" placeholder="jeans@gmail.com"
-                       required="required"></th>
-          </tr>
-          <tr>
-            <th><label for="Password">Mot de passe </label></th>
-            <th><input v-model="password" type="password" id="Password" name="Password" placeholder="**********"
-                       required="required"></th>
-          </tr>
-          </tbody>
-        </table>
-        <div>
-          <br>
-          <button @click="login" type="submit" class="btn_sign_in_form">Se connecter</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
-
-
 <script lang="ts" setup>
 import {ref} from "vue";
 import {loginAPI} from "@/modules/identify";
@@ -58,34 +25,62 @@ const login = (e) => {
 </script>
 
 
+<template>
+  <div class="signin-page">
+    <div class="signin-wrapper">
+      <h2>Connexion</h2>
+      <b-form>
+        <b-form-group
+            label="Email :"
+            label-for="email-input"
+        >
+          <b-form-input
+              v-model="email"
+              id="email-input"
+              placeholder="jean@gmail.com"
+              type="email"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+            label="Mot de passe :"
+            label-for="password-input"
+        >
+          <b-form-input
+              v-model="password"
+              id="password-input"
+              placeholder="VotreMotDePasse"
+              type="password"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-button @click="login" variant="dark">Se connecter</b-button>
+      </b-form>
+    </div>
+  </div>
+</template>
+
+
+
+
+
 <style scoped>
-.positioned {
+.signin-page {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 40px;
 }
 
-.form {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 20px;
+.signin-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
-thead,
-tfoot {
-  font-size: 35px;
-}
-
-tbody {
-  text-align: left;
-}
-
-.btn_sign_in_form {
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 100px;
-  height: 40px;
-  float: right;
+h2 {
+  margin-bottom: 15px;
 }
 
 </style>
