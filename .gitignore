@@ -5,3 +5,5 @@ node_modules/
 .idea/
 .env
 swagger_output.json
+.vs/
+.vs/*
