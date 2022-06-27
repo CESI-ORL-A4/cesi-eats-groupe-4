@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Modal from '@/components/Modal.vue'
 
 const list_menus = [
   {
@@ -7,6 +8,11 @@ const list_menus = [
     description: "Tacos triple cordon bleu.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "6,50 €",
+    article: [
+      {name: "Coca-cola"},
+      {name: "Kebab Jambon"},
+      {name: "Glace Vanille"},
+    ],
   },
   {
     id: "2",
@@ -14,6 +20,11 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "7,50 €",
+    article: [
+      {name: "Coca-cola"},
+      {name: "Kebab Jambon"},
+      {name: "Glace Vanille"},
+    ],
   },
   {
     id: "3",
@@ -21,6 +32,11 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "8,50 €",
+    article: [
+      {name: "Coca-cola"},
+      {name: "Kebab Jambon"},
+      {name: "Glace Vanille"},
+    ],
   },
   {
     id: "4",
@@ -28,6 +44,11 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "9,50 €",
+    article: [
+      {name: "Coca-cola"},
+      {name: "Kebab Jambon"},
+      {name: "Glace Vanille"},
+    ],
   },
   {
     id: "5",
@@ -35,13 +56,23 @@ const list_menus = [
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "9,00 €",
+    article: [
+      {name: "Coca-cola"},
+      {name: "Kebab Jambon"},
+      {name: "Glace Vanille"},
+    ],
   },
   {
     id: "6",
-    name: "Sandwiche",
+    name: "Sandwich",
     description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
     price: "8,00 €",
+    article: [
+      {name: "Coca-cola"},
+      {name: "Kebab Jambon"},
+      {name: "Glace Vanille"},
+    ],
   },
 ];
 
@@ -54,12 +85,14 @@ const list_menus = [
       <h3>Nos Menus : </h3>
     </div>
 
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" >
       <div class="menu-card menu-border"   :key="menu"  v-for="menu in list_menus" >
         <img alt="menu" :src="menu.image">
         <h1>{{menu.name}}</h1>
         <p>{{menu.price}}</p>
-        <button type="button" class="btn_menu" >Voir</button>
+        <div>
+          <Modal :menu="menu"/>
+        </div>
       </div>
     </div>
   </div>
@@ -72,14 +105,7 @@ const list_menus = [
   padding-left: 50px;
 }
 
-.btn_menu{
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 80px;
-  height: 40px;
-  float: right;
-  margin-top: -45px;
-}
+
 
 .menu-wrapper {
   display: flex;
@@ -99,4 +125,10 @@ const list_menus = [
 img{
   height: 130px;
 }
+
+.article_name{
+  margin-left: 20px;
+}
+
+
 </style>
