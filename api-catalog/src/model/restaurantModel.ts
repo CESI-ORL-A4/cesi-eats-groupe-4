@@ -1,3 +1,4 @@
+import { string } from "joi";
 import articleSchema from "./articleModel";
 import menuSchema from "./menuModel";
 
@@ -26,7 +27,7 @@ const restaurantSchema = new mongoose.Schema({
         required: false,
     },
     articles: [],
-    menu: [menuSchema]
+    menus: []
 });
 
 export default mongoose.model('restaurant', restaurantSchema);

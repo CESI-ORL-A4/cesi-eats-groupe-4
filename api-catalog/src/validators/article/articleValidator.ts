@@ -3,8 +3,7 @@ const Joi = require('joi');
 let articleValidator = Joi.object({
     idRestaurant: Joi.string()
         .min(1)
-        .max(255)
-        .required(),
+        .max(255),
     name: Joi.string()
         .min(1)
         .max(100)
@@ -22,10 +21,6 @@ let articleValidator = Joi.object({
     type: Joi.string()
         .min(1)
         .max(255),
-    imageName: Joi.string()
-        .min(1)
-        .max(255),
-    imageData: Joi.any(),
 
 });
 export default articleValidator;

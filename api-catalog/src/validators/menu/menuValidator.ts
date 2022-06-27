@@ -1,10 +1,6 @@
 const Joi = require('joi');
 
 let menuValidator = Joi.object({
-    idRestaurant: Joi.string()
-        .min(1)
-        .max(255)
-        .required(),
     name: Joi.string()
         .min(1)
         .max(100)
@@ -15,8 +11,7 @@ let menuValidator = Joi.object({
         .required(),
     currency: Joi.string()
         .min(1)
-        .max(100)
-        .required(),
+        .max(100),
     description: Joi.string()
         .min(1)
         .max(255),
@@ -24,6 +19,7 @@ let menuValidator = Joi.object({
         .min(1)
         .max(255),
     imageData: Joi.any(),
+    articles: Joi.array().required(),
 
 });
 export default menuValidator;

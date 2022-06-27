@@ -12,13 +12,6 @@ let articleUpdateValidator = Joi.object({
     description: Joi.string()
         .min(1)
         .max(255),
-    imageName: Joi.string()
-        .min(1)
-        .max(255),
-    imageData: Joi.object(),
-    imageLink: Joi.string()
-        .min(1)
-        .max(255),
 
 });
 

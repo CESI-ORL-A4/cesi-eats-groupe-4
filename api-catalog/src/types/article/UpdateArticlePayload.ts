@@ -1,8 +1,9 @@
+import mongoose from "mongoose";
+
 type UpdateArticlePayload = {
-    ownerId: string|undefined;
     name: string|undefined;
     address: string|undefined;
-    id: string|undefined;
+    _id: mongoose.Types.ObjectId|undefined;
     description: string|undefined;
     imageName: string|undefined;
     imageData: {}|undefined;

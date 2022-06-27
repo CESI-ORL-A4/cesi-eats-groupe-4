@@ -23,7 +23,7 @@ export async function updateRestaurant(payload: any,id:string){
         ({ imageData: payload.imageData,imageName: payload.imageName, ...payload } = payload);
         payload.linkImage = linkImage;
     }
-    return await restaurantModel.updateOne({ _id: id }, payload);
+    return await restaurantModel.updateOne({ _id: id }, payload).exec();
 }
 
 export async function getRestaurant(id: string) {

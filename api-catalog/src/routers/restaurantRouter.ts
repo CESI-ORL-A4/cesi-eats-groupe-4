@@ -8,7 +8,7 @@ import {
 } from "../controllers/restaurantController";
 import GetRestaurantPayload from "../types/restaurant/GetRestaurantPayload";
 import {ValidationResult} from "joi";
-const restaurantRouter = Router();
+const restaurantRouter = Router({mergeParams: true});
 const multer = require('multer');
 const upload = multer();
 

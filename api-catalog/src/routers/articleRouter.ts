@@ -3,24 +3,24 @@ import {ReqWithBody,ReqWithParams} from "../types/expressTypes";
 import {
     articleExist,
     createArticle, getArticle, getArticles,
-    isArticleGoodFormat, deleteArticle, isArticleUpdateGoodFormat, updateArticle
+    isArticleGoodFormat, deleteArticle, isArticleUpdateGoodFormat, updateArticle, isArticleDeletable
 } from "../controllers/articleController";
 import GetArticlePayload from "../types/article/GetArticlePayload";
 import {getRestaurant, restaurantExistByIdRestaurant} from "../controllers/restaurantController";
 import GetArticlesPayload from "../types/article/GetArticlesPayload";
 import DeleteArticlePayload from "../types/article/DeleteArticlePayload";
-const articleRouter = Router();
-const multer = require('multer');
-const upload = multer();
+const articleRouter = Router({mergeParams: true});
 
 
-articleRouter.post("/",upload.single('imageData'),
+articleRouter.post("/",
     async (req: any, res: Response) => {
-        const payload = req.body;
-        const restaurantId = req.params.idRestaurant;
+        const payload = JSON.parse(JSON.stringify(req.body));
+        const restaurantId = req.params.restaurantId;
         console.log("Create article");
         const testFormatted = isArticleGoodFormat(payload);
-        console.log(testFormatted);
+        console.log(payload);
+        if (!payload)
+            return res.status(400).json({error:"No Body"});
         if (!testFormatted.error)
         {
             if (!restaurantId)
@@ -29,7 +29,7 @@ articleRouter.post("/",upload.single('imageData'),
                 return res.status(400).json({error:"restaurant doesn't exist'"});
             if (!payload.currency)
                 payload.currency = "€";
-            const addedArticle = await createArticle(payload,restaurantId,req.file?.buffer);
+            const addedArticle = await createArticle(payload,restaurantId);
             return res.status(201).json({status: "Article registered", article: addedArticle});
         }
         else{
@@ -61,17 +61,20 @@ articleRouter.get("/:articleId",async (req: ReqWithParams<GetArticlePayload>, re
 articleRouter.get("/",
     async (req: ReqWithParams<GetArticlesPayload>, res: Response) => {
     const payload = req.params;
-    let articles;
+        console.log(req);
+        console.log(payload);
+        let articles;
     try{
         articles = await getArticles(payload.restaurantId);
     }
-    catch {
+    catch (e:any){
+        console.log(e.message);
         return res.status(400).json({ error: "error" });
     }
     return res.status(200).json({ status: "Articles",articles});
     });
 
-articleRouter.put("/:articleId",upload.single('imageData'),
+articleRouter.put("/:articleId",
     async (req: any, res: Response) => {
         const payload = req.body;
         const restaurantId = req.params?.restaurantId;
@@ -88,7 +91,7 @@ articleRouter.put("/:articleId",upload.single('imageData'),
             {
                 if (!payload.currency)
                     payload.currency = "€";
-                const addedUser = await updateArticle(restaurantId,articleId,req.file?.buffer);
+                const addedUser = await updateArticle(restaurantId,articleId,payload);
                 return res.status(201).json({status: "Article registered", Article: addedUser});
             }
             else{
@@ -109,10 +112,10 @@ articleRouter.delete("/:articleId",
         }
         if (!await restaurantExistByIdRestaurant(payload.restaurantId)) {
             return res.status(400).json({ error: "Restaurant does not exist" });
-        }/*
+        }
         if (!await isArticleDeletable(payload.restaurantId,payload.articleId)) {
-            return res.status(400).json({ error: "Restaurant does not exist" });
-        }*/
+            return res.status(400).json({ error: "Article exists in menu" });
+        }
         if (await getArticle(payload.restaurantId,payload.articleId)) {
             return res.status(200).json({ status: "Article delete",user:await deleteArticle(payload.restaurantId,payload.articleId)});
         }

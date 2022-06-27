@@ -1,5 +1,7 @@
+import {Types} from "mongoose";
+
 type AddArticlePayload = {
-    restaurantId: string;
+    _id: Types.ObjectId|undefined;
     name: string;
     type: string;
     price: string|undefined;

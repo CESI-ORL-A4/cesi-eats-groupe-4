@@ -1,3 +1,5 @@
+import ArticleType from "../article/ArticleType";
+
 type MenuType = {
     _id:string;
     name: string|undefined;
@@ -6,8 +8,9 @@ type MenuType = {
     imageName: string|undefined;
     imageData: {}|undefined;
     image: string|undefined;
-    articleSchema: Array<any>|undefined;
+    articles: Array<string> | Array<ArticleType> | undefined;
     currency: string|undefined;
+    id:string|undefined;
 }
 
 

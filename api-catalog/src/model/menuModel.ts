@@ -1,3 +1,6 @@
+import { string } from "joi";
+import articleModel from "./articleModel";
+
 const mongoose = require('mongoose');
 
 const menuSchema = new mongoose.Schema({
@@ -6,7 +9,7 @@ const menuSchema = new mongoose.Schema({
         required: true,
     },
     price: {
-        type: String,
+        type: Number,
         required: true,
     },
     currency: {
@@ -21,7 +24,7 @@ const menuSchema = new mongoose.Schema({
         required: false,
     },
     articles: {
-        type: Array,
+        type: [],
         required: false,
     }
 });

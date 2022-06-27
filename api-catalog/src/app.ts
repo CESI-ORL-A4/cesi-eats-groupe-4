@@ -16,8 +16,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/catalog/restaurants", restaurantRouter);
-app.use("/catalog/restaurants/:idRestaurant/articles", articleRouter);
-app.use("/catalog/restaurants/:idRestaurant/menu", menuRouter);
+app.use("/catalog/restaurants/:restaurantId/articles", articleRouter);
+app.use("/catalog/restaurants/:restaurantId/menus", menuRouter);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at https://localhost:${port}`);
