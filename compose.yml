@@ -96,7 +96,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${ORDER_SERVICE_DB_PASSWORD}
       - MONGO_INITDB_DATABASE=${ORDER_SERVICE_DB_NAME}
     volumes:
-      - ./user-microservice/mongo/data:/data/db
+      - ./order-microservice/mongo/data:/data/db
     ports:
       - 27018:27017
     networks:
