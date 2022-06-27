@@ -4,6 +4,5 @@ import Deliverer from '@/components/Deliverer.vue'
 </script>
 
 <template>
-  <Banner/>
   <Deliverer/>
 </template>

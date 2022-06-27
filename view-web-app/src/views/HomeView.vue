@@ -5,7 +5,6 @@ import Home from '@/components/Home.vue'
 </script>
 
 <template>
-  <Banner/>
   <Home/>
 </template>
 

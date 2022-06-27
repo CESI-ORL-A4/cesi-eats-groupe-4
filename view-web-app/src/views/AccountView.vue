@@ -4,6 +4,5 @@ import Account from '@/components/Account.vue'
 </script>
 
 <template>
-  <Banner/>
   <Account/>
 </template>

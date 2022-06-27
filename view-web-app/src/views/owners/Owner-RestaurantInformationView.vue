@@ -4,6 +4,5 @@ import Owners_Restaurant from '@/components/owners/Owner-RestaurantInformation.v
 </script>
 
 <template>
-  <Banner/>
   <Owners_Restaurant/>
 </template>

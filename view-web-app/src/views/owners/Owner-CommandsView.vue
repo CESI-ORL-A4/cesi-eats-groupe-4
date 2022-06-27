@@ -4,6 +4,5 @@ import Owners_Commands from '@/components/owners/Owner-Commands.vue'
 </script>
 
 <template>
-  <Banner/>
   <Owners_Commands/>
 </template>

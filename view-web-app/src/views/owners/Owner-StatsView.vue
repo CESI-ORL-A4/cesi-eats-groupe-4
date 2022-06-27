@@ -4,6 +4,5 @@ import Owners_Stats from '@/components/owners/Owner-Stats.vue'
 </script>
 
 <template>
-  <Banner/>
   <Owners_Stats/>
 </template>
