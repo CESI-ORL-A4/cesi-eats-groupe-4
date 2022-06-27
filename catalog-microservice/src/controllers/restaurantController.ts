@@ -57,5 +57,6 @@ export function isRestaurantUpdateGoodFormat(payload: UploadRestaurantPayload) {
 }
 
 export async function deleteRestaurant(id: string) {
-    return await restaurantModel.deleteOne({ _id: id });
+    await restaurantModel.deleteOne({ _id: id });
+    return id;
 }

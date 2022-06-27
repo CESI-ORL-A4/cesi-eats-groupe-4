@@ -1,9 +1,8 @@
 import FormData from "form-data";
 import axios from "axios";
-
-export async function getRestaurantByOwnerId(ownerId:string) {
+export async function getMenus(restaurantsId:string) {
     try {
-        const response = await axios.get('http://localhost:8080/catalog/restaurants/ownerId/'+ownerId, {
+        const response = await axios.get('http://localhost:8080/catalog/restaurants'+restaurantsId+"/menus", {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
@@ -13,15 +12,15 @@ export async function getRestaurantByOwnerId(ownerId:string) {
             return null;
         }
         // Don't forget to return something
-        return response.data.restaurant;
+        return response.data.menus;
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function getRestaurants() {
+export async function getMenu(restaurantsId:string,menuId:string) {
     try {
-        const response = await axios.get('http://localhost:8080/catalog/restaurants/', {
+        const response = await axios.get('http://localhost:8080/catalog/restaurants'+restaurantsId+"/menus/"+menuId, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
@@ -31,15 +30,15 @@ export async function getRestaurants() {
             return null;
         }
         // Don't forget to return something
-        return response.data.restaurants;
+        return response.data.menu;
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function addRestaurant(form:FormData) {
+export async function deleteMenu(restaurantsId:string,menuId:string) {
     try {
-        const response = await axios.post('http://localhost:8080/catalog/restaurants/', form,{
+        const response = await axios.delete('http://localhost:8080/catalog/restaurants'+restaurantsId+"/menus/"+menuId, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
@@ -49,15 +48,15 @@ export async function addRestaurant(form:FormData) {
             return null;
         }
         // Don't forget to return something
-        return response.data.restaurant;
+        return response.data.menuId;
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function updateRestaurant(form:FormData,restaurantId:string) {
+export async function addMenu(restaurantsId:string,menuId:string,form:FormData) {
     try {
-        const response = await axios.put('http://localhost:8080/catalog/restaurants/'+restaurantId, form,{
+        const response = await axios.post('http://localhost:8080/catalog/restaurants'+restaurantsId+"/menus/",form, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
@@ -67,15 +66,15 @@ export async function updateRestaurant(form:FormData,restaurantId:string) {
             return null;
         }
         // Don't forget to return something
-        return response.data.restaurant;
+        return response.data.menu;
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function deleteRestaurant(form:FormData,restaurantId:string) {
+export async function updateMenu(restaurantsId:string,menuId:string,form:FormData) {
     try {
-        const response = await axios.delete('http://localhost:8080/catalog/restaurants/'+restaurantId,{
+        const response = await axios.put('http://localhost:8080/catalog/restaurants'+restaurantsId+"/menus/"+menuId,form, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
@@ -85,7 +84,7 @@ export async function deleteRestaurant(form:FormData,restaurantId:string) {
             return null;
         }
         // Don't forget to return something
-        return response.data.restaurantId;
+        return response.data.menu;
     } catch (err) {
         console.error(err);
     }
