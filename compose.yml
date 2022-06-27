@@ -97,10 +97,23 @@ services:
       - MONGO_INITDB_DATABASE=${ORDER_SERVICE_DB_NAME}
     volumes:
       - ./order-microservice/mongo/data:/data/db
-    ports:
-      - 27018:27017
     networks:
       - order-microservice-network
+  order-service-api:
+    container_name: order-service-api
+    build:
+      context: ./order-microservice
+    env_file:
+        - .env
+    depends_on:
+      - order-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - order-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
 
 networks:
   rabbitmq-network:
