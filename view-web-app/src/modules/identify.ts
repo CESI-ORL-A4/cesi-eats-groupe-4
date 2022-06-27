@@ -9,6 +9,7 @@ export async function addRestaurant(form:FormData) {
             },})
         if (response.status == 200) {
             console.log(response);
+            console.log(response.data.error);
         }
         // Don't forget to return something
         return {"error": response.statusText}
@@ -27,6 +28,7 @@ export async function loginAPI(email: string, password: string) {
         })
         if (response.status == 200) {
             localStorage.setItem('jwt', response?.data?.accessToken);
+            localStorage.setItem('id', response?.data?.id);
             localStorage.setItem('role', response?.data?.role);
             console.log(response.data)
 
