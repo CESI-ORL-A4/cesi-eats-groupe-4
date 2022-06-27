@@ -1,0 +1,95 @@
+version: "3.8"
+
+services:
+  # =============== RABBITMQ ===============
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    env_file:
+        - .env
+    networks:
+      - rabbitmq-network
+  # =============== API GATEWAY ===============
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+    env_file:
+        - .env
+    ports:
+      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
+    networks:
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== AUTH MICROSERVICE ===============
+  auth-service-db:
+    container_name: auth-service-db
+    build: 
+      context: ./auth-microservice
+      dockerfile: ./dockerfiles/mssql/Dockerfile
+    volumes:
+      - ./auth-microservice/mssql/data:/var/opt/mssql/data
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+        - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+    env_file:
+        - .env
+    networks:
+      - auth-microservice-network
+    command: bash -c "./entrypoint.sh"
+  auth-service-api:
+    container_name: auth-service-api
+    build:
+      context: ./auth-microservice
+      dockerfile: ./dockerfiles/node-app/Dockerfile
+    env_file:
+        - .env
+    depends_on:
+      - auth-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - auth-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== USER MICROSERVICE ===============
+  user-service-db:
+    container_name: user-service-db
+    build:
+      context: ./user-microservice
+      dockerfile: ./dockerfiles/mssql/Dockerfile
+    volumes:
+      - ./user-microservice/mssql/data:/var/opt/mssql/data
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+      - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+    env_file:
+        - .env
+    networks:
+      - user-microservice-network
+    command: bash -c "./entrypoint.sh"
+  user-service-api:
+    container_name: user-service-api
+    build:
+      context: ./user-microservice
+      dockerfile: ./dockerfiles/node-app/Dockerfile
+    env_file:
+        - .env
+    depends_on:
+      - user-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - user-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+
+networks:
+  rabbitmq-network:
+  app-api-network:
+  auth-microservice-network:
+  user-microservice-network:

@@ -35,6 +35,7 @@ function homePage() {
       <p> Cesi <span>Eats</span></p>
     </div>
     <div class="item-x">
+      <button v-show="role" type="button" class="btn_notif"><img height="13" alt="Notif" src="@/assets/icon-notif.png"></button>
       <button v-show="role" type="button" class="btn_account" @click="btn_account">Mon compte</button>
       <button v-show="!role" type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
       <button v-show="!role" type="button" class="btn_sign_up" @click="btn_sign_up">Inscription</button>
@@ -46,6 +47,14 @@ function homePage() {
 <style scoped>
 span {
   color: #ff5404
+}
+
+.btn_notif {
+  margin-right: 20px;
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  width: 43px;
+  height: 43px;
 }
 
 .btn_account {

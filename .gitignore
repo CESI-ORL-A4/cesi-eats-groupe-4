@@ -1,5 +1,7 @@
-.idea/
-.github/
+.idea/*
+.github/*
 node_modules/
+.github/
+.idea/
 .env
-.idea/workspace.xml
+swagger_output.json

@@ -45,11 +45,11 @@ const login = (e) => {
   loginAPI(email.value, password.value).then((result) => {
     if (!result)
       router.push('/')
-    else if (result.role==="basic")
+    else if (result.role === "basic")
       router.push('/basic')
-    else if (result.role==="deliverer")
+    else if (result.role === "deliverer")
       router.push('/deliverer')
-    else if (result.role==="owner")
+    else if (result.role === "owner")
       router.push('/owner')
     else
       router.push('/account')
