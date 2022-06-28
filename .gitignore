@@ -7,3 +7,5 @@ node_modules/
 swagger_output.json
 .vs/
 .vs/*
+obj/
+bin/
