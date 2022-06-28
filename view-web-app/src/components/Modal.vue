@@ -17,7 +17,7 @@ const props = defineProps({
 
 
 <template>
-  <div id="app">
+  <div>
     <button class="button" @click="showPopup = true">
       Voir
     </button>
@@ -61,11 +61,17 @@ const props = defineProps({
 .flex_btn{
   display: flex;
   justify-content: space-between;
+
+}
+
+.btn_cancel{
+  border-radius: 20px;
 }
 
 .btn_cart{
   background-color: #F6F6F6;
   float: right;
+  border-radius: 20px;
 }
 
 img{
@@ -76,15 +82,15 @@ img{
   appearance: none;
   outline: none;
   border: none;
-  background: none;
+  background: #282828;
   cursor: pointer;
-
+  float: right;
+  margin-top: -40px;
   display: inline-block;
   padding: 15px 25px;
-  background-image: linear-gradient(to left, #000000, #22780F);
   border-radius: 8px;
 
-  color: Black;
+  color: white;
   font-size: 18px;
   font-weight: 700;
 
@@ -114,25 +120,24 @@ img{
   z-index: 99;
   width: 100%;
   max-width: 400px;
-  background-color: white;
+  background-color: burlywood;
   border-radius: 16px;
-
   padding: 25px;
-
+}
 h1 {
-  color: white;
+  color: #282828;
   font-size: 32px;
   font-weight: 900;
   margin-bottom: 15px;
 }
 
 p {
-  color: #ffffff;
+  color: #282828;
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 15px;
 }
-}
+
 
 .fade-enter-active,
 .fade-leave-active {

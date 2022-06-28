@@ -16,10 +16,15 @@ function pushMenu(id: string){
 </script>
 
 <template>
-  <div>
+  <div><br/>
+    <div id="div_restaurant">
+      <h1>
+        Nos restaurants :
+      </h1><br/>
+    </div>
     <div class="restaurants-wrapper">
       <div class="restaurant-card"   :key="restaurant"  v-for="restaurant in list_restaurant" @click="pushMenu(restaurant.id)">
-        <img alt="restaurant" :src="restaurant.image">
+        <img  class="image_restaurant" alt="restaurant" :src="restaurant.image">
         <h1>{{restaurant.name}}</h1>
         <p>{{restaurant.address}}</p>
         <p>{{restaurant.description}}</p>
@@ -34,12 +39,24 @@ function pushMenu(id: string){
   flex-wrap: wrap;
   padding: 20px;
   justify-content: center;
+
 }
 .restaurant-card{
-  margin-left: 10px;
+  margin-left: 30px;
+  margin-bottom: 30px;
+  border: 1px solid grey;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: antiquewhite;
 }
 
-img{
-  height: 130px;
+.image_restaurant{
+  height: 180px;
+  border-radius: 15px;
+
+}
+
+#div_restaurant{
+  margin-left: 20px;
 }
 </style>

@@ -111,10 +111,15 @@ const list_menus = [
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
 }
 
 .menu-card {
   margin-left: 10px;
+  border: 1px solid grey;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: antiquewhite;
 }
 
 .menu-border {
