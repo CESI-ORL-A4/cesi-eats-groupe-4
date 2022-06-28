@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
+import {addMenu} from "@/modules/menuAPI";
 import FormData from "form-data"
 
 const name = ref("");
@@ -19,7 +19,7 @@ const addRestaurantEvent = async (e) => {
   formData.append("ownerId", email.value);
   formData.append("imageName", filename);
   formData.append("address", address.value);
-  await addRestaurant(formData);
+  await addMenu(formData);
 }
 
 const onFilePicked = (event) => {
