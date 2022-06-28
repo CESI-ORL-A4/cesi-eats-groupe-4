@@ -1,5 +1,4 @@
 import FormData from "form-data";
-import config from "../config.json";
 import axios from "axios";
 import config from "../config.json";
 export async function getRestaurantByOwnerId(ownerId:string) {
