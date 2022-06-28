@@ -38,7 +38,7 @@ namespace CesiEats.UserManagement.ManageUser
 
         private async void CreateUpdateUser(object sender, RoutedEventArgs e)
         {
-            
+            VM.User.Password = password.Password;
             if(VM.Create)
                 await UserAPI.CreateUserAsync(VM.User);
             else
