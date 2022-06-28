@@ -23,7 +23,9 @@ export async function createUser(payload: UserAttributesPayload) {
 } 
 
 export async function updateUser(payload: UserAttributesPayload) {
-    payload.password = await hash(payload.password, 10);
+    if (payload.password) {
+        payload.password = await hash(payload.password, 10);
+    }
     return await User.upsert(payload);
 }
 
