@@ -50,10 +50,13 @@ const isLoadingUser = computed(() => store.state.isLoadingUserData);
 
 .notification-icon {
     width: 25px;
-    margin-right: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .user-name {
+    margin: 0;
     cursor: pointer;
     font-family: Poppins;
     font-size: 16px;
