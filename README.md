@@ -34,6 +34,26 @@ USER_SERVICE_API_PORT=3000
 
 DEFAULT_USER_TECHNIC_EMAIL=technic@gmail.com
 DEFAULT_USER_TECHNIC_PASS=admin
+
+############## ORDER MICROSERVICE ##############
+
+ORDER_SERVICE_DB_NAME=Orders
+ORDER_SERVICE_DB_HOST=order-service-db
+ORDER_SERVICE_DB_USERNAME=admin
+ORDER_SERVICE_DB_PASSWORD=97ded!1lp
+
+ORDER_SERVICE_API_HOST=order-service-api
+ORDER_SERVICE_API_PORT=5000
+
+############## CATALOG MICROSERVICE ##############
+
+CATALOG_DB_USERNAME=admin
+CATALOG_DB_PASSWORD=admin
+CATALOG_DB_DATABASE=catalog
+CATALOG_DB_PORT=27017
+CATALOG_DB_HOST=catalog-service-db
+CATALOG_SERVICE_API_HOST=catalog-service-api
+CATALOG_SERVICE_API_PORT=8080
 ```
 # Run the app
 
@@ -52,3 +72,7 @@ To keep the data of the two SQL Server database when the containers go down, cre
 `mkdir auth-microservice/mssql/data`
 
 `mkdir user-microservice/mssql/data`
+
+`mkdir -p order-microservice/mongo/data`
+
+`mkdir -p catalog-microservice/mongo/data`

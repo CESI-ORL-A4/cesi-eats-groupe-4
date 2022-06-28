@@ -10,10 +10,10 @@ const authServiceSecureURL = `${authServicePrefix}://${authServiceHost}:${authSe
 function authCheck(allowedRoles?: Role[]) {
     return async function(req: Request, res: Response, next: NextFunction) {
         try {
+            const authHeader = req.headers["authorization"];
+            const headers = authHeader ? { "Authorization": authHeader } : {};
             const response = await axios.get(authServiceSecureURL, {
-                headers: {
-                    "Authorization": req.headers["authorization"]
-                }
+                headers
             });
 
             const role = response.data.role;

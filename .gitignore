@@ -1,5 +1,5 @@
-.idea/*
-.github/*
+.idea/
+.github/
 node_modules/
 .github/
 .idea/
@@ -7,3 +7,5 @@ node_modules/
 swagger_output.json
 .vs/
 .vs/*
+obj/
+bin/

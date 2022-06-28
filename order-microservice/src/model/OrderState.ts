@@ -1,0 +1,9 @@
+enum OrderState {
+    WAITING_VALIDATION = "WAITING_VALIDATION",
+    IN_PRODUCTION = "IN_PRODUCTION",
+    READY_TO_SHIP = "READY_TO_SHIP",
+    UNDER_SHIPMENT = "UNDER_SHIPMENT",
+    SHIPPED = "SHIPPED"
+}
+
+export default OrderState;

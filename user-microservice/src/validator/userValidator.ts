@@ -26,7 +26,6 @@ let userValidator = Joi.object({
         .max(16)
         .required(),
     address: Joi.string()
-        .alphanum()
         .min(1)
         .max(200)
         .required(),
