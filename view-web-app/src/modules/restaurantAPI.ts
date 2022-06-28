@@ -42,7 +42,7 @@ export async function getRestaurants() {
 
 export async function addRestaurant(form:FormData) {
     try {
-        const response = await axios.post(`${config.GATEWAY_URL}/catalog/restaurants/`, form,{
+        const response = await axios.post(`http://localhost:8080/catalog/restaurants/`, form,{
             headers: {
                 Authorization: "Bearer " + localStorage.getItem('jwt'),
                 "Content-Type": "multipart/form-data",
