@@ -1,4 +1,5 @@
 import FormData from "form-data";
+import config from "../config.json";
 import axios from "axios";
 import config from "../config.json";
 const jwt = localStorage.getItem('jwt');

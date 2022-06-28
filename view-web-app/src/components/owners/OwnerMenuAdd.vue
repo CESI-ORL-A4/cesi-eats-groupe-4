@@ -1,216 +1,137 @@
 <script lang="ts" setup>
-import router from "@/router";
-
-import { ref } from "vue";
-import { addMenu } from "@/modules/menuAPI";
 import FormData from "form-data";
-import { addMenu } from "@/modules/menuAPI";
-import { addArticle } from "@/modules/articleAPI";
+import {addMenu} from "@/modules/menuAPI";
+import {onBeforeMount, ref} from "vue";
+import {getArticles} from "@/modules/articleAPI";
 
-const name = "";
-const description = "";
-const products = "";
-const price = "";
-const file = "";
+onBeforeMount(async () => {
+  const products = await getArticles(localStorage.getItem('restaurantId'));
+  console.log(products);
+  if (products) {
+    list_products.value = products;
+  }
+});
+
+const list_products = ref([]);
+
+const name = ref("");
+const description = ref("");
+const articles = ref([]);
+const price = ref("");
+const file = ref();
 let filename: string;
 let fileData: any;
 
 const restaurantId = localStorage.getItem("restaurantId");
 const addMenuEvent = async (e) => {
   e.preventDefault();
-  if (!restaurantId) return;
-  const formData = new FormData();
-  console.log(fileData);
-  formData.append("imageData", fileData);
-  formData.append("name", name);
-  formData.append("description", description);
-  formData.append("products", products);
-  formData.append("price", price);
-  formData.append("imageName", filename);
-  await addMenu(formData);
-};
+  if (!restaurantId)
+    return;
+  const formData = {
+    name: name.value,
+    description: description.value,
+    articles: articles.value,
+    price: price.value,
+    file: file.value
+  };
+  console.log(name.value);
+  await addMenu(restaurantId, formData);
+}
 
 const onFilePicked = (event) => {
   fileData = event.target.files[0];
   filename = fileData.name;
 };
 
-const list_products = [
-  {
-    id: "1",
-    name: "Kebab",
-    product_type: "plat",
-  },
-  {
-    id: "2",
-    name: "Tacos",
-    product_type: "plat",
-  },
-  {
-    id: "3",
-    name: "Burger",
-    product_type: "plat",
-  },
-  {
-    id: "4",
-    name: "Frites",
-    product_type: "accompagnement",
-  },
-  {
-    id: "5",
-    name: "Riz",
-    product_type: "accompagnement",
-  },
-  {
-    id: "6",
-    name: "Barbecue",
-    product_type: "sauce",
-  },
-  {
-    id: "7",
-    name: "Ketchup",
-    product_type: "sauce",
-  },
-  {
-    id: "8",
-    name: "Mayonnaise",
-    product_type: "sauce",
-  },
-  {
-    id: "9",
-    name: "Moutarde",
-    product_type: "sauce",
-  },
-  {
-    id: "10",
-    name: "Coca",
-    product_type: "boisson",
-  },
-  {
-    id: "11",
-    name: "Ice tea",
-    product_type: "boisson",
-  },
-  {
-    id: "12",
-    name: "Fanta",
-    product_type: "boisson",
-  },
-];
+
 </script>
 
 <template>
-  <div>
-    <div class="positioned">
-      <form class="form">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2"><label>Ajout d'un nouveau menu</label></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th><label for="name">Nom du menu</label></th>
-              <th>
-                <input
-                  v-model="name"
-                  type="text"
-                  placeholder="Burger maxi"
-                  required="required"
-                />
-              </th>
-            </tr>
-            <tr>
-              <th><label>Description</label></th>
-              <th>
-                <textarea
-                  v-model="description"
-                  placeholder="Burger servi avec frites et boisson 33 cl au choix."
-                  required="description"
-                />
-              </th>
-            </tr>
-            <tr>
-              <th><label>Articles</label></th>
-              <th>
-                <div :key="product" v-for="product in list_products">
-                  <input
-                    type="checkbox"
-                    id="{{ product.name }}"
-                    name="{{ product.name }}"
-                  />
-                  <label for="{{ product.name }}"
-                    >{{ product.name }} ({{ product.product_type }})</label
-                  >
-                </div>
-              </th>
-            </tr>
-            <tr>
-              <th><label>Prix (en €)</label></th>
-              <th>
-                <input
-                  v-model="price"
-                  type="number"
-                  step="0.01"
-                  placeholder="8,50"
-                  required="required"
-                />
-              </th>
-            </tr>
-            <tr>
-              <th><label>Image</label></th>
-              <th>
-                <input
-                  type="file"
-                  id="file"
-                  ref="file"
-                  accept="image/*"
-                  v-on:change="onFilePicked"
-                  required
-                />
-              </th>
-            </tr>
-          </tbody>
-        </table>
-        <div>
-          <br />
-          <button @click="addMenuEvent" type="submit" class="btn_add_form">
-            Ajouter
-          </button>
-        </div>
-      </form>
+  <div class="owner_add_menu-page">
+    <div class="owner_add_menu-wrapper">
+      <h2>Ajout d'un nouveau menu</h2>
+      <b-form>
+        <b-form-group
+            label="Nom du menu :"
+            label-for="name-input"
+        >
+          <b-form-input
+              v-model="name"
+              id="name-input"
+              placeholder="Burger maxi"
+              type="text"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+            label="Description :"
+            label-for="description-input"
+        >
+          <b-form-input
+              v-model="description"
+              id="description-input"
+              placeholder="Un menu bien complet pour vous satisfaire"
+              type="text"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+
+        <b-form-group
+            label="Prix (en €) :"
+            label-for="price-input"
+        >
+          <b-form-input
+              v-model="price"
+              id="price-input"
+              placeholder="17,50"
+              type="number"
+              step="0.01"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group>
+          <span v-for="(product, index) in list_products">
+            <b-form-checkbox :value="product._id">{{ product.name }} ({{ product.type }})</b-form-checkbox>
+          </span>
+        </b-form-group>
+
+        <b-form-group
+            label="Image :"
+            label-for="image-input"
+        >
+          <input
+              type="file"
+              id="file"
+              ref="file"
+              accept="image/*"
+              v-on:change="onFilePicked"
+              required
+          />
+        </b-form-group>
+        <b-button @click="addMenuEvent" variant="dark">Ajouter le menu</b-button>
+      </b-form>
     </div>
   </div>
 </template>
 
 <style scoped>
-.positioned {
+.owner_add_menu-page {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 40px;
 }
 
-.form {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 20px;
+.owner_add_menu-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
-thead,
-tfoot {
-  font-size: 35px;
+h2 {
+  margin-bottom: 15px;
 }
 
-tbody {
-  text-align: left;
-}
-
-.btn_add_form {
-  background-color: #f6f6f6;
-  border-radius: 100px;
-  width: 100px;
-  height: 40px;
-  float: right;
-}
 </style>

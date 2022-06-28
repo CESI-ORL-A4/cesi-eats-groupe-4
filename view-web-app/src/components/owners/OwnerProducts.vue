@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-
 import router from "@/router";
-import {onBeforeMount, ref} from "vue";
 import {getRestaurantByOwnerId} from "@/modules/restaurantAPI";
+import {onBeforeMount, ref} from "vue";
 import {getArticles} from "@/modules/articleAPI";
 
 function pushProductUpdatePage(id: string) {

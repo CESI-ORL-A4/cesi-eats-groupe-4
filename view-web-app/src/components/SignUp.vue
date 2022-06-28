@@ -5,7 +5,7 @@ import config from "../config.json";
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
 
-let toast = useToast();
+const toast = useToast();
 const router = useRouter();
 
 let userRoleOptions = [

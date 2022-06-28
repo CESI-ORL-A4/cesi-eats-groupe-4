@@ -1,13 +1,11 @@
 import FormData from "form-data";
 import axios from "axios";
 import config from "../config.json";
-const jwt = localStorage.getItem('jwt');
 export async function getMenus(restaurantsId:string) {
     try {
-        const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantsId+"/menus", {
+        const response = await axios.get(`${config.GATEWAY_URL}/`+restaurantsId+"/menus", {
             headers: {
-                "Content-Type": "multipart/form-data",
-                 "Authorization": `Bearer ${jwt}`
+                "Content-Type": "multipart/form-data"
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);

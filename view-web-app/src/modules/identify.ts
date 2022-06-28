@@ -1,6 +1,5 @@
 import axios from "axios";
 import config from "../config.json";
-const jwt = localStorage.getItem('jwt');
 export async function loginAPI(email: string, password: string) {
     try {
         //API hors docker : http://localhost:8090/login
