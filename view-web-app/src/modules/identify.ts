@@ -1,9 +1,10 @@
 import axios from "axios";
-
+import config from "../config.json";
+const jwt = localStorage.getItem('jwt');
 export async function loginAPI(email: string, password: string) {
     try {
         //API hors docker : http://localhost:8090/login
-        const response = await axios.post('http://localhost:4000/auth/login', {
+        const response = await axios.post(`${config.GATEWAY_URL}/auth/login`, {
             email,
             password
         })

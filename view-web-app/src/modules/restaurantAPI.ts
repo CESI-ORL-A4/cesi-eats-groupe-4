@@ -1,11 +1,13 @@
 import FormData from "form-data";
 import axios from "axios";
-
+import config from "../config.json";
+const jwt = localStorage.getItem('jwt');
 export async function getRestaurantByOwnerId(ownerId:string) {
     try {
-        const response = await axios.get('http://localhost:8080/catalog/restaurants/ownerId/'+ownerId, {
+        const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/ownerId/`+ownerId, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${jwt}`
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
@@ -22,9 +24,10 @@ export async function getRestaurantByOwnerId(ownerId:string) {
 
 export async function getRestaurants() {
     try {
-        const response = await axios.get('http://localhost:8080/catalog/restaurants/', {
+        const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/`, {
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${jwt}`
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
@@ -40,9 +43,10 @@ export async function getRestaurants() {
 
 export async function addRestaurant(form:FormData) {
     try {
-        const response = await axios.post('http://localhost:8080/catalog/restaurants/', form,{
+        const response = await axios.post(`${config.GATEWAY_URL}/catalog/restaurants/`, form,{
             headers: {
-                "Content-Type": "multipart/form-data"
+                'content-type': 'multipart/form-data',
+                Authorization: `Bearer ${jwt}`
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
@@ -58,9 +62,10 @@ export async function addRestaurant(form:FormData) {
 
 export async function updateRestaurant(form:FormData,restaurantId:string) {
     try {
-        const response = await axios.put('http://localhost:8080/catalog/restaurants/'+restaurantId, form,{
+        const response = await axios.put(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantId, form,{
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${jwt}`
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
@@ -76,9 +81,10 @@ export async function updateRestaurant(form:FormData,restaurantId:string) {
 
 export async function deleteRestaurant(form:FormData,restaurantId:string) {
     try {
-        const response = await axios.delete('http://localhost:8080/catalog/restaurants/'+restaurantId,{
+        const response = await axios.delete(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantId,{
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${jwt}`
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
