@@ -6,6 +6,13 @@ import {ref} from "vue";
 const name = ref("");
 const type = ref("");
 
+let productTypeOptions = [
+  { value: "plat", text: "Un plat" },
+  { value: "accompagnement", text: "Un accompagnement" },
+  { value: "sauce", text: "Une sauce" },
+  { value: "boisson", text: "Une boisson" },
+]
+
 const restaurantId = localStorage.getItem('restaurantId');
 const addProductEvent = async (e) => {
   e.preventDefault();
@@ -19,84 +26,60 @@ const addProductEvent = async (e) => {
 
 </script>
 
+
 <template>
-  <div>
-    <div class="positioned">
-      <form class="form">
-        <table>
-          <thead>
-          <tr>
-            <th colspan="2"><label>Ajout d'un nouvel article</label></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th><label for="name">Nom de l'article</label></th>
-            <th><input v-model="name" type="text" placeholder="Frites" required="required"></th>
-          </tr>
-          <br>
-          <tr>
-            <th><label>Type d'article</label></th>
-            <th>
-              <div>
-                <input v-model="type" type="radio" id="plat" name="plat" v-bind:value="'plat'">
-                <label htmlFor="plat">Un plat</label>
-              </div>
-              <div>
-                <input v-model="type" type="radio" id="accompagnement" name="accompagnement"
-                       v-bind:value="'accompagnement'">
-                <label htmlFor="accompagnement">Un accompagnement</label>
-              </div>
-              <div>
-                <input v-model="type" type="radio" id="sauce" name="sauce" v-bind:value="'sauce'">
-                <label htmlFor="sauce">Une sauce</label>
-              </div>
-              <div>
-                <input v-model="type" type="radio" id="boisson" name="boisson" v-bind:value="'boisson'">
-                <label htmlFor="boisson">Une boisson</label>
-              </div>
-            </th>
-          </tr>
-          </tbody>
-        </table>
-        <div>
-          <br>
-          <button @click="addProductEvent" class="btn_add_form">Ajouter</button>
-        </div>
-      </form>
+  <div class="owner_add_menu-page">
+    <div class="owner_add_menu-wrapper">
+      <h2>Ajout d'un nouvel article</h2>
+      <b-form @submit.prevent="addProductEvent">
+        <b-form-group
+            label="Nom de l'article :"
+            label-for="name-input"
+        >
+          <b-form-input
+              v-model="name"
+              id="name-input"
+              placeholder="Frites"
+              type="text"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+
+        <b-form-group
+            label="Type d'article :"
+            label-for="type-input"
+        >
+          <div class="client-type-selector">
+            <b-form-select v-model="type" :options="productTypeOptions"></b-form-select>
+          </div>
+        </b-form-group>
+
+        <b-button type="submit" variant="dark">Ajouter le menu</b-button>
+      </b-form>
     </div>
   </div>
 </template>
 
+
+
 <style scoped>
-.positioned {
+
+.owner_add_menu-page {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 40px;
 }
 
-.form {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 20px;
+.owner_add_menu-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
-thead,
-tfoot {
-  font-size: 35px;
-}
 
-tbody {
-  text-align: left;
+.client-type-selector {
+  margin-bottom: 1rem;
 }
-
-.btn_add_form {
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 100px;
-  height: 40px;
-  float: right;
-}
-
 
 </style>

@@ -64,7 +64,7 @@ const changeArticles = (articleId) => {
   <div class="owner_add_menu-page">
     <div class="owner_add_menu-wrapper">
       <h2>Ajout d'un nouveau menu</h2>
-      <b-form>
+      <b-form @submit.prevent="addMenuEvent">
         <b-form-group
             label="Nom du menu :"
             label-for="name-input"
@@ -125,7 +125,7 @@ const changeArticles = (articleId) => {
               required
           />
         </b-form-group>
-        <b-button @click="addMenuEvent" variant="dark">Ajouter le menu</b-button>
+        <b-button type="submit" variant="dark">Ajouter le menu</b-button>
       </b-form>
     </div>
   </div>

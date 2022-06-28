@@ -27,23 +27,25 @@ const list_products = ref([]);
 <template>
   <div>
     <div class="flex-container-add_product">
-      <div><h2>Articles disponibles dans votre restaurant :</h2></div>
+      <div><h2 class="line-up">Articles disponibles dans votre restaurant :</h2></div>
       <div>
         <p>
           <button type="button" class="btn_manage" @click="pushProductAddPage">Ajouter un article</button>
         </p>
         <br></div>
     </div>
-    <div class="product-wrapper">
-      <div class="product-card product-border" :key="product" v-for="product in list_products"
-           @click="pushProductUpdatePage(product.id)">
-        <p>{{ product.name }} ({{ product.product_type }})</p>
-        <center>
-          <p>
-            <button type="button" class="btn_update_product">Modifier / Supprimer l'article</button>
-          </p>
-        </center>
-      </div>
+
+    <div class="product-card">
+      <b-card-group columns>
+        <b-card header="Article" class="text-center" :key="product" v-for="product in list_products"
+                @click="pushProductUpdatePage(product._id)">
+          <b-card-title>{{ product.name }}</b-card-title>
+          <b-card-text class="small text-muted">{{ product.type }}</b-card-text>
+          <template #footer>
+            <small class="text-muted">Clique ici pour modifier/supprimer l'article</small>
+          </template>
+        </b-card>
+      </b-card-group>
     </div>
   </div>
 </template>
@@ -54,7 +56,13 @@ const list_products = ref([]);
   justify-content: space-between;
 }
 
+.line-up {
+  margin-top: 20px;
+  margin-left: 60px;
+}
+
 .btn_manage {
+  margin-top: 20px;
   margin-right: 20px;
   background-color: #F6F6F6;
   border-radius: 100px;
@@ -76,7 +84,8 @@ const list_products = ref([]);
 }
 
 .product-card {
-  margin-left: 20px;
+  margin: 60px;
+  margin-top: -30px;
 }
 
 .product-border {

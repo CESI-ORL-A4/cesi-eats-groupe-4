@@ -27,7 +27,7 @@ const list_menus = ref([]);
 <template>
   <div>
     <div class="flex-container-add_menu">
-      <div><h2>Menus disponibles dans votre restaurant :</h2></div>
+      <div><h2 class="line-up">Menus disponibles dans votre restaurant :</h2></div>
       <div>
         <p>
           <button type="button" class="btn_manage" @click="pushMenuAddPage">Ajouter un menu</button>
@@ -47,8 +47,10 @@ const list_menus = ref([]);
               style="max-width: 20rem;"
               class="mb-2"
           >
-            <b-card-text>
-              {{ menu.description }}
+            <b-card-text v-for="article in menu.articles">
+              <div v-if="article != null">
+                - {{ article.name }}
+              </div>
             </b-card-text>
 
             <b-button href="#" variant="warning">Modifier / Supprimer le menu</b-button>
@@ -65,7 +67,13 @@ const list_menus = ref([]);
   justify-content: space-between;
 }
 
+.line-up {
+  margin-top: 20px;
+  margin-left: 60px;
+}
+
 .btn_manage {
+  margin-top: 20px;
   margin-right: 20px;
   background-color: #F6F6F6;
   border-radius: 100px;
