@@ -10,7 +10,7 @@ function setupUsersRoutes(app: express.Express) {
     )
 
     app.get("/users", authCheck([Role.COMMERCIAL, Role.TECHNIC]), usersProxy);
-    app.get("/users/:id", authCheck([Role.COMMERCIAL, Role.TECHNIC]), usersProxy);
+    app.get("/users/:id", usersProxy);
     app.get("/users/sponsorship/:id", usersProxy);
 
     app.put("/users", usersProxy);
