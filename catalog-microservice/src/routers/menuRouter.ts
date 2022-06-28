@@ -18,9 +18,10 @@ menuRouter.post("/",upload.single('imageData'),
     async (req: any, res: Response) => {
         const payload = req.body;
         const restaurantId = req.params?.restaurantId;
-        const testFormatted = isMenuGoodFormat(payload);
         if (!payload)
             return res.status(400).json({error:"No Body"});
+        payload.articles = JSON.parse(payload.articles)
+        const testFormatted = isMenuGoodFormat(payload);
         if (!testFormatted.error)
         {
             if (!await restaurantExistByIdRestaurant(restaurantId))
@@ -65,6 +66,9 @@ menuRouter.put("/:menuId",upload.single('imageData'),
         const menuId = req.params.menuId;
         const restaurantId = req.params.restaurantId;
         const payload = req.body;
+        if (!payload)
+            return res.status(400).json({error:"No Body"});
+        payload.articles = JSON.parse(payload.articles)
         if (!menuId || ! restaurantId) {
             return res.status(400).json({ error: "Id is required" });
         }

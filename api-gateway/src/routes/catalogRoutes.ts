@@ -16,13 +16,13 @@ function setupCatalogRoutes(app: express.Express) {
     app.put("/catalog/restaurants/:restaurantId/", authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), catalogProxy);
     app.delete("/catalog/restaurants/:restaurantId/", authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), catalogProxy);
 
-    app.get("/catalog/restaurants/restaurantId/articles/", catalogProxy);
+    app.get("/catalog/restaurants/:restaurantId/articles/", catalogProxy);
     app.get("/catalog/restaurants/:restaurantId/articles/:articleId/", catalogProxy);
     app.post("/catalog/restaurants/:restaurantId/articles/", authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), catalogProxy);
     app.put("/catalog/restaurants/:restaurantId/articles/:articleId/", authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), catalogProxy);
     app.delete("/catalog/restaurants/:restaurantId/articles/:articleId/", authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), catalogProxy);
 
-    app.get("/catalog/restaurants/restaurantId/menus/", catalogProxy);
+    app.get("/catalog/restaurants/:restaurantId/menus/", catalogProxy);
     app.get("/catalog/restaurants/:restaurantId/menus/:menuId/", catalogProxy);
     app.post("/catalog/restaurants/:restaurantId/menus/", authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), catalogProxy);
     app.put("/catalog/restaurants/:restaurantId/menus/:menuId/", authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), catalogProxy);
