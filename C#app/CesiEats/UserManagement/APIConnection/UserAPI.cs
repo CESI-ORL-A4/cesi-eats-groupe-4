@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CesiEats.UserManagement.Model;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,60 +13,73 @@ namespace CesiEats.UserManagement.APIConnection
 {
     public static class UserAPI
     {
-        static HttpClient client = new HttpClient();
-        // Update port # in the following line.
-        client.BaseAddress = new Uri("http://localhost:8080/");
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        static void ShowProduct(Product product)
+        public static HttpClient client = new HttpClient();
+        public static void Init(UserToken userToken)
         {
-            Console.WriteLine($"Name: {product.Name}\tPrice: " +
-                $"{product.Price}\tCategory: {product.Category}");
+            if(client.DefaultRequestHeaders.Authorization == null)
+            {
+                client.BaseAddress = new Uri("http://localhost:4000/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken.accessToken);
+
+            }
         }
-
-        static async Task<Uri> CreateProductAsync(Product product)
+        public static async Task<bool> CreateUserAsync(User user)
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync(
-                "api/products", product);
-            response.EnsureSuccessStatusCode();
-
+            var parameters = new Dictionary<string, string> { { "email", user.Email }, { "firstName", user.FirstName }, { "role", user.Role }, { "address", user.Address }, { "lastName", user.LastName }, { "password", user.Password }, { "phone", user.Phone }, { "birthdate", user.Birthdate } };
+            var encodedContent = new FormUrlEncodedContent(parameters);
+            HttpResponseMessage response = await client.PostAsync(
+                "users/register", encodedContent);
+            Trace.WriteLine(response.IsSuccessStatusCode);
+            string result = response.Content.ReadAsStringAsync().Result;
+            Trace.WriteLine(result);
             // return URI of the created resource.
-            return response.Headers.Location;
+            return response.IsSuccessStatusCode;
         }
 
-        static async Task<Product> GetProductAsync(string path)
+        public static async Task<List<User>> GetUsersAsync()
         {
-            Product product = null;
-            HttpResponseMessage response = await client.GetAsync(path);
+            UserListConnection users = null;
+            HttpResponseMessage response = null;
+            try
+            {
+                response = await client.GetAsync("/users");
+            }
+            catch (Exception)
+            {
+                Trace.WriteLine("error");
+                return null;
+            }            
             if (response.IsSuccessStatusCode)
             {
-                product = await response.Content.ReadAsAsync<Product>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                Trace.WriteLine("json");
+                Trace.WriteLine(jsonString);
+                users = JsonConvert.DeserializeObject<UserListConnection>(jsonString);
+                
             }
-            return product;
+            return users?.users;
         }
-
-        static async Task<Product> UpdateProductAsync(Product product)
+        public static async Task<bool> UpdateUserAsync(User user)
         {
-            HttpResponseMessage response = await client.PutAsJsonAsync(
-                $"api/products/{product.Id}", product);
-            response.EnsureSuccessStatusCode();
-
-            // Deserialize the updated product from the response body.
-            product = await response.Content.ReadAsAsync<Product>();
-            return product;
+            var parameters = new Dictionary<string, string> { { "email", user.Email }, { "address", user.Address }, { "lastName", user.LastName }, { "firstName", user.FirstName }, { "role", user.Role }, { "phone", user.Phone }, { "birthdate", user.Birthdate } };
+            if(user.Password != "")
+                parameters.Add("password",user.Password);
+            var encodedContent = new FormUrlEncodedContent(parameters);
+            HttpResponseMessage response = await client.PutAsync(
+                $"/users/{user.Id}", encodedContent);
+            Trace.WriteLine(response.IsSuccessStatusCode);
+            // return URI of the created resource.
+            return response.IsSuccessStatusCode;
         }
 
-        static async Task<HttpStatusCode> DeleteProductAsync(string id)
+        public static async Task<HttpStatusCode> DeleteUserAsync(string id)
         {
             HttpResponseMessage response = await client.DeleteAsync(
-                $"api/products/{id}");
+                $"/users/{id}");
+            Trace.WriteLine(response.IsSuccessStatusCode);
             return response.StatusCode;
-        }
-
-        static void Main()
-        {
-            RunAsync().GetAwaiter().GetResult();
         }
     }
 }

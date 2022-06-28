@@ -23,6 +23,8 @@
                     <Converters:WindowToMarginConverter x:Key="WindowToMarginConverter" />
                     <Converters:Base64ImageConverter x:Key="Base64ImageConverter" />
                     <Converters:FrameNameToTitleLabelConverter x:Key="FrameNameToTitleLabelConverter" />
+                    <Converters:NotBoolToVisibilityConverter x:Key="NotBoolToVisibilityConverter" />
+                    <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
                     <SolidColorBrush x:Key="colorNeutralBackground" Color="#F2F2F2" />
                     <SolidColorBrush x:Key="colorMainPageHeader" Color="Black" />
@@ -84,7 +86,6 @@
             </Grid.Effect>
             <Rectangle x:Name="rectDragControl" Height="55" VerticalAlignment="Top" Fill="Transparent" />
             <Label Style="{StaticResource titleWindowLabel}" Margin="0,13,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Content="{Binding ElementName=_mainFrame, Path=Content.DataContext.Title}"  HorizontalContentAlignment="Center"/>
-            <Image MaxWidth="40" x:Name="img_logo" DataContext="{StaticResource ImageData}" Source="{Binding Base64CesiEatsLogo, Converter={StaticResource Base64ImageConverter}}" Width="46" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,9,0,0" />
             <Rectangle x:Name="sep1" Margin="165,9,0,0" Style="{StaticResource stlRectangleSeparator}" />
             <TextBlock x:Name="lbl_title" Text="{Binding LabelTitle}" Style="{StaticResource stlTextBlockLocal}" />
 
@@ -125,7 +126,7 @@
             </StackPanel>
             <!--#endregion-->
             <Frame Content="{Binding SelectedFrame}" x:Name="_mainFrame" Margin="0.1,55,0.1,25.1" Background="White" NavigationUIVisibility="Hidden" />
-            <TextBlock Foreground="OrangeRed" HorizontalAlignment="Left" Margin="59,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Century Schoolbook" FontSize="22"><Run Language="fr-fr" Text="CesiEats"/></TextBlock>
+            <TextBlock Foreground="Green" HorizontalAlignment="Left" Margin="19,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Century Schoolbook" FontSize="32"><Run Language="fr-fr" Text="CesiEats"/></TextBlock>
         </Grid>
     </Grid>
 </Window>

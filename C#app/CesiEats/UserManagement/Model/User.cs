@@ -6,52 +6,32 @@ namespace CesiEats.UserManagement.Model
 {
     public class User
     {
-        private string role = "";
-        private string email = "";
-        private string address = "";
-        private int userId = 0;
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public string Phone { get; set; } = "";
+        public string Birthdate { get; set; } = null;
+        public string Role { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Address { get; set; } = "";
+        public int Id { get; set; } = 0;
+        public string Password { get; set; } = "";
 
-        public string Role
+        public User(string firstName, string lastName, string phone, string birthdate, string role, string email, string address, int id, string password="")
         {
-            get { return role; }
-            set
-            {
-                role = value;
-                OnPropertyChanged();
-            }
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Birthdate = birthdate;
+            Role = role;
+            Email = email;
+            Address = address;
+            Id = id;
+            Password = password;
         }
-        public string Email
-        {
-            get { return email; }
-            set
-            {
-                email = value;
-                OnPropertyChanged();
-            }
-        }
-        public string Address
-        {
-            get { return address; }
-            set
-            {
-                address = value;
-                OnPropertyChanged();
-            }
-        }
-        public int UserId
-        {
-            get { return userId; }
-            set
-            {
-                userId = value;
-                OnPropertyChanged();
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        public User()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
         }
     }
 }

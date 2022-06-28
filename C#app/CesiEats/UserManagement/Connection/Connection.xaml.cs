@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,6 +19,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace CesiEats.UserManagement.Connection
 {
@@ -37,38 +42,39 @@ namespace CesiEats.UserManagement.Connection
 
         private async void ConnectAsync(object sender, RoutedEventArgs e)
         {
-            string token = "";
+            var parameters = new Dictionary<string, string> { { "email", VM.userConnection.Email }, { "password", password.Password } };
+            var encodedContent = new FormUrlEncodedContent(parameters);
+            UserToken userToken = null;
             HttpClient client = new HttpClient();
-            var values = new Dictionary<string, string>
+            client.BaseAddress = new Uri("http://localhost:4000/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await client.PostAsync("auth/login/", encodedContent);
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                { "email",VM.userConnection.Email },
-                { "password", VM.userConnection.Password }
-            };
-
-            string url = "http://localhost:8080/login";
-            var data = new FormUrlEncodedContent(values);
-            VM.userConnection.Errror = "Pas de connection";
-            
-
-            HttpResponseMessage response = null;
-            try
-            {
-                response = await client.PostAsync(url, data);
+                userToken = await response.Content.ReadAsAsync<UserToken>();
+                Trace.WriteLine(userToken.role);
+                if(userToken.role == "TECHNIC")
+                {
+                    this.NavigationService.Navigate(new ListUserPage(userToken));
+                }
+                VM.userConnection.Errror = "Vous avez pas les droits";
+                
             }
-            catch
-            {
-                VM.userConnection.Errror = "Pas de connection";
-                return;
-            }
-            
-            if (response.IsSuccessStatusCode)
-            {
-                Console.WriteLine(response.Content.ToString());
-            }                
             else
-                VM.userConnection.Errror = response.Content.ToString();
-            
+            {
+                string resultContent = await response.Content.ReadAsStringAsync();
+                VM.userConnection.Errror = "Erreur dans la connexion";
+            }
+        }
 
+
+        private void Navigate(UserToken userToken)
+        {
+            App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.NavigationService.Navigate(new ListUserPage(userToken));
+            }, null);
         }
     }
 }

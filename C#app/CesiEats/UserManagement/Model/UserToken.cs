@@ -8,15 +8,10 @@ namespace CesiEats.UserManagement.Model
 {
     public class UserToken
     {
-        public string Token { get; set; }
-        public string Role { get; set; }
-        public string UserId { get; set; }
-
-        public UserToken(string token, string role, string userId)
-        {
-            Token = token;
-            Role = role;
-            UserId = userId;
-        }
+        public string accessToken { get; set; } = "";
+        public string refreshToken { get; set; } = "";
+        public string id { get; set; } = "";
+        public string status { get; set; } = "";
+        public string role { get; set; } = "";
     }
 }

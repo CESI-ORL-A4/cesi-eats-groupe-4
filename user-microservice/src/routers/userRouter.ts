@@ -11,6 +11,7 @@ userRouter.post("/register",
     async (req: ReqWithBody<UserAttributes>, res: Response) => {
         const payload = req.body;
         if (emailValidator.validate(payload.email).error) {
+            console.log("email required");
             return res.status(400).json({ error: "email is required" });
         }
         if (!await userExistsByMail(payload.email)) {
@@ -21,6 +22,7 @@ userRouter.post("/register",
                 return res.status(201).json({status: "User registered", user: addedUser});
             }
             else{
+                console.log(testFormatted?.error?.message);
                 return res.status(400).json({error:testFormatted?.error?.message});
             }
 
@@ -61,6 +63,7 @@ userRouter.put("/",
                 return res.status(200).json({ status: "User updated", user: updatedUser })
             }
             else{
+                console.log(testFormatted?.error?.message);
                 return res.status(400).json({error:testFormatted?.error?.message});
             }
         }
