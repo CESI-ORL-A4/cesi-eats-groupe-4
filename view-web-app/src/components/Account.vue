@@ -2,7 +2,7 @@
 import { loadUserData } from "@/modules/userAPI";
 import useGlobalStore from "@/stores/store";
 import axios from "axios";
-import {onBeforeMount, ref} from "vue";
+import {ref, watch} from "vue";
 import { useToast } from "vue-toastification";
 import config from "../config.json";
 
@@ -16,18 +16,9 @@ function dateFormat(date: any) {
     return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 }
 
-const payload = ref({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    address: "",
-    phone: "",
-});
-
-onBeforeMount(async () => {
-    if (store.state.user?.id) {
-        const response = await loadUserData(store.state.user?.id);
+watch(() => store.state.user?.id, async (id) => {
+    if (id) {
+        const response = await loadUserData(id);
         isLoading.value = false;
         if (response) {
             const { firstName, lastName, email, address, phone } = response.data;
@@ -41,8 +32,16 @@ onBeforeMount(async () => {
             }
             birthdate.value = new Date(response.data.birthdate).toLocaleDateString();
         }
-    }
+    } 
+}, { immediate: true });
 
+const payload = ref({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    address: "",
+    phone: "",
 });
 
 function onSubmit() {
@@ -60,6 +59,7 @@ function onSubmit() {
         toast.success("Données mises à jour !", {
             timeout: 5000
         });
+        store.commit("setUserData", {...store.state.user, firstName: payload.value.firstName});
         isLoading.value = false;
     }, (error) => {
         console.log("error", error);

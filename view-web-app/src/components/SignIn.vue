@@ -68,7 +68,6 @@ const login = () => {
           <b-form-input
               v-model="password"
               id="password-input"
-              placeholder="VotreMotDePasse"
               type="password"
               required
           >
