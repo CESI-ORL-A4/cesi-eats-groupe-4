@@ -26,6 +26,8 @@ namespace CesiEats.UserManagement.ManageUser
         public ManageUserPage(User user,bool create = false)
         {
             InitializeComponent();
+            if (user.Id == 0)
+                create = true;
             VM = new ManageUserViewModel
             {
                 User = user,
