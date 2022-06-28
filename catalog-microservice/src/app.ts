@@ -8,7 +8,7 @@ import articleRouter from "./routers/articleRouter";
 import menuRouter from "./routers/menuRouter";
 
 const app: express.Express = express();
-const port = process.env.CATALOG_API_PORT;
+const port = process.env.CATALOG_SERVICE_API_PORT;
 connectMongoose();
 
 app.use(bodyParser.urlencoded({ extended: false }));
