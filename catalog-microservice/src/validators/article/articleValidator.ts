@@ -10,8 +10,7 @@ let articleValidator = Joi.object({
         .required(),
     price: Joi.string()
         .min(1)
-        .max(100)
-        .required(),
+        .max(100),
     description: Joi.string()
         .min(1)
         .max(255),

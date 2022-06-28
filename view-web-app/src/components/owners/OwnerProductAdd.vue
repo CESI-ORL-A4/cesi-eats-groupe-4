@@ -1,19 +1,18 @@
 <script lang="ts" setup>
 import FormData from "form-data"
 import {addArticle} from "@/modules/articleAPI";
+import {ref} from "vue";
 
-const name = "";
-const product_type = "";
+const name = ref("");
+const type = ref("");
 
 const restaurantId = localStorage.getItem('restaurantId');
 const addProductEvent = async (e) => {
   e.preventDefault();
-  console.log("aa");
   if (!restaurantId)
     return;
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("product_type", product_type);
+  const formData = {name:name.value,type:type.value};
+  console.log(name.value);
   await addArticle(restaurantId, formData);
 }
 
@@ -103,19 +102,19 @@ const list_products = [
             <th><label>Type d'article</label></th>
             <th>
               <div>
-                <input type="radio" id="plat" name="drone" value="plat" checked>
+                <input v-model="type" type="radio" id="plat" name="drone" v-bind:value="'plat'" checked>
                 <label htmlFor="plat">Un plat</label>
               </div>
               <div>
-                <input type="radio" id="accompagnement" name="drone" value="accompagnement">
+                <input v-model="type" type="radio" id="accompagnement" name="drone" v-bind:value="'accompagnement'">
                 <label htmlFor="accompagnement">Un accompagnement</label>
               </div>
               <div>
-                <input type="radio" id="sauce" name="drone" value="sauce">
+                <input v-model="type" type="radio" id="sauce" name="drone" v-bind:value="'sauce'">
                 <label htmlFor="sauce">Une sauce</label>
               </div>
               <div>
-                <input type="radio" id="boisson" name="drone" value="boisson">
+                <input v-model="type" type="radio" id="boisson" name="drone" v-bind:value="'boisson'">
                 <label htmlFor="boisson">Une boisson</label>
               </div>
             </th>
