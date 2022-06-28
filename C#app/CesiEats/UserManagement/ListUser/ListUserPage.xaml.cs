@@ -31,16 +31,18 @@ namespace CesiEats.UserManagement.ListUser
         {
             this.userToken = userToken;
             UserAPI.Init(userToken);
-            InitializeComponent();
+            InitializeComponent();            
             VM = new ListUserViewModel
             {
                 ManageUserCommand = new RelayCommand(new Action<object>(ManageUser)),
             };
             DataContext = VM;
+
         }
 
         private async void ChargeUsers()
         {
+            this.NavigationService.RemoveBackEntry();
             List<User> users = null;
             users = await UserAPI.GetUsersAsync();
             VM.Users.Clear();
@@ -50,7 +52,9 @@ namespace CesiEats.UserManagement.ListUser
                 {
                     VM.Users.Add(user);
                 }
+            
             }
+            
 
             
         }

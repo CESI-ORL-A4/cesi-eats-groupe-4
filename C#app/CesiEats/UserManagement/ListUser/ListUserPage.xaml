@@ -24,13 +24,13 @@
             </i:Interaction.Triggers>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Address}"       Header="Address"     Width="6*" />
-                <DataGridTextColumn Binding="{Binding Email}"       Header="Email"     Width="4*" />
+                <DataGridTextColumn Binding="{Binding Address}"       Header="Addresse"     Width="6*" />
+                <DataGridTextColumn Binding="{Binding Email}"       Header="Email"     Width="6*" />
                 <DataGridTextColumn Binding="{Binding Role}"        Header="Role"     Width="4*" />
-                <DataGridTextColumn Binding="{Binding Birthdate}"        Header="Date naissance"     Width="8*" />
-                <DataGridTextColumn Binding="{Binding LastName}"        Header="Prenom"     Width="4*" />
+                <DataGridTextColumn Binding="{Binding Birthdate}"        Header="Date naissance"     Width="6*" />
+                <DataGridTextColumn Binding="{Binding LastName}"        Header="Prénom"     Width="4*" />
                 <DataGridTextColumn Binding="{Binding FirstName}"        Header="Nom"     Width="3*" />
-                <DataGridTextColumn Binding="{Binding Phone}"        Header="Téléphone"     Width="6*" />
+                <DataGridTextColumn Binding="{Binding Phone}"        Header="Téléphone"     Width="5*" />
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Ajouter Utilisateur" HorizontalAlignment="Left" Margin="814,645,0,0" VerticalAlignment="Top" Cursor="Hand" Click="CreateUser"/>

@@ -16,13 +16,12 @@
 
 
     <Grid>
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,84,0,0" Height="34" Width="120" FontFamily="Microsoft JhengHei UI" FontSize="16"><Run Language="fr-fr" Text="Email"/></TextBlock>
+        <Label HorizontalContentAlignment="Center" Content="Email" VerticalAlignment="Top" Margin="0,84,0,0" Height="34" Width="320" FontFamily="Microsoft YaHei" FontSize="24"/>
+        <TextBox x:Name="email" materialDesign:HintAssist.Hint="Email" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="320" Margin="0,150,0,0" Text="{Binding userConnection.Email}" Cursor="Arrow" Height="30" FontSize="14"/>
 
-        <TextBox x:Name="email" materialDesign:HintAssist.Hint="Email" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="0,130,0,0" Text="{Binding userConnection.Email}" Cursor="Arrow"/>
 
-
-        <TextBlock HorizontalAlignment="Center" Margin="0,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="34" FontFamily="Microsoft YaHei" FontSize="16"><Run Language="fr-fr" Text="Mot de passe"/></TextBlock>
-        <PasswordBox x:Name="password"  materialDesign:HintAssist.Hint="Mot de passe" HorizontalAlignment="Center" Margin="0,275,0,0" VerticalAlignment="Top" Width="120" Cursor="Arrow">
+        <Label HorizontalContentAlignment="Center" Margin="0,225,0,0" Content="Mot de passe" VerticalAlignment="Top" Width="320" Height="45" FontFamily="Microsoft YaHei" FontSize="24"/>
+        <PasswordBox x:Name="password"  materialDesign:HintAssist.Hint="Mot de passe" HorizontalAlignment="Center" Margin="0,310,0,0" VerticalAlignment="Top" Width="320" Cursor="Arrow" Height="30" FontSize="14">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PasswordChanged">
                     <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=PasswordBox}}" CommandParameter="{Binding ElementName=PasswordBox}"/>
@@ -30,11 +29,13 @@
             </i:Interaction.Triggers>
         </PasswordBox>
         <Button
-  Style="{StaticResource MaterialDesignPaperLightButton}"
+  Style="{StaticResource MaterialDesignOutlinedDarkButton}"
   ToolTip="Se connecter"
   Content="Se connecter"
-  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" VerticalAlignment="Top" Width="250" Margin="275,433,275,0" Click="ConnectAsync" Cursor="Hand" />
-        <Label HorizontalContentAlignment="Center" Foreground="Red" HorizontalAlignment="Center"  VerticalAlignment="Top" Margin="0,25,0,0" Height="34" Width="460" FontFamily="Microsoft JhengHei UI" FontSize="16" FontWeight="Normal"><Run Language="fr-fr" Text="{Binding userConnection.Errror}"/></Label>
+  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" VerticalAlignment="Top" Margin="332,430,328,0" Click="ConnectAsync" Cursor="Hand" FontSize="24" Height="65" />
+        <Label HorizontalContentAlignment="Center" Foreground="Red" HorizontalAlignment="Center"  VerticalAlignment="Top" Margin="0,25,0,0" Height="34" Width="460" FontFamily="Microsoft JhengHei UI" FontSize="16" FontWeight="Normal">
+            <Run Language="fr-fr" Text="{Binding userConnection.Errror}"/>
+        </Label>
 
     </Grid>
 </Page>
