@@ -114,6 +114,33 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
+      # =============== CATALOG MICROSERVICE ===============
+  catalog-service-db:
+    container_name: catalog-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${CATALOG_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${CATALOG_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${CATALOG_DB_DATABASE}
+    volumes:
+      - ./catalog-microservice/mongo/data:/data/db
+    networks:
+      - catalog-microservice-network
+  catalog-service-api:
+    container_name: catalog-service-api
+    build:
+      context: ./catalog-microservice
+    env_file:
+        - .env
+    depends_on:
+      - catalog-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - catalog-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
 
 networks:
   rabbitmq-network:
@@ -121,3 +148,5 @@ networks:
   auth-microservice-network:
   user-microservice-network:
   order-microservice-network:
+  catalog-microservice-network:
+  

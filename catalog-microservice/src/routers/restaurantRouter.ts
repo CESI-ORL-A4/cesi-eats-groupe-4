@@ -15,6 +15,7 @@ import {
 import GetRestaurantPayload from "../types/restaurant/GetRestaurantPayload";
 import {ValidationResult} from "joi";
 import GetRestaurantByOwnerIdPayload from "../types/restaurant/GetRestaurantByOwnerIdPayload";
+import mongoose from "mongoose";
 const restaurantRouter = Router({mergeParams: true});
 const multer = require('multer');
 const upload = multer();
@@ -37,14 +38,20 @@ restaurantRouter.post("/",upload.single('imageData'),
 });
 
 
-restaurantRouter.get("/:idRestaurant",
+restaurantRouter.get("/:restaurantId",
     async (req: ReqWithParams<GetRestaurantPayload>, res: Response) => {
         const payload = req.params;
-        if (!payload.idRestaurant) {
+        if (!payload.restaurantId) {
             return res.status(400).json({ error: "Id is required" });
         }
-        if (await restaurantExistByIdRestaurant(payload.idRestaurant)) {
-            return res.status(200).json({ status: "Restaurant exist",restaurant:await getRestaurant(payload.idRestaurant)});
+        try{
+            const objectId = new mongoose.Types.ObjectId(payload.restaurantId);
+        }
+        catch{
+            return res.status(401).json({ error: "Invalid restaurantId" });
+        }
+        if (await restaurantExistByIdRestaurant(payload.restaurantId)) {
+            return res.status(200).json({ status: "Restaurant exist",restaurant:await getRestaurant(payload.restaurantId)});
         }
         return res.status(401).json({ error: "Error" });
 });
@@ -76,19 +83,19 @@ restaurantRouter.get("/ownerId/:ownerId",
         return res.status(200).json({ status: "Restaurants","restaurant":restaurants});
     });
 
-restaurantRouter.put("/:idRestaurant",
+restaurantRouter.put("/:restaurantId",
     async (req: any, res: Response) => {
 
-        const idRestaurant = req.params?.idRestaurant;
+        const restaurantId = req.params?.restaurantId;
         const payload = req.body;
-        if (!idRestaurant) {
+        if (!restaurantId) {
             return res.status(400).json({ error: "Id is required" });
         }
-        if (await restaurantExistByIdRestaurant(idRestaurant)) {
+        if (await restaurantExistByIdRestaurant(restaurantId)) {
             const testFormatted : ValidationResult = isRestaurantUpdateGoodFormat(payload);
             if (!testFormatted.error)
             {
-                const addedRestaurant = await updateRestaurant(payload,idRestaurant);
+                const addedRestaurant = await updateRestaurant(payload,restaurantId);
                 return res.status(201).json({status: "Restaurant registered", restaurant: addedRestaurant});
             }
             else{
@@ -99,14 +106,14 @@ restaurantRouter.put("/:idRestaurant",
             return res.status(400).json({ error: "Restaurant does not exist" });
     });
 
-restaurantRouter.delete("/:idRestaurant",
+restaurantRouter.delete("/:restaurantId",
     async (req: ReqWithParams<GetRestaurantPayload>, res: Response) => {
-        const idRestaurant = req.params?.idRestaurant;
-        if (!idRestaurant) {
+        const restaurantId = req.params?.restaurantId;
+        if (!restaurantId) {
             return res.status(400).json({ error: "Id is required" });
         }
-        if (await getRestaurant(idRestaurant)) {
-            return res.status(200).json({ status: "Restaurant delete",restaurantId:await deleteRestaurant(idRestaurant)});
+        if (await getRestaurant(restaurantId)) {
+            return res.status(200).json({ status: "Restaurant delete",restaurantId:await deleteRestaurant(restaurantId)});
         }
         else
             return res.status(400).json({ error: "Restaurant does not exist" });

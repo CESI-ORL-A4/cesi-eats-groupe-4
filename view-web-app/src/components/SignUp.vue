@@ -1,22 +1,74 @@
 <script setup lang="ts">
-import AddressAutocomplete from "@/components/AddressAutocomplete.vue";
+import { ref } from 'vue';
+import axios from "axios";
+import config from "../config.json";
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
-let selection = "client";
-let dateValue = "";
-let userTypeOptions = [
-    { value: "client", text: "Je suis un client" },
-    { value: "deliverer", text: "Je suis un livreur" },
-    { value: "owner", text: "Je suis un restaurateur" },
+let toast = useToast();
+const router = useRouter();
+
+let userRoleOptions = [
+    { value: "BASIC", text: "Je suis un client" },
+    { value: "DELIVERER", text: "Je suis un livreur" },
+    { value: "OWNER", text: "Je suis un restaurateur" },
 ]
+
+const birthdate = ref();
+function dateFormat(date: any) {
+    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+}
+
+const isLoading = ref(false);
+
+const payload = {
+    role: "BASIC",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    address: "",
+    phone: "",
+    birthdate: ""
+}
+
+const errorsMapping: Record<string, string> = {
+    "User already exists": "Cet utilisateur existe déjà !"
+}
+
+function onSubmit() {
+    payload.birthdate = birthdate.value;
+    isLoading.value = true;
+    toast.clear();
+    axios.post(`${config.GATEWAY_URL}/users/register`, payload).then((_) => {
+        toast.success("Inscription réussie !", {
+            timeout: 5000
+        });
+        isLoading.value = false;
+        router.push("/signIn");
+    }, (error) => {
+        let errorMessage = "Une erreur est survenue...";
+        console.log("error", error);
+        if (error.response.data) {
+            if (error.response.data.error in errorsMapping) {
+                errorMessage = errorsMapping[error.response.data.error];
+            }
+        }
+        toast.error(errorMessage, {
+            timeout: 10000
+        });
+        isLoading.value = false;
+    })
+}
 </script>
 
 <template>
     <div class="signup-page" >
         <div class="signup-wrapper">
             <h2>Inscription</h2>
-            <b-form>
+            <b-form @submit.prevent="onSubmit">
                 <div class="client-type-selector">
-                    <b-form-select v-model="selection" :options="userTypeOptions"></b-form-select>
+                    <b-form-select v-model="payload.role" :options="userRoleOptions"></b-form-select>
                 </div>
                 <b-form-row>
                     <b-col>
@@ -27,6 +79,7 @@ let userTypeOptions = [
                             <b-form-input
                                 id="firstname-input"
                                 placeholder="Jean"
+                                v-model="payload.firstName"
                                 required
                             >
                             </b-form-input>
@@ -40,6 +93,7 @@ let userTypeOptions = [
                             <b-form-input
                                 id="lastname-input"
                                 placeholder="Martin"
+                                v-model="payload.lastName"
                                 required
                             >
                             </b-form-input>
@@ -54,6 +108,7 @@ let userTypeOptions = [
                         id="email-input"
                         placeholder="jean@gmail.com"
                         type="email"
+                        v-model="payload.email"
                         required
                     >
                     </b-form-input>
@@ -68,6 +123,7 @@ let userTypeOptions = [
                                 id="phone-input"
                                 placeholder="0689387644"
                                 type="phone"
+                                v-model="payload.phone"
                                 required
                             >
                             </b-form-input>
@@ -76,7 +132,7 @@ let userTypeOptions = [
                     <b-col>
                         <label for="birthday-picker">Date d'anniversaire :</label>
                         <div class="form-datepicker">
-                            <Datepicker/>
+                            <Datepicker v-model="birthdate" autoApply="true" :format="dateFormat" required/>
                         </div>
                     </b-col>
                 </b-form-row>
@@ -86,6 +142,7 @@ let userTypeOptions = [
                 >
                     <b-form-input
                         id="address-input"
+                        v-model="payload.address"
                         required
                     >
                     </b-form-input>
@@ -99,6 +156,7 @@ let userTypeOptions = [
                             <b-form-input
                                 id="password-input"
                                 type="password"
+                                v-model="payload.password"
                                 required
                             >
                             </b-form-input>
@@ -118,7 +176,8 @@ let userTypeOptions = [
                         </b-form-group>
                     </b-col>
                 </b-form-row>
-                <b-button type="submit" variant="dark">S'inscrire</b-button>
+                <b-button v-if="!isLoading" type="submit" variant="dark">S'inscrire</b-button>
+                <b-spinner v-if="isLoading" variant="success"/>
             </b-form>
         </div>
     </div>
@@ -126,6 +185,9 @@ let userTypeOptions = [
 
 
 <style scoped>
+.toast {
+    opacity: 0;
+}
 .signup-page {
     display: flex;
     justify-content: center;
