@@ -2,7 +2,7 @@ import FormData from "form-data";
 import axios from "axios";
 export async function getMenus(restaurantsId:string) {
     try {
-        const response = await axios.get('http://localhost:8080/catalog/restaurants'+restaurantsId+"/menus", {
+        const response = await axios.get('http://localhost:8080/catalog/restaurants/'+restaurantsId+"/menus", {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})

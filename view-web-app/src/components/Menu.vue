@@ -1,7 +1,23 @@
 <script setup lang="ts">
-import Modal from '@/components/Modal.vue'
 
-const list_menus = [
+import Modal from '@/components/Modal.vue'
+import {getRestaurants} from "@/modules/restaurantAPI";
+import {getMenus} from "@/modules/menuAPI";
+import {onBeforeMount, ref} from "vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute();
+let list_menus= ref([]);
+onBeforeMount(async () => {
+  const menus = await getMenus(route.params.id as string);
+  console.log(menus);
+  if(menus){
+    list_menus.value = menus;
+  }
+});
+
+
+const list_menu = [
   {
     id: "1",
     name: "Kebab",

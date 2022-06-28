@@ -10,6 +10,7 @@ const file = ref();
 let filename: string;
 let fileData: any;
 
+
 const addRestaurantEvent = async (e) => {
   e.preventDefault();
   const formData = new FormData();

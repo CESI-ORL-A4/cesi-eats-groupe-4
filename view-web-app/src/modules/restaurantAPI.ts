@@ -24,7 +24,7 @@ export async function getRestaurants() {
     try {
         const response = await axios.get('http://localhost:8080/catalog/restaurants/', {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "application/json"
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);

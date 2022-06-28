@@ -1,14 +1,26 @@
 <script setup lang="ts">
 
 import router from "@/router";
+import axios from "axios";
+import {onBeforeMount, ref} from "vue";
+import {getRestaurantByOwnerId, getRestaurants} from "@/modules/restaurantAPI";
+import {getMenus} from "@/modules/menuAPI";
+import {useRoute} from "vue-router";
 
-const list_restaurant= [
-  {id: "1" ,name : "burger-king", image: "https://images.squarespace-cdn.com/content/v1/5b2cd12dee17596af71ba454/1539847301184-3UITCHK67PAFGBIOSK7U/Pur-Restaurant-Paris.jpg", description: "cesi est un restaurant", address: "37a rue du nécotin"},
-  {id: "2" ,name : "burger-king", image: "https://images.squarespace-cdn.com/content/v1/5b2cd12dee17596af71ba454/1539847301184-3UITCHK67PAFGBIOSK7U/Pur-Restaurant-Paris.jpg", description: "cesi est un restaurant", address: "37a rue du nécotin"},
-  {id: "3" ,name : "burger-king", image: "https://images.squarespace-cdn.com/content/v1/5b2cd12dee17596af71ba454/1539847301184-3UITCHK67PAFGBIOSK7U/Pur-Restaurant-Paris.jpg", description: "cesi est un restaurant", address: "37a rue du nécotin"},
-  {id: "4" ,name : "burger-king", image: "https://images.squarespace-cdn.com/content/v1/5b2cd12dee17596af71ba454/1539847301184-3UITCHK67PAFGBIOSK7U/Pur-Restaurant-Paris.jpg", description: "cesi est un restaurant", address: "37a rue du nécotin"},
-  {id: "5" ,name : "burger-king", image: "https://images.squarespace-cdn.com/content/v1/5b2cd12dee17596af71ba454/1539847301184-3UITCHK67PAFGBIOSK7U/Pur-Restaurant-Paris.jpg", description: "cesi est un restaurant", address: "37a rue du nécotin"},
-]
+let list_restaurant= ref([]);
+
+
+
+
+onBeforeMount(async () => {
+  const restaurants = await getRestaurants();
+  console.log(restaurants);
+  if(restaurants){
+    list_restaurant.value = restaurants;
+  }
+});
+
+
 function pushMenu(id: string){
   router.push({path: `/restaurant/${id}`})
 }
@@ -23,10 +35,12 @@ function pushMenu(id: string){
       </h1><br/>
     </div>
     <div class="restaurants-wrapper">
-      <div class="restaurant-card"   :key="restaurant"  v-for="restaurant in list_restaurant" @click="pushMenu(restaurant.id)">
+      <div class="restaurant-card"   :key="restaurant"  v-for="restaurant in list_restaurant" @click="pushMenu(restaurant._id)">
         <img  class="image_restaurant" alt="restaurant" :src="restaurant.image">
         <h1>{{restaurant.name}}</h1>
-        <p>{{restaurant.address}}</p>
+        <h5>Adresse : </h5>
+        <p> {{restaurant.address}}</p>
+        <h5>Description : </h5>
         <p>{{restaurant.description}}</p>
       </div>
     </div>
@@ -48,6 +62,7 @@ function pushMenu(id: string){
   border-radius: 20px;
   padding: 20px;
   background-color: antiquewhite;
+  max-width: 400px;
 }
 
 .image_restaurant{
