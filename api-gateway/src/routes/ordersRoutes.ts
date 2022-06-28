@@ -8,8 +8,6 @@ function setupOrdersRoutes(app: express.Express) {
         process.env.ORDER_SERVICE_API_HOST,
         process.env.ORDER_SERVICE_API_PORT
     )
-
-    app.get("/orders", authCheck([Role.COMMERCIAL, Role.TECHNIC]), ordersProxy);
     app.get("/orders/:id", authCheck(), ordersProxy);
     app.get("/users/:id/orders", authCheck(), ordersProxy);
     app.get("/restaurants/:id/orders",
