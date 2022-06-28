@@ -11,74 +11,11 @@ const addProductEvent = async (e) => {
   e.preventDefault();
   if (!restaurantId)
     return;
-  const formData = {name:name.value,type:type.value};
+  const formData = {name: name.value, type: type.value};
   console.log(name.value);
   await addArticle(restaurantId, formData);
 }
 
-
-const list_products = [
-  {
-    id: "1",
-    name: "Kebab",
-    product_type: "plat",
-  },
-  {
-    id: "2",
-    name: "Tacos",
-    product_type: "plat",
-  },
-  {
-    id: "3",
-    name: "Burger",
-    product_type: "plat",
-  },
-  {
-    id: "4",
-    name: "Frites",
-    product_type: "accompagnement",
-  },
-  {
-    id: "5",
-    name: "Riz",
-    product_type: "accompagnement",
-  },
-  {
-    id: "6",
-    name: "Barbecue",
-    product_type: "sauce",
-  },
-  {
-    id: "7",
-    name: "Ketchup",
-    product_type: "sauce",
-  },
-  {
-    id: "8",
-    name: "Mayonnaise",
-    product_type: "sauce",
-  },
-  {
-    id: "9",
-    name: "Moutarde",
-    product_type: "sauce",
-  },
-  {
-    id: "10",
-    name: "Coca",
-    product_type: "boisson",
-  },
-  {
-    id: "11",
-    name: "Ice tea",
-    product_type: "boisson",
-  },
-  {
-    id: "12",
-    name: "Fanta",
-    product_type: "boisson",
-  },
-];
 
 </script>
 
@@ -106,7 +43,8 @@ const list_products = [
                 <label htmlFor="plat">Un plat</label>
               </div>
               <div>
-                <input v-model="type" type="radio" id="accompagnement" name="accompagnement" v-bind:value="'accompagnement'">
+                <input v-model="type" type="radio" id="accompagnement" name="accompagnement"
+                       v-bind:value="'accompagnement'">
                 <label htmlFor="accompagnement">Un accompagnement</label>
               </div>
               <div>
