@@ -1,33 +1,21 @@
 <script lang="ts" setup>
-import router from "@/router";
-
-import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
 import FormData from "form-data"
+import {addArticle} from "@/modules/articleAPI";
+import {ref} from "vue";
 
 const name = ref("");
-const product_type = ref("");
-//const file = ref();
-//let filename: string;
-//let fileData: any;
+const type = ref("");
 
+const restaurantId = localStorage.getItem('restaurantId');
 const addProductEvent = async (e) => {
   e.preventDefault();
-  const formData = new FormData();
-  //console.log(fileData);
-  //formData.append("imageData", fileData);
-  formData.append("name", name.value);
-  formData.append("product_type", product_type.value);
-  //formData.append("imageName", filename);
-  await addRestaurant(formData);
+  if (!restaurantId)
+    return;
+  const formData = {name:name.value,type:type.value};
+  console.log(name.value);
+  await addArticle(restaurantId, formData);
 }
 
-/*
-const onFilePicked = (event) => {
-  fileData = event.target.files[0];
-  filename = fileData.name;
-}
-*/
 
 const list_products = [
   {
@@ -114,19 +102,19 @@ const list_products = [
             <th><label>Type d'article</label></th>
             <th>
               <div>
-                <input type="radio" id="plat" name="drone" value="plat" checked>
+                <input v-model="type" type="radio" id="plat" name="drone" v-bind:value="'plat'" checked>
                 <label htmlFor="plat">Un plat</label>
               </div>
               <div>
-                <input type="radio" id="accompagnement" name="drone" value="accompagnement">
+                <input v-model="type" type="radio" id="accompagnement" name="drone" v-bind:value="'accompagnement'">
                 <label htmlFor="accompagnement">Un accompagnement</label>
               </div>
               <div>
-                <input type="radio" id="sauce" name="drone" value="sauce">
+                <input v-model="type" type="radio" id="sauce" name="drone" v-bind:value="'sauce'">
                 <label htmlFor="sauce">Une sauce</label>
               </div>
               <div>
-                <input type="radio" id="boisson" name="drone" value="boisson">
+                <input v-model="type" type="radio" id="boisson" name="drone" v-bind:value="'boisson'">
                 <label htmlFor="boisson">Une boisson</label>
               </div>
             </th>
@@ -135,7 +123,7 @@ const list_products = [
         </table>
         <div>
           <br>
-          <button @click="addProductEvent" type="submit" class="btn_add_form">Ajouter</button>
+          <button @click="addProductEvent" class="btn_add_form">Ajouter</button>
         </div>
       </form>
     </div>

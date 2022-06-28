@@ -76,7 +76,7 @@ const router = createRouter({
         {
             path: '/owner/products',
             name: 'owner-products',
-            component: () => import('../views/owners/Owner-ProductsView.vue'),
+            component: () => import('../views/owners/OwnerProductsView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -86,7 +86,7 @@ const router = createRouter({
         {
             path: '/owner/product/add',
             name: 'owner-product-add',
-            component: () => import('../views/owners/Owner-ProductAddView.vue'),
+            component: () => import('../views/owners/OwnerProductAddView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -96,7 +96,7 @@ const router = createRouter({
         {
             path: '/owner/commands',
             name: 'owner-commands',
-            component: () => import('../views/owners/Owner-CommandsView.vue'),
+            component: () => import('../views/owners/OwnerCommandsView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -106,7 +106,7 @@ const router = createRouter({
         {
             path: '/owner/history-command',
             name: 'owner-history-command',
-            component: () => import('../views/owners/Owner-HistoryCommandView.vue'),
+            component: () => import('../views/owners/OwnerHistoryCommandView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -116,7 +116,7 @@ const router = createRouter({
         {
             path: '/owner/menus',
             name: 'owner-menus',
-            component: () => import('../views/owners/Owner-MenusView.vue'),
+            component: () => import('../views/owners/OwnerMenusView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -126,7 +126,7 @@ const router = createRouter({
         {
             path: '/owner/menu/add',
             name: 'owner-menu-add',
-            component: () => import('../views/owners/Owner-MenuAddView.vue'),
+            component: () => import('../views/owners/OwnerMenuAddView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -136,7 +136,7 @@ const router = createRouter({
         {
             path: '/owner/new',
             name: 'owner-new',
-            component: () => import('../views/owners/Owner-NewView.vue'),
+            component: () => import('../views/owners/OwnerNewView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -146,7 +146,7 @@ const router = createRouter({
         {
             path: '/owner/restaurant-information',
             name: 'owner-restaurant-information',
-            component: () => import('../views/owners/Owner-RestaurantInformationView.vue'),
+            component: () => import('../views/owners/OwnerRestaurantInformationView.vue'),
             /*
             meta: {
                 requiresAuth: true,
@@ -156,7 +156,7 @@ const router = createRouter({
         {
             path: '/owner/stats',
             name: 'owner-stats',
-            component: () => import('../views/owners/Owner-StatsView.vue'),
+            component: () => import('../views/owners/OwnerStatsView.vue'),
             /*
             meta: {
                 requiresAuth: true,

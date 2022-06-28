@@ -16,9 +16,7 @@ articleRouter.post("/",
     async (req: any, res: Response) => {
         const payload = JSON.parse(JSON.stringify(req.body));
         const restaurantId = req.params.restaurantId;
-        console.log("Create article");
         const testFormatted = isArticleGoodFormat(payload);
-        console.log(payload);
         if (!payload)
             return res.status(400).json({error:"No Body"});
         if (!testFormatted.error)
@@ -40,8 +38,6 @@ articleRouter.post("/",
 
 articleRouter.get("/:articleId",async (req: ReqWithParams<GetArticlePayload>, res: Response) => {
     const payload = req.params;
-    console.log("get article ");
-    console.log(payload);
     if (!payload.articleId || !payload.restaurantId) {
         return res.status(400).json({error: "Restaurant or Article ID missing"});
     }
@@ -61,8 +57,6 @@ articleRouter.get("/:articleId",async (req: ReqWithParams<GetArticlePayload>, re
 articleRouter.get("/",
     async (req: ReqWithParams<GetArticlesPayload>, res: Response) => {
     const payload = req.params;
-        console.log(req);
-        console.log(payload);
         let articles;
     try{
         articles = await getArticles(payload.restaurantId);
@@ -79,8 +73,6 @@ articleRouter.put("/:articleId",
         const payload = req.body;
         const restaurantId = req.params?.restaurantId;
         const articleId = req.params?.articleId;
-        console.log("update ");
-        console.log(articleId);
         if (!articleId || !restaurantId) {
             return res.status(400).json({ error: "Id is required" });
         }
@@ -91,8 +83,8 @@ articleRouter.put("/:articleId",
             {
                 if (!payload.currency)
                     payload.currency = "€";
-                const addedUser = await updateArticle(restaurantId,articleId,payload);
-                return res.status(201).json({status: "Article registered", Article: addedUser});
+                const addedArticle = await updateArticle(restaurantId,articleId,payload);
+                return res.status(201).json({status: "Article registered", article: addedArticle});
             }
             else{
                 return res.status(400).json({error:testFormatted?.error?.message});
@@ -103,10 +95,8 @@ articleRouter.put("/:articleId",
     });
 
 articleRouter.delete("/:articleId",
-    async (req: ReqWithBody<DeleteArticlePayload>, res: Response) => {
+    async (req: ReqWithParams<DeleteArticlePayload>, res: Response) => {
         const payload = req.params;
-        console.log("get ");
-        console.log(payload);
         if (!payload.articleId || !payload.restaurantId) {
             return res.status(400).json({ error: "Article Id is required" });
         }
@@ -117,7 +107,7 @@ articleRouter.delete("/:articleId",
             return res.status(400).json({ error: "Article exists in menu" });
         }
         if (await getArticle(payload.restaurantId,payload.articleId)) {
-            return res.status(200).json({ status: "Article delete",user:await deleteArticle(payload.restaurantId,payload.articleId)});
+            return res.status(200).json({ status: "Article delete",articleId:await deleteArticle(payload.restaurantId,payload.articleId)});
         }
         else
             return res.status(400).json({ error: "Article does not exist" });

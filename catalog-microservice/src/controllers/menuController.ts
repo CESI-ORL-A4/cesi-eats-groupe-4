@@ -21,7 +21,7 @@ export async function createMenu(idRestaurant:string,payload: AddMenuPayload, fi
     payload._id = _id;
     if (payload.imageName)
     {
-        linkImage = uploadImage(file,payload.imageName);
+        linkImage = await uploadImage(file,payload.imageName);
         payload.linkImage = linkImage;
     }
     const restaurant = await getRestaurant(idRestaurant);
@@ -90,7 +90,7 @@ export async function updateMenu(menuId: string,restaurantId: string,payload:any
             let linkImage = ""
             if (payload.imageName)
             {
-                linkImage = uploadImage(file,payload.imageName);
+                linkImage = await uploadImage(file,payload.imageName);
                 menu.image = linkImage;
             }
             menu._id = new mongoose.Types.ObjectId(menuId);
