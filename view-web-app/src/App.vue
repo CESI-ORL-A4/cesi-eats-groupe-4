@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import Banner from '@/components/Banner.vue'
+import { onMounted } from 'vue';
+import { tryLoadUserData } from "./auth/auth";
+
+onMounted(() => {
+    tryLoadUserData();
+})
 
 </script>
 
