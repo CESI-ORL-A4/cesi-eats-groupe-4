@@ -48,7 +48,6 @@ function onSubmit() {
         router.push("/signIn");
     }, (error) => {
         let errorMessage = "Une erreur est survenue...";
-        console.log("error", error);
         if (error.response.data) {
             if (error.response.data.error in errorsMapping) {
                 errorMessage = errorsMapping[error.response.data.error];

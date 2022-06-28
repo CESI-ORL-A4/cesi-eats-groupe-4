@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { InjectionKey } from 'vue';
 import config from "../config.json";
 import { createStore, Store, useStore  } from 'vuex';
+import { loadUserData } from '@/modules/userAPI';
 
 export interface UserState {
     id: string;
@@ -26,14 +27,20 @@ export const store = createStore<State>({
   actions: {
       async fetchUserData({ commit }, payload: UserState) {
           try {
-              const response = await axios.get(`${config.GATEWAY_URL}/users/${payload.id}`);
-              const { id, firstName } = response.data;
-              commit("setUserData", {
-                  id,
-                  firstName,
-                  role: payload.role
-              })
-          } catch (e) {}
+              const response = await loadUserData(payload.id);
+              if (response) {
+                  const { id, firstName } = response.data;
+                  commit("setUserData", {
+                      id,
+                      firstName,
+                      role: payload.role
+                  })
+              } else {
+                  commit("setUserDataLoaded");
+              }
+          } catch (e) {
+              commit("setUserDataLoaded");
+          }
       }
   },
   mutations: {
