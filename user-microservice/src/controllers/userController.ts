@@ -14,13 +14,11 @@ export async function userExistsById(id: number) {
     return userCount>0;
 }
 
-export async function updateUser(payload: UserAttributes) {
+export async function updateUser(payload: any) {
     const [updatedUser, created] = await User.upsert(payload);
     RabbitMQ.getInstance().then(rabbit => rabbit.send(QueueName.UPDATE_USER, JSON.stringify({
         userId: updatedUser.id,
-        email: updatedUser.email,
-        password: payload.password,
-        role: payload.role
+        ...payload
     })));
     return [updatedUser, created];
 }
