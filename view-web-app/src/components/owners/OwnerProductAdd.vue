@@ -102,19 +102,19 @@ const list_products = [
             <th><label>Type d'article</label></th>
             <th>
               <div>
-                <input v-model="type" type="radio" id="plat" name="drone" v-bind:value="'plat'" checked>
+                <input v-model="type" type="radio" id="plat" name="plat" v-bind:value="'plat'">
                 <label htmlFor="plat">Un plat</label>
               </div>
               <div>
-                <input v-model="type" type="radio" id="accompagnement" name="drone" v-bind:value="'accompagnement'">
+                <input v-model="type" type="radio" id="accompagnement" name="accompagnement" v-bind:value="'accompagnement'">
                 <label htmlFor="accompagnement">Un accompagnement</label>
               </div>
               <div>
-                <input v-model="type" type="radio" id="sauce" name="drone" v-bind:value="'sauce'">
+                <input v-model="type" type="radio" id="sauce" name="sauce" v-bind:value="'sauce'">
                 <label htmlFor="sauce">Une sauce</label>
               </div>
               <div>
-                <input v-model="type" type="radio" id="boisson" name="drone" v-bind:value="'boisson'">
+                <input v-model="type" type="radio" id="boisson" name="boisson" v-bind:value="'boisson'">
                 <label htmlFor="boisson">Une boisson</label>
               </div>
             </th>
