@@ -9,7 +9,7 @@ import config from "../config.json";
 const toast = useToast();
 const store = useGlobalStore();
 const isEditing = ref(false);
-const isLoading = ref(false);
+const isLoading = ref(true);
 
 const birthdate = ref();
 function dateFormat(date: any) {
@@ -28,6 +28,7 @@ const payload = ref({
 onBeforeMount(async () => {
     if (store.state.user?.id) {
         const response = await loadUserData(store.state.user?.id);
+        isLoading.value = false;
         if (response) {
             const { firstName, lastName, email, address, phone } = response.data;
             payload.value = {
@@ -55,7 +56,7 @@ function onSubmit() {
         updatePayload = payloadContent;
     }
 
-    axios.put(`${config.GATEWAY_URL}/users`, updatePayload).then((_) => {
+    axios.put(`${config.GATEWAY_URL}/users/${store.state.user?.id}`, updatePayload).then((_) => {
         toast.success("Données mises à jour !", {
             timeout: 5000
         });
@@ -74,7 +75,8 @@ function onSubmit() {
 
 <template>
     <div class="user-infos-page" >
-        <div class="user-infos-wrapper">
+        <b-spinner class="loading-spinner" v-if="isLoading" variant="success"/>
+        <div v-if="!isLoading" class="user-infos-wrapper">
             <h2>Mes informations personnelles</h2>
             <b-form @submit.prevent="onSubmit">
                 <b-form-row>
@@ -200,6 +202,11 @@ function onSubmit() {
 
 
 <style scoped>
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    margin-top: 50px;
+}
 .toast {
     opacity: 0;
 }
