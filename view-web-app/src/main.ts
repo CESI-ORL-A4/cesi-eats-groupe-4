@@ -10,6 +10,8 @@ import '@vuepic/vue-datepicker/dist/main.css';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
+import { store, storeKey } from './stores/store';
+import axios from 'axios';
 
 const app = createApp(App)
 
@@ -19,4 +21,13 @@ app.use(Toast, {
 });
 app.component('Datepicker', Datepicker);
 app.use(router)
+app.use(store, storeKey);
 app.mount('#app')
+
+axios.interceptors.request.use(function(config) {
+    const token = localStorage.getItem('jwt');
+    if (token && config.headers) {
+        config.headers.Authorization = "Bearer " + token;
+    }
+    return config;
+})
