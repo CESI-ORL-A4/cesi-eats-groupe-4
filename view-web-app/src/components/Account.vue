@@ -11,10 +11,8 @@ const store = useGlobalStore();
 const isEditing = ref(false);
 const isLoading = ref(true);
 
-const birthdate = ref();
-function dateFormat(date: any) {
-    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-}
+const birthdate = ref("23/03/2000");
+const dateFormat = "dd/MM/yyyy";
 
 watch(() => store.state.user?.id, async (id) => {
     if (id) {
@@ -30,7 +28,7 @@ watch(() => store.state.user?.id, async (id) => {
                 address,
                 phone,
             }
-            birthdate.value = new Date(response.data.birthdate).toLocaleDateString();
+            birthdate.value = response.data.birthdate;
         }
     } 
 }, { immediate: true });
@@ -70,7 +68,6 @@ function onSubmit() {
     })
 
 }
-
 </script>
 
 <template>
@@ -143,7 +140,7 @@ function onSubmit() {
                         <div class="form-datepicker">
                             <Datepicker
                                 v-model="birthdate"
-                                autoApply="true"
+                                autoApply
                                 :format="dateFormat"
                                 :disabled="!isEditing"
                             />
