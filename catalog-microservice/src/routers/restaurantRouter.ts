@@ -58,7 +58,7 @@ restaurantRouter.get("/",
     catch {
         return res.status(400).json({ error: "error" });
     }
-    return res.status(200).json({ status: "Restaurants",restaurants});
+    return res.status(200).json({ status: "Restaurants","restaurant":restaurants});
     });
 
 restaurantRouter.get("/ownerId/:ownerId",
@@ -73,7 +73,7 @@ restaurantRouter.get("/ownerId/:ownerId",
         catch {
             return res.status(400).json({ error: "error" });
         }
-        return res.status(200).json({ status: "Restaurants",restaurants});
+        return res.status(200).json({ status: "Restaurants","restaurant":restaurants});
     });
 
 restaurantRouter.put("/:idRestaurant",

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 
 import router from "@/router";
+import {onBeforeMount, ref} from "vue";
+import {getRestaurantByOwnerId} from "@/modules/restaurantAPI";
+import {getArticles} from "@/modules/articleAPI";
 
 function pushProductUpdatePage(id: string) {
   router.push({path: `/owner/product/${id}`})
@@ -9,7 +12,17 @@ function pushProductAddPage() {
   router.push({name: "owner-product-add"})
 }
 
-const list_products = [
+onBeforeMount(async () => {
+  const products = await getArticles(localStorage.getItem('restaurantId'));
+  console.log(products);
+  if(products){
+    list_products.value = products;
+  }
+});
+
+const list_products = ref([]);
+
+const list_products_old = [
   {
     id: "1",
     name: "Kebab",

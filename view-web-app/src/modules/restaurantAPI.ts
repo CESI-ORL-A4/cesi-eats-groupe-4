@@ -7,12 +7,13 @@ export async function getRestaurantByOwnerId(ownerId:string) {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
-        if (response.status != 200) {
+        if (response.status < 200 || response.status > 300) {
             console.log(response);
             console.log(response.data.error);
             return null;
         }
         // Don't forget to return something
+        console.log(response);
         return response.data.restaurant;
     } catch (err) {
         console.error(err);
@@ -25,7 +26,7 @@ export async function getRestaurants() {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
-        if (response.status != 200) {
+        if (response.status < 200 || response.status > 300) {
             console.log(response);
             console.log(response.data.error);
             return null;
@@ -43,7 +44,7 @@ export async function addRestaurant(form:FormData) {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
-        if (response.status != 200) {
+        if (response.status < 200 || response.status > 300) {
             console.log(response);
             console.log(response.data.error);
             return null;
@@ -61,7 +62,7 @@ export async function updateRestaurant(form:FormData,restaurantId:string) {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
-        if (response.status != 200) {
+        if (response.status < 200 || response.status > 300) {
             console.log(response);
             console.log(response.data.error);
             return null;
@@ -79,7 +80,7 @@ export async function deleteRestaurant(form:FormData,restaurantId:string) {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
-        if (response.status != 200) {
+        if (response.status < 200 || response.status > 300) {
             console.log(response);
             console.log(response.data.error);
             return null;

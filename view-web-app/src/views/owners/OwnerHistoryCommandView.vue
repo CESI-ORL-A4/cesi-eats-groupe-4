@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Banner from '@/components/Banner.vue'
-import Owners_Product from '@/components/owners/Owner-Products.vue'
+import Owners_History from '@/components/owners/OwnerHistoryCommand.vue'
 </script>
 
 <template>
-  <Owners_Product/>
+  <Owners_History/>
 </template>
