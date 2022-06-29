@@ -16,13 +16,13 @@ const list_products = ref([]);
 
 const name = ref("");
 const description = ref("");
-const articles = ref([]);
+const selectedArticles:Array<string> = [];
 const price = ref("");
 const file = ref();
-let filename: string;
+let fileName: string;
 let fileData: any;
 
-const restaurantId = localStorage.getItem("restaurantId");
+const restaurantId = localStorage.getItem('restaurantId');
 const addMenuEvent = async (e) => {
   e.preventDefault();
   if (!restaurantId)
@@ -30,17 +30,31 @@ const addMenuEvent = async (e) => {
   const formData = {
     name: name.value,
     description: description.value,
-    articles: articles.value,
+    articles: JSON.stringify(selectedArticles),
     price: price.value,
-    file: file.value
+    imageData: fileData,
+    imageName: fileName,
   };
-  console.log(name.value);
+  console.log(formData);
   await addMenu(restaurantId, formData);
 }
 
 const onFilePicked = (event) => {
   fileData = event.target.files[0];
-  filename = fileData.name;
+  fileName = fileData.name;
+};
+
+const changeArticles = (articleId) => {
+  const index = selectedArticles.findIndex(article => article === articleId);
+  if(index === -1){
+    selectedArticles.push(articleId);
+  }
+  else{
+    selectedArticles.splice(index,1);
+  }
+  console.log(index);
+  console.log(selectedArticles);
+
 };
 
 
@@ -50,7 +64,7 @@ const onFilePicked = (event) => {
   <div class="owner_add_menu-page">
     <div class="owner_add_menu-wrapper">
       <h2>Ajout d'un nouveau menu</h2>
-      <b-form>
+      <b-form @submit.prevent="addMenuEvent">
         <b-form-group
             label="Nom du menu :"
             label-for="name-input"
@@ -92,11 +106,11 @@ const onFilePicked = (event) => {
           >
           </b-form-input>
         </b-form-group>
-        <b-form-group>
+        <b-form-checkbox-groupb>
           <span v-for="(product, index) in list_products">
-            <b-form-checkbox :value="product._id">{{ product.name }} ({{ product.type }})</b-form-checkbox>
+            <b-form-checkbox @change="changeArticles" :value="product._id">{{ product.name }} ({{ product.type }})</b-form-checkbox>
           </span>
-        </b-form-group>
+        </b-form-checkbox-groupb>
 
         <b-form-group
             label="Image :"
@@ -111,7 +125,7 @@ const onFilePicked = (event) => {
               required
           />
         </b-form-group>
-        <b-button @click="addMenuEvent" variant="dark">Ajouter le menu</b-button>
+        <b-button type="submit" variant="dark">Ajouter le menu</b-button>
       </b-form>
     </div>
   </div>

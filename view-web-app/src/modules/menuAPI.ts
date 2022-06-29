@@ -6,7 +6,8 @@ export async function getMenus(restaurantsId:string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantsId+"/menus", {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
@@ -58,9 +59,10 @@ export async function deleteMenu(restaurantsId:string,menuId:string) {
 
 export async function addMenu(restaurantsId:string,form:FormData) {
     try {
-        const response = await axios.post(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantsId+"/menus/",form, {
+        const response = await axios.post(`http://localhost:8080/catalog/restaurants/`+restaurantsId+"/menus/",form, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
