@@ -14,7 +14,6 @@ const isLogged = computed(() => !!store.state.user);
 const isLoadingUser = computed(() => store.state.isLoadingUserData);
 const role = localStorage.getItem('role')
 
-
 function redirection(){
   if(role == "BASIC"){
     router.push('/restaurants')

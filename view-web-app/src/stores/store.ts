@@ -34,7 +34,10 @@ export const store = createStore<State>({
                   let restaurantId = undefined;
 
                   if (payload.role === "OWNER") {
-                      restaurantId = (await getRestaurantByOwnerId(id))._id;
+                      const restaurant = await getRestaurantByOwnerId(id);
+                      if (restaurant) {
+                          restaurantId = restaurant._id;
+                      }
                   }
 
                   commit("setUserData", {
@@ -55,6 +58,7 @@ export const store = createStore<State>({
       setUserData (state: State, payload: UserState) {
           state.user = payload;
           state.isLoadingUserData = false;
+          console.log("set data", state.user);
       },
       clearUserData (state: State) {
           state.user = undefined;

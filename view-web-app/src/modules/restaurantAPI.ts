@@ -3,12 +3,17 @@ import axios from "axios";
 export async function getRestaurantByOwnerId(ownerId:string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/ownerId/`+ownerId);
+
         if (response.status < 200 || response.status > 300) {
-            return null;
+            return undefined;
         }
-        return response.data.restaurant;
+
+        if (response.data.restaurant) {
+            return response.data.restaurant;
+        }
+        return undefined;
     } catch (err) {
-        return null;
+        return undefined;
     }
 }
 
