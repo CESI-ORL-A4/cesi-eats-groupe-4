@@ -15,7 +15,7 @@ const birthdate = ref("23/03/2000");
 const dateFormat = "dd/MM/yyyy";
 
 watch(() => store.state.user?.id, async (id) => {
-    if (id) {
+    if (id) {
         const response = await loadUserData(id);
         isLoading.value = false;
         if (response) {

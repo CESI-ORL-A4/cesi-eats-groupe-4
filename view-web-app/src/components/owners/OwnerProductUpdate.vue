@@ -19,7 +19,7 @@ const restaurantId = localStorage.getItem('restaurantId');
 const urlcourante = document.location.href;
 const articleId = urlcourante.substring (urlcourante.lastIndexOf( "/" )+1 );
 
-const addProductEvent = async (e) => {
+const updateProductEvent = async (e) => {
   e.preventDefault();
   if (!restaurantId)
     return;
@@ -36,7 +36,7 @@ const addProductEvent = async (e) => {
   <div class="owner_add_menu-page">
     <div class="owner_add_menu-wrapper">
       <h2>Ajout d'un nouvel article</h2>
-      <b-form @submit.prevent="addProductEvent">
+      <b-form @submit.prevent="updateProductEvent">
         <b-form-group
             label="Nom de l'article :"
             label-for="name-input"
@@ -60,7 +60,7 @@ const addProductEvent = async (e) => {
           </div>
         </b-form-group>
 
-        <b-button type="submit" variant="dark">Ajouter le menu</b-button>
+        <b-button type="submit" variant="dark">Modifier le menu</b-button>
       </b-form>
     </div>
   </div>
