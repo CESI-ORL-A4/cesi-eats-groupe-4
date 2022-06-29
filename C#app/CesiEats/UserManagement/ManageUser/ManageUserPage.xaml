@@ -1,0 +1,70 @@
+﻿<Page x:Class="CesiEats.UserManagement.ManageUser.ManageUserPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CesiEats.UserManagement.ManageUser"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+      xmlns:Converters="clr-namespace:CesiEats.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1050"
+      Title="ManageUser">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Green" SecondaryColor="Green" />
+            </ResourceDictionary.MergedDictionaries>
+            <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <Converters:NotBoolToVisibilityConverter x:Key="NotBoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
+    <Page.DataContext>
+        <local:ManageUserViewModel />
+    </Page.DataContext>
+
+    <Grid>
+        <Label Content="Prénom :" HorizontalAlignment="Left" Margin="70,56,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16"/>
+        <TextBox HorizontalAlignment="Left" Margin="70,100,0,0" TextWrapping="Wrap" Text="{Binding User.FirstName}" VerticalAlignment="Top" Width="175" FontSize="14"/>
+
+
+
+        <Label Content="Nom :" HorizontalAlignment="Left" Margin="304,56,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16"/>
+        <TextBox HorizontalAlignment="Left" Margin="304,100,0,0" TextWrapping="Wrap" Text="{Binding User.LastName}" VerticalAlignment="Top" Width="148" FontSize="14"/>
+
+        <Label Content="Téléphone :" HorizontalAlignment="Left" Margin="542,56,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16"/>
+        <TextBox HorizontalAlignment="Left" Margin="542,100,0,0" TextWrapping="Wrap" Text="{Binding User.Phone}" VerticalAlignment="Top" Width="159" FontSize="14"/>
+
+        <Label Content="Date de naissance :" HorizontalAlignment="Left" Margin="810,56,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Microsoft YaHei UI"/>
+
+        <Label Content="Addresse :" HorizontalAlignment="Left" Margin="70,231,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16"/>
+        <TextBox HorizontalAlignment="Left" Margin="70,275,0,0" TextWrapping="Wrap" Text="{Binding User.Address}" VerticalAlignment="Top" Width="175" FontSize="14"/>
+
+        <Label Content="Password :" HorizontalAlignment="Left" Margin="304,231,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16" Width="98"/>
+        <PasswordBox HorizontalAlignment="Left" Margin="304,275,0,0" x:Name="password" VerticalAlignment="Top" Width="148" FontSize="14" Cursor="Arrow"/>
+
+        <Label Content="Role :" HorizontalAlignment="Left" Margin="542,231,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16"/>
+
+        <Label Visibility="{Binding Create, Converter={StaticResource NotBoolToVisibilityConverter}}" Content="Id :" HorizontalAlignment="Left" Margin="810,231,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16"/>
+        <TextBox Visibility="{Binding Create, Converter={StaticResource NotBoolToVisibilityConverter}}"  IsEnabled="False" HorizontalAlignment="Left" Margin="810,275,0,0" TextWrapping="Wrap" Text="{Binding User.Id}" VerticalAlignment="Top" Width="171" Cursor="Arrow" FontSize="14"/>
+        <Button Visibility="{Binding Create, Converter={StaticResource NotBoolToVisibilityConverter}}" Content="Supprimer" HorizontalAlignment="Left" Margin="110,581,0,0" VerticalAlignment="Top" Click="DeleteUser" Cursor="Hand" Width="145" Height="34"/>
+        <Button Content="Valider" HorizontalAlignment="Right" Margin="0,581,110,0" VerticalAlignment="Top" Click="CreateUpdateUser" Cursor="Hand" Width="145"/>
+        <Label Content="Email :" HorizontalAlignment="Left" Margin="428,406,0,0" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="16"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,450,0,0" TextWrapping="Wrap" Text="{Binding User.Email}" VerticalAlignment="Top" Width="193" Cursor="Arrow" FontSize="14"/>
+
+        <ComboBox Text="{Binding User.Role}" HorizontalAlignment="Left" Margin="542,275,0,0" VerticalAlignment="Top" Width="159" SelectedItem="{Binding User.Role}"
+  materialDesign:HintAssist.Hint="Role" FontSize="14">
+            <ComboBoxItem
+    Content="TECHNIC" />
+            <ComboBoxItem
+    Content="OWNER" />
+            <ComboBoxItem
+    Content="BASIC" />
+            <ComboBoxItem
+    Content="DELIVERER" />
+            <ComboBoxItem
+    Content="COMMERCIAL" />
+        </ComboBox>
+        <DatePicker SelectedDate="{Binding User.Birthdate}" HorizontalAlignment="Left" Margin="810,103,0,0" VerticalAlignment="Top" Width="170"/>
+    </Grid>
+</Page>

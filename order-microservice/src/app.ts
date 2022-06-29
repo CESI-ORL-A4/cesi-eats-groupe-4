@@ -9,7 +9,7 @@ import restaurantsRouter from "./routers/restaurantsRouter";
 import usersRouter from "./routers/usersRouter";
 
 const app: express.Express = express();
-const port = 8080;
+const port = process.env.ORDER_SERVICE_API_PORT || 8080;
 
 connectMongoDB();
 

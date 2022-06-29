@@ -3,7 +3,7 @@ enum OrderState {
     IN_PRODUCTION = "IN_PRODUCTION",
     READY_TO_SHIP = "READY_TO_SHIP",
     UNDER_SHIPMENT = "UNDER_SHIPMENT",
-    SHIPPED = "SHIPPED"
+    DELIVERED = "DELIVERED"
 }
 
 export default OrderState;
