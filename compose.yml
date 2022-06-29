@@ -114,7 +114,7 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
-      # =============== CATALOG MICROSERVICE ===============
+  # =============== CATALOG MICROSERVICE ===============
   catalog-service-db:
     container_name: catalog-service-db
     image: mongo
@@ -143,6 +143,33 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
+  # =============== DELIVERY MICROSERVICE ===============
+  delivery-service-db:
+    container_name: delivery-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DELIVERY_SERVICE_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${DELIVERY_SERVICE_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DELIVERY_SERVICE_DB_NAME}
+    volumes:
+      - ./delivery-microservice/mongo/data:/data/db
+    networks:
+      - delivery-microservice-network
+  delivery-service-api:
+    container_name: delivery-service-api
+    build:
+      context: ./delivery-microservice
+    env_file:
+        - .env
+    depends_on:
+      - delivery-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - delivery-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
 
 networks:
   rabbitmq-network:
@@ -151,4 +178,5 @@ networks:
   user-microservice-network:
   order-microservice-network:
   catalog-microservice-network:
+  delivery-microservice-network:
   

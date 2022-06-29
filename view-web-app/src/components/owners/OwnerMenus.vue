@@ -98,7 +98,7 @@ const list_menus = ref([]);
                 </div>
               </b-card-text>
               <div v-if="role === 'OWNER' ">
-                <b-button href="#" variant="success">Modifier / Supprimer le menu</b-button>
+                <b-button @click="pushMenuUpdatePage(menu._id)" variant="dark">Modifier / Supprimer le menu</b-button>
               </div>
               <div v-if="role === 'BASIC' ">
                 <b-button @click="addMenuToCart(menu)" variant="success">Ajouter au panier</b-button>

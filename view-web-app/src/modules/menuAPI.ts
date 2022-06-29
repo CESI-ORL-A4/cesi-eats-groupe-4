@@ -78,7 +78,7 @@ export async function addMenu(restaurantsId:string,form:FormData) {
 
 export async function updateMenu(restaurantsId:string,menuId:string,form:FormData) {
     try {
-        const response = await axios.put(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantsId+"/menus/"+menuId,form, {
+        const response = await axios.put(`http://localhost:8080/catalog/restaurants/`+restaurantsId+"/menus/"+menuId,form, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
