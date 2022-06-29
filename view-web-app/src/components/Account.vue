@@ -1,128 +1,247 @@
 <script setup lang="ts">
-import router from "@/router";
-import {onBeforeMount, ref} from "vue";
-import {getRestaurantByOwnerId} from "@/modules/restaurantAPI";
+import { loadUserData } from "@/modules/userAPI";
+import useGlobalStore from "@/stores/store";
+import axios from "axios";
+import {ref, watch} from "vue";
+import { useToast } from "vue-toastification";
+import config from "../config.json";
 
-function basicPage() {
-  router.push({name: "basic"})
-}
+const toast = useToast();
+const store = useGlobalStore();
+const isEditing = ref(false);
+const isLoading = ref(true);
 
-function delivererPage() {
-  router.push({name: "deliverer"})
-}
+const birthdate = ref("23/03/2000");
+const dateFormat = "dd/MM/yyyy";
 
-function ownerPage() {
-  router.push({name: "owner"})
-}
+watch(() => store.state.user?.id, async (id) => {
+    if (id) {
+        const response = await loadUserData(id);
+        isLoading.value = false;
+        if (response) {
+            const { firstName, lastName, email, address, phone } = response.data;
+            payload.value = {
+                ...payload.value,
+                firstName,
+                lastName,
+                email,
+                address,
+                phone,
+            }
+            birthdate.value = response.data.birthdate;
+        }
+    } 
+}, { immediate: true });
 
-function ownerRestaurantInformationPage() {
-  router.push({name: "owner-restaurant-information"})
-}
-
-onBeforeMount(async () => {
-    const restaurant = await getRestaurantByOwnerId(localStorage.getItem('id'));
-    console.log(restaurant);
-    if(restaurant){
-      restaurant_information.value = restaurant;
-      console.log(restaurant_information);
-      localStorage.setItem('restaurantId', restaurant._id);
-    }
+const payload = ref({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    address: "",
+    phone: "",
 });
 
-const role = localStorage.getItem('role');
-const role_basic = "BASIC";
-const role_deliverer = "DELIVERER";
-const role_owner = "OWNER";
+function onSubmit() {
+    isEditing.value = false;
+    isLoading.value = true;
+    const { password, ...payloadContent } = payload.value;
+    let updatePayload;
+    if (password !== "") {
+        updatePayload = {password, ...payloadContent};
+    } else {
+        updatePayload = payloadContent;
+    }
 
+    axios.put(`${config.GATEWAY_URL}/users/${store.state.user?.id}`, updatePayload).then((_) => {
+        toast.success("Données mises à jour !", {
+            timeout: 5000
+        });
+        store.commit("setUserData", {...store.state.user, firstName: payload.value.firstName});
+        isLoading.value = false;
+    }, (error) => {
+        console.log("error", error);
+        toast.error("Une erreur est survenue...", {
+            timeout: 10000
+        });
+        isLoading.value = false;
+    })
 
-const restaurant_information = ref({});
-const account_information = {
-  first_name: "Anthime",
-  last_name: "Didi",
-  birthdate: "31/03/1999",
-  address: "338 rue aux chiens à Olivet",
-  phone: "06 65 43 38 84",
-  email: "owner@gmail.com",
-  password: "********",
-  sponsorship_code: "D54P9POX12",
-};
-const restaurant_information_bis = {
-  name: "Bunny's",
-  address: "5 Av. de la Bolière à Orléans",
-  description: "Kebabier de père en fils !",
-  image: "https://matchpint-cdn.matchpint.cloud/shared/img/pub/110551/1070624494-1585304178_banner.jpeg",
-};
+}
 </script>
 
 <template>
-  <div class="flex-container">
-    <div>
-      <h2>Informations sur votre compte :</h2>
-      <ul>
-        <li><p>Prénom : {{ account_information.first_name }} </p></li>
-        <li><p>Nom de famille : {{ account_information.last_name }}</p></li>
-        <li><p>Date de naissance : {{ account_information.birthdate }}</p></li>
-        <li><p>Adresse : {{ account_information.address }}</p></li>
-        <li><p>Téléphone : {{ account_information.phone }}</p></li>
-        <li><p>Email : {{ account_information.email }}</p></li>
-        <li><p>Mot de passe : {{ account_information.password }}</p></li>
-      </ul>
-      <p>
-        <button type="button" class="btn_manage">Modifier mes informations</button>
-      </p>
-      <br>
-      <h2>Parrainage :</h2>
-      <p>Votre code de parrainage : {{ account_information.sponsorship_code }} </p><br><br>
-      <p>
-        <button type="button" class="btn_manage">Supprimer mon compte</button>
-      </p>
+    <div class="user-infos-page" >
+        <b-spinner class="loading-spinner" v-if="isLoading" variant="success"/>
+        <div v-if="!isLoading" class="user-infos-wrapper">
+            <h2>Mes informations personnelles</h2>
+            <b-form @submit.prevent="onSubmit">
+                <b-form-row>
+                    <b-col>
+                        <b-form-group
+                            label="Prénom :"
+                            label-for="firstname-input"
+                        >
+                            <b-form-input
+                                id="firstname-input"
+                                placeholder="Jean"
+                                v-model="payload.firstName"
+                                :disabled="!isEditing"
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group
+                            label="Nom :"
+                            label-for="lastname-input"
+                        >
+                            <b-form-input
+                                id="lastname-input"
+                                placeholder="Martin"
+                                v-model="payload.lastName"
+                                :disabled="!isEditing"
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-form-row>
+                <b-form-group
+                    label="Email :"
+                    label-for="email-input"
+                >
+                    <b-form-input
+                        id="email-input"
+                        placeholder="jean@gmail.com"
+                        type="email"
+                        v-model="payload.email"
+                        disabled
+                    >
+                    </b-form-input>
+                </b-form-group>
+                <b-form-row>
+                    <b-col>
+                        <b-form-group
+                            label="Téléphone :"
+                            label-for="phone-input"
+                        >
+                            <b-form-input
+                                id="phone-input"
+                                placeholder="0689387644"
+                                type="phone"
+                                v-model="payload.phone"
+                                :disabled="!isEditing"
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <label for="birthday-picker">Date d'anniversaire :</label>
+                        <div class="form-datepicker">
+                            <Datepicker
+                                v-model="birthdate"
+                                autoApply
+                                :format="dateFormat"
+                                :disabled="!isEditing"
+                            />
+                        </div>
+                    </b-col>
+                </b-form-row>
+                <b-form-group
+                    label="Adresse :"
+                    label-for="address-input"
+                >
+                    <b-form-input
+                        id="address-input"
+                        v-model="payload.address"
+                        :disabled="!isEditing"
+                    >
+                    </b-form-input>
+                </b-form-group>
+                <b-form-row v-if="isEditing">
+                    <b-col>
+                        <b-form-group
+                            label="Mot de passe :"
+                            label-for="password-input"
+                        >
+                            <b-form-input
+                                id="password-input"
+                                type="password"
+                                v-model="payload.password"
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group
+                            label="Confirmation :"
+                            label-for="password-confirm-input"
+                        >
+                            <b-form-input
+                                id="password-confirm-input"
+                                type="password"
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-form-row>
+                <b-button v-if="!isEditing" variant="dark" @click="isEditing = true">Éditer</b-button>
+                <b-form-row v-if="isEditing">
+                    <b-col>
+                        <b-button type="submit" variant="success">Appliquer</b-button>
+                        <b-button class="spaced-element" variant="danger" @click="isEditing = false">Annuler</b-button>
+                    </b-col>
+                </b-form-row>
+            </b-form>
+        </div>
     </div>
-    <div v-if="role === role_basic">
-      <h2>Dernière commande :</h2>
-      <p>xxxxxx</p>
-      <p>xxxxxx</p>
-      <p>xxxxxx</p>
-      <button type="button" class="btn_manage" @click="basicPage">Voir l'historique des commandes</button>
-    </div>
-    <div v-if="role === role_deliverer">
-      <h2>Dernière livraison :</h2>
-      <p>xxxxxx</p>
-      <p>xxxxxx</p>
-      <p>xxxxxx</p>
-      <button type="button" class="btn_manage" @click="delivererPage">Voir l'historique des livraisons</button>
-      <button type="button" class="btn_manage" @click="delivererPage">Commencer une livraison</button>
-    </div>
-    <div v-if="role === role_owner">
-      <h2>Informations sur votre restaurant :</h2>
-      <ul>
-        <li><p>Nom : {{ restaurant_information.name }} </p></li>
-        <li><p>Adresse : {{ restaurant_information.address }}</p></li>
-        <li><p>Description : {{ restaurant_information.description }}</p></li>
-        <img height="180" alt="Restaurant" :src="restaurant_information.image">
-      </ul>
-      <p>
-        <button type="button" class="btn_manage"  @click="ownerRestaurantInformationPage">Modifier les informations de mon restaurant</button>
-      </p>
-      <p>
-        <button type="button" class="btn_manage" @click="ownerPage">Gérer mon restaurant</button>
-      </p>
-    </div>
-  </div>
 </template>
 
 
-<style>
-.flex-container {
-  display: flex;
-  justify-content: space-around;
+<style scoped>
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    margin-top: 50px;
+}
+.toast {
+    opacity: 0;
 }
 
-.btn_manage {
-  margin-right: 20px;
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 200px;
-  height: 43px;
+.user-infos-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.user-infos-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.form-line {
+    display: flex;
+}
+
+.top-spacing {
+    margin-top: 10px;
+}
+
+.spaced-element {
+    margin-left: 20px;
+}
+
+.client-type-selector {
+    margin-bottom: 1rem;
+}
+
+.form-datepicker {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
 }
 </style>
-

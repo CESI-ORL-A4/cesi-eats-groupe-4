@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { logoutAPI } from "@/modules/authAPI";
-import router from "@/router"
 import useGlobalStore from "@/stores/store";
 import { computed } from "@vue/reactivity";
+import { useRouter } from "vue-router";
 import LogoutIcon from "./icons/LogoutIcon.vue";
 import NotificationIcon from "./icons/NotificationIcon.vue";
 
 const store = useGlobalStore();
+const router = useRouter();
 
 const user = computed(() => store.state.user);;
 const isLogged = computed(() => !!store.state.user);
@@ -24,6 +25,21 @@ function redirection(){
 }
 
 
+const personalButtonText = computed(() => {
+    const role = store.state.user?.role;
+    if (!role) return "";
+    return role === "BASIC" ? "Panier" : "Dashboard";
+});
+const personalButtonLink = computed(() => {
+    const role = store.state.user?.role;
+    if (!role) return "";
+    return role === "BASIC" ? "/home" : "/home";
+});
+
+function logout() {
+    logoutAPI(store);
+    router.push("/home");
+}
 </script>
 
 <template>
@@ -31,11 +47,12 @@ function redirection(){
     <p class="header-title" @click="redirection()">Cesi <span>Eats</span></p>
     <div v-if="!isLoadingUser" class="right-nav">
       <div class="logged-items-wrapper" v-show="isLogged">
-        <p class="user-name" @click="router.push('/account')">{{ user?.firstName }}</p>
+        <p class="user-name" @click="router.push('/account')">{{ user?.firstName }} - Mon compte</p>
+        <p class="personal-button" @click="router.push(personalButtonLink)">{{ personalButtonText }}</p>
         <div class="notification-icon">
             <NotificationIcon/>
         </div>
-        <div class="logout-icon" @click="logoutAPI(store)">
+        <div class="logout-icon" @click="logout()">
             <LogoutIcon/>
         </div>
       </div>
@@ -52,6 +69,15 @@ function redirection(){
     align-items: center;
 }
 
+.personal-button {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 8px 30px;
+    cursor: pointer;
+    margin: 0 12px;
+}
+
 .logout-icon {
     width: 30px;
     cursor: pointer;
@@ -64,7 +90,6 @@ function redirection(){
 .notification-icon {
     width: 25px;
     margin-right: 10px;
-    margin-left: 10px;
     cursor: pointer;
 }
 
