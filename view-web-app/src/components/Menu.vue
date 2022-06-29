@@ -3,11 +3,14 @@
 import Modal from '@/components/Modal.vue'
 import {getRestaurants} from "@/modules/restaurantAPI";
 import {getMenus} from "@/modules/menuAPI";
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, ref, watch} from "vue";
 import {useRoute} from "vue-router";
+import useGlobalStore, { type CartState} from "@/stores/store";
 
 const route = useRoute();
+const store = useGlobalStore();
 let list_menus= ref([]);
+
 onBeforeMount(async () => {
   const menus = await getMenus(route.params.id as string);
   console.log(menus);
@@ -16,6 +19,17 @@ onBeforeMount(async () => {
   }
 });
 
+watch(() => store.state.cart, (cart: CartState | undefined) => {
+  if (cart) {
+    console.log("CART CHANGE", cart);
+  }
+});
+
+watch(() => store.state.cart?.menus, (menus: any[] | undefined) => {
+  if (menus) {
+    console.log("MENUS CHANGE", menus);
+  }
+});
 
 const list_menu = [
   {

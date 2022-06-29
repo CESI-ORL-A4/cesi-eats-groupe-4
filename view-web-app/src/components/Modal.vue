@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import router from "@/router";
+import useGlobalStore from "@/stores/store";
+import {useRoute} from "vue-router";
 
 let showPopup = ref(false);
+const store = useGlobalStore();
+const route = useRoute();
 
-function btn_add_cart(id: string){
-  showPopup.value = false;
-  console.log(id);
+function addMenuToCart(menu: any) {
+  store.commit("cartAddMenu", {
+    restaurantId: route.params.id,
+    menu
+  });
 }
-
-
 
 const props = defineProps({
   menu:{}
@@ -41,7 +45,7 @@ const props = defineProps({
         <button class="btn_cancel" @click="showPopup = false">
           Quitter
         </button>
-        <button class="btn_cart" @click="btn_add_cart(menu.id)">
+        <button class="btn_cart" @click="addMenuToCart(menu)">
           Ajouter au panier
         </button>
         </div>

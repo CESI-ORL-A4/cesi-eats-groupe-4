@@ -12,9 +12,15 @@ export interface UserState {
     restaurantId?: string;
 }
 
+export interface CartState {
+    restaurantId: string;
+    menus: any[];
+}
+
 export interface State {
     isLoadingUserData: boolean;
     user?: UserState;
+    cart?: CartState;
 }
 
 export const storeKey: InjectionKey<Store<State>> = Symbol();
@@ -65,6 +71,23 @@ export const store = createStore<State>({
       },
       setUserDataLoaded(state: State) {
           state.isLoadingUserData = false;
+      },
+      cartAddMenu(state: State, payload: {restaurantId: string, menu: any}) {
+          const { restaurantId, menu } = payload;
+          if (!state.cart) {
+              state.cart = { restaurantId, menus: []};
+          }
+          if (restaurantId === state.cart.restaurantId) {
+              state.cart.menus = [...state.cart.menus, menu];
+          }
+      },
+      cartRemoveMenu(state: State, menuId: string) {
+          if (state.cart) {
+              state.cart.menus = state.cart.menus.filter((menu) => menu._id !== menuId);
+          }
+      },
+      clearCart(state: State) {
+          state.cart = undefined;
       }
   }
 })
