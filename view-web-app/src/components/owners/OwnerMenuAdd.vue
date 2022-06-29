@@ -3,8 +3,12 @@ import {getArticles} from "@/modules/articleAPI";
 import {addMenu} from "@/modules/menuAPI";
 import {onBeforeMount, ref} from "vue";
 import useGlobalStore from "@/stores/store";
+import {useRouter} from "vue-router";
+import {useToast} from "vue-toastification";
 
 const store = useGlobalStore();
+const router = useRouter();
+const toast = useToast();
 
 const name = ref("");
 const description = ref("");
@@ -41,7 +45,18 @@ const addMenuEvent = async (e) => {
     imageName: fileName,
   };
   console.log(formData);
-  await addMenu(restaurantId, formData);
+  const returnAddMenu = await addMenu(restaurantId, formData);
+
+  if (!returnAddMenu) {
+    toast.error("Une erreur est survenue...", {
+      timeout: 10000
+    });
+  } else {
+    toast.success("Le menu a bien été ajouté !", {
+      timeout: 5000
+    });
+    router.back();
+  }
 }
 
 const onFilePicked = (event) => {

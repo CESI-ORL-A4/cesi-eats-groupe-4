@@ -57,24 +57,30 @@ onBeforeMount(async () => {
 const updateMenuEvent = async () => {
   if (!restaurantId)
     return;
-  const formData = {
+  let returnData;
+  let formData = {
     name: name.value,
     description: description.value,
     articles: JSON.stringify(selectedArticlesId.value),
     price: price.value,
     imageData: fileData,
-    imageName: fileName,
   };
+  if(fileName)
+    returnData = {...formData,imageName:fileName}
+  else
+    returnData = formData
+  formData.imageName = fileName;
   console.log(formData);
-  const returnMenu = await updateMenu(restaurantId, menuId, formData);
+  const returnMenu = await updateMenu(restaurantId, menuId, returnData);
   if (!returnMenu) {
     toast.error("Une erreur est survenue...", {
       timeout: 10000
     });
   } else {
-    toast.success("Données mises à jour !", {
+    toast.success("Le menu a bien été mis à jour !", {
       timeout: 5000
     });
+    router.back();
   }
 }
 
