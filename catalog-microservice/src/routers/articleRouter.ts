@@ -70,7 +70,7 @@ articleRouter.get("/",
 
 articleRouter.put("/:articleId",
     async (req: any, res: Response) => {
-        const payload = req.body;
+        const payload = JSON.parse(JSON.stringify(req.body));
         const restaurantId = req.params?.restaurantId;
         const articleId = req.params?.articleId;
         if (!articleId || !restaurantId) {

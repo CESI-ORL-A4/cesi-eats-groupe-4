@@ -1,178 +1,178 @@
 <script lang="ts" setup>
-import router from "@/router";
+import {updateMenu, getMenu} from "@/modules/menuAPI";
+import {onBeforeMount, ref, watch} from "vue";
+import {getArticle, getArticles} from "@/modules/articleAPI";
+import useGlobalStore from "@/stores/store";
+import {useRouter} from "vue-router";
+import {useToast} from "vue-toastification";
 
-import {ref} from "vue";
-import {addRestaurant} from "@/modules/identify";
-import FormData from "form-data"
+const store = useGlobalStore();
+const router = useRouter();
+const toast = useToast();
 
 const name = ref("");
 const description = ref("");
-const products = ref("");
+let selectedArticles= [];
+let selectedArticlesId = ref([]);
 const price = ref("");
 const file = ref();
-let filename: string;
+let fileName: string;
 let fileData: any;
 
-const addMenuEvent = async (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  console.log(fileData);
-  formData.append("imageData", fileData);
-  formData.append("name", name.value);
-  formData.append("description", description.value);
-  formData.append("products", products.value);
-  formData.append("price", price.value);
-  formData.append("imageName", filename);
-  await addRestaurant(formData);
+const list_products = ref([]);
+
+const restaurantId = store.state.user?.restaurantId;
+
+const menuId = router.currentRoute.value.params.id;
+
+const chargeArticleMenu=async () => {
+  if (restaurantId) {
+    const menu = await getMenu(restaurantId, menuId);
+    if (menu) {
+      name.value = menu.name;
+      description.value = menu.description;
+      selectedArticles = menu.articles;
+      if (selectedArticles)
+        selectedArticles.forEach(article => {if(article){selectedArticlesId.value.push(article._id)}});
+      price.value = menu.price;
+      file.value = menu.linkImage;
+    }
+  }
+}
+
+onBeforeMount(async () => {
+  console.log(restaurantId);
+  if (restaurantId) {
+    const products = await getArticles(restaurantId);
+    await chargeArticleMenu();
+    if (products) {
+      products.forEach(product => {
+        product.check = selectedArticlesId.value.includes(product._id);
+      });
+      list_products.value = products;
+    }
+  }
+})
+
+const updateMenuEvent = async () => {
+  if (!restaurantId)
+    return;
+  const formData = {
+    name: name.value,
+    description: description.value,
+    articles: JSON.stringify(selectedArticlesId.value),
+    price: price.value,
+    imageData: fileData,
+    imageName: fileName,
+  };
+  console.log(formData);
+  const returnMenu = await updateMenu(restaurantId, menuId, formData);
+  if (!returnMenu) {
+    toast.error("Une erreur est survenue...", {
+      timeout: 10000
+    });
+  } else {
+    toast.success("Données mises à jour !", {
+      timeout: 5000
+    });
+  }
 }
 
 const onFilePicked = (event) => {
   fileData = event.target.files[0];
-  filename = fileData.name;
-}
-
-const list_products = [
-  {
-    id: "1",
-    name: "Kebab",
-    product_type: "plat",
-  },
-  {
-    id: "2",
-    name: "Tacos",
-    product_type: "plat",
-  },
-  {
-    id: "3",
-    name: "Burger",
-    product_type: "plat",
-  },
-  {
-    id: "4",
-    name: "Frites",
-    product_type: "accompagnement",
-  },
-  {
-    id: "5",
-    name: "Riz",
-    product_type: "accompagnement",
-  },
-  {
-    id: "6",
-    name: "Barbecue",
-    product_type: "sauce",
-  },
-  {
-    id: "7",
-    name: "Ketchup",
-    product_type: "sauce",
-  },
-  {
-    id: "8",
-    name: "Mayonnaise",
-    product_type: "sauce",
-  },
-  {
-    id: "9",
-    name: "Moutarde",
-    product_type: "sauce",
-  },
-  {
-    id: "10",
-    name: "Coca",
-    product_type: "boisson",
-  },
-  {
-    id: "11",
-    name: "Ice tea",
-    product_type: "boisson",
-  },
-  {
-    id: "12",
-    name: "Fanta",
-    product_type: "boisson",
-  },
-];
+  fileName = fileData.name;
+};
 
 </script>
 
 <template>
-  <div>
-    <div class="positioned">
-      <form class="form">
-        <table>
-          <thead>
-          <tr>
-            <th colspan="2"><label>Modification du menu</label></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th><label for="name">Nom du menu</label></th>
-            <th><input v-model="name" type="text" placeholder="Burger maxi" required="required"></th>
-          </tr>
-          <tr>
-            <th><label>Description</label></th>
-            <th><textarea v-model="description" placeholder="Burger servi avec frites et boisson 33 cl au choix."
-                          required="description"/></th>
-          </tr>
-          <tr>
-            <th><label>Articles</label></th>
-            <th>
-              <div :key="product" v-for="product in list_products">
-                <input type="checkbox" id="{{ product.name }}" name="{{ product.name }}">
-                <label for="{{ product.name }}">{{ product.name }} ({{ product.product_type }})</label>
-              </div>
-            </th>
-          </tr>
-          <tr>
-            <th><label>Prix (en €)</label></th>
-            <th><input v-model="price" type="number" step="0.01" placeholder="8,50" required="required"></th>
-          </tr>
-          <tr>
-            <th><label>Image</label></th>
-            <th><input type="file" id="file" ref="file" accept="image/*" v-on:change="onFilePicked" required/></th>
-          </tr>
-          </tbody>
-        </table>
-        <div>
-          <br>
-          <button @click="addMenuEvent" type="submit" class="btn_add_form">Modifier</button>
-        </div>
-      </form>
+  <div class="owner_update_menu-page">
+    <div class="owner_update_menu-wrapper">
+      <h2>Modification du menu</h2>
+      <b-form @submit.prevent="updateMenuEvent">
+        <b-form-group
+            label="Nom du menu :"
+            label-for="name-input"
+        >
+          <b-form-input
+              v-model="name"
+              id="name-input"
+              placeholder="Burger maxi"
+              type="text"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+            label="Description :"
+            label-for="description-input"
+        >
+          <b-form-input
+              v-model="description"
+              id="description-input"
+              placeholder="Un menu bien complet pour vous satisfaire"
+              type="text"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+
+        <b-form-group
+            label="Prix (en €) :"
+            label-for="price-input"
+        >
+          <b-form-input
+              v-model="price"
+              id="price-input"
+              placeholder="17,50"
+              type="number"
+              step="0.01"
+              required
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-checkbox
+            v-for="(product, index) in list_products"
+            :key="index"
+            v-model="selectedArticlesId"
+            :value="product._id"
+        >
+          {{ product.name }}
+        </b-form-checkbox>
+
+        <b-form-group
+            label="Image :"
+            label-for="image-input"
+        >
+          <input
+              type="file"
+              id="file"
+              ref="file"
+              accept="image/*"
+              v-on:change="onFilePicked"
+          />
+        </b-form-group>
+        <b-button type="submit" variant="dark">Ajouter le menu</b-button>
+      </b-form>
     </div>
   </div>
 </template>
 
 <style scoped>
-.positioned {
+.owner_update_menu-page {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 40px;
 }
 
-.form {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 20px;
+.owner_update_menu-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
-thead,
-tfoot {
-  font-size: 35px;
+h2 {
+  margin-bottom: 15px;
 }
-
-tbody {
-  text-align: left;
-}
-
-.btn_add_form {
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 100px;
-  height: 40px;
-  float: right;
-}
-
 
 </style>

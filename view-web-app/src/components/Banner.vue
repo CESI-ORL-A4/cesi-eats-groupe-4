@@ -20,7 +20,12 @@ const personalButtonText = computed(() => {
 const personalButtonLink = computed(() => {
     const role = store.state.user?.role;
     if (!role) return "";
-    return role === "BASIC" ? "/home" : "/home";
+   switch (role) {
+     case "OWNER":
+       return "/owner";
+     default:
+       return "/home";
+   }
 });
 
 function logout() {

@@ -91,7 +91,7 @@ export async function updateMenu(menuId: string,restaurantId: string,payload:any
             if (payload.imageName)
             {
                 linkImage = await uploadImage(file,payload.imageName);
-                menu.image = linkImage;
+                payload.linkImage = linkImage;
             }
             menu._id = new mongoose.Types.ObjectId(menuId);
             menus.splice(menuIndex, 1);

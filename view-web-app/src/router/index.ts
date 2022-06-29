@@ -94,6 +94,16 @@ const router = createRouter({
             }*/
         },
         {
+            path: '/owner/product/:id',
+            name: 'owner-product-update',
+            component: () => import('../views/owners/OwnerProductUpdateView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
             path: '/owner/commands',
             name: 'owner-commands',
             component: () => import('../views/owners/OwnerCommandsView.vue'),
@@ -117,6 +127,16 @@ const router = createRouter({
             path: '/owner/menus',
             name: 'owner-menus',
             component: () => import('../views/owners/OwnerMenusView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/menu/:id',
+            name: 'owner-menu-update',
+            component: () => import('../views/owners/OwnerMenuUpdateView.vue'),
             /*
             meta: {
                 requiresAuth: true,
