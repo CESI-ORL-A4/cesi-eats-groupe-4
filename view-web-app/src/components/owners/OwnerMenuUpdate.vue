@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {updateMenu, getMenu} from "@/modules/menuAPI";
 import {onBeforeMount, ref, watch} from "vue";
-import {getArticle, getArticles} from "@/modules/articleAPI";
+import {deleteArticle, getArticle, getArticles} from "@/modules/articleAPI";
 import useGlobalStore from "@/stores/store";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
@@ -12,7 +12,7 @@ const toast = useToast();
 
 const name = ref("");
 const description = ref("");
-let selectedArticles= [];
+let selectedArticles = [];
 let selectedArticlesId = ref([]);
 const price = ref("");
 const file = ref();
@@ -25,7 +25,7 @@ const restaurantId = store.state.user?.restaurantId;
 
 const menuId = router.currentRoute.value.params.id;
 
-const chargeArticleMenu=async () => {
+const chargeArticleMenu = async () => {
   if (restaurantId) {
     const menu = await getMenu(restaurantId, menuId);
     if (menu) {
@@ -33,7 +33,11 @@ const chargeArticleMenu=async () => {
       description.value = menu.description;
       selectedArticles = menu.articles;
       if (selectedArticles)
-        selectedArticles.forEach(article => {if(article){selectedArticlesId.value.push(article._id)}});
+        selectedArticles.forEach(article => {
+          if (article) {
+            selectedArticlesId.value.push(article._id)
+          }
+        });
       price.value = menu.price;
       file.value = menu.linkImage;
     }
@@ -58,26 +62,27 @@ const updateMenuEvent = async () => {
   if (!restaurantId)
     return;
   let returnData;
-  let formData = {
+  const menuName = name.value;
+  const formData = {
     name: name.value,
     description: description.value,
     articles: JSON.stringify(selectedArticlesId.value),
     price: price.value,
     imageData: fileData,
   };
-  if(fileName)
-    returnData = {...formData,imageName:fileName}
+  if (fileName)
+    returnData = {...formData, imageName: fileName}
   else
     returnData = formData
   formData.imageName = fileName;
-  console.log(formData);
+  //console.log(formData);
   const returnMenu = await updateMenu(restaurantId, menuId, returnData);
   if (!returnMenu) {
     toast.error("Une erreur est survenue...", {
       timeout: 10000
     });
   } else {
-    toast.success("Le menu a bien été mis à jour !", {
+    toast.success(`Le menu "` + menuName + `" a bien été mis à jour !`, {
       timeout: 5000
     });
     router.back();
@@ -89,9 +94,39 @@ const onFilePicked = (event) => {
   fileName = fileData.name;
 };
 
+
+const deleteMenuEvent = async () => {
+  const MenuName = name.value;
+  console.log("Menu ID : " + menuId);
+  const restaurantId = store.state.user?.restaurantId;
+  const returnArticle = await deleteArticle(restaurantId, menuId);
+
+  if (!returnArticle) {
+    toast.error("Une erreur est survenue...", {
+      timeout: 10000
+    });
+  } else {
+    toast.success(`Le menu "` + MenuName + `" a bien été supprimé !`, {
+      timeout: 5000
+    });
+    router.back();
+  }
+}
+
+
+function backPage() {
+  router.back();
+}
+
 </script>
 
 <template>
+  <div class="line-up">
+    <b-button @click="backPage" pill variant="outline-secondary">Revenir en arrière</b-button>
+  </div>
+  <div class="line-up">
+    <b-button @click="deleteMenuEvent" pill variant="outline-danger">Supprimer le menu</b-button>
+  </div>
   <div class="owner_update_menu-page">
     <div class="owner_update_menu-wrapper">
       <h2>Modification du menu</h2>
@@ -179,6 +214,11 @@ const onFilePicked = (event) => {
 
 h2 {
   margin-bottom: 15px;
+}
+
+.line-up {
+  margin-top: 20px;
+  margin-left: 30px;
 }
 
 </style>

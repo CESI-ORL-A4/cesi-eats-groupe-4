@@ -50,14 +50,6 @@ watch(() => store.state.user?.restaurantId, async (restaurantId) => {
       list_menus.value = menus;
     }
   }
-  if (route.params.id) {
-    const menus = await getMenus(route.params.id as string);
-    console.log(menus);
-    if (menus) {
-      list_menus.value = menus;
-    }
-  }
-
 }, {immediate: true});
 
 
@@ -79,9 +71,7 @@ const list_menus = ref([]);
     <div v-else class="BasicTitle"><h1> Nos Menus :</h1></div><br/>
     <div class="menu-wrapper">
       <b-card-group columns>
-        <div class="menu-card" :key="menu" v-for="menu in list_menus"
-
-             @click="pushMenuUpdatePage(menu.id)">
+        <div class="menu-card" :key="menu" v-for="menu in list_menus">
           <div>
             <b-card
                 :title="menu.name"
