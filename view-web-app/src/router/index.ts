@@ -184,13 +184,31 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/restaurant',
-            name: 'restaurant',
-            component: () => import('../views/restaurantView.vue'),
+
+            path: '/restaurants',
+            name: 'restaurants',
+            component: () => import('../views/RestaurantsView.vue'),
             meta: {
-                requiresAuth: true,
-                is_basic: true
+                guest: true
             }
+        },
+        {
+
+            path: '/restaurant/:id',
+            name: 'restaurant',
+            component: () => import('../views/MenusView.vue'),
+            meta: {
+                guest: true
+            },
+        },
+        {
+
+            path: '/Cart',
+            name: 'Cart',
+            component: () => import('../views/CartView.vue'),
+            meta: {
+                guest: true
+            },
         },
     ]
 })

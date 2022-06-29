@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Banner />
+  <Banner/>
   <RouterView />
 </template>
 

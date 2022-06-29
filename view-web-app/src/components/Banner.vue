@@ -12,6 +12,18 @@ const router = useRouter();
 const user = computed(() => store.state.user);;
 const isLogged = computed(() => !!store.state.user);
 const isLoadingUser = computed(() => store.state.isLoadingUserData);
+const role = localStorage.getItem('role')
+
+function redirection(){
+  if(role == "BASIC"){
+    router.push('/restaurants')
+  }
+  else{
+    router.push('/home')
+  }
+}
+
+
 const personalButtonText = computed(() => {
     const role = store.state.user?.role;
     if (!role) return "";
@@ -23,6 +35,8 @@ const personalButtonLink = computed(() => {
    switch (role) {
      case "OWNER":
        return "/owner";
+     case "BASIC":
+       return "/Cart";
      default:
        return "/home";
    }
@@ -36,7 +50,7 @@ function logout() {
 
 <template>
   <header class="flex-container">
-    <p class="header-title" @click="router.push('/home')">Cesi <span>Eats</span></p>
+    <p class="header-title" @click="redirection()">Cesi <span>Eats</span></p>
     <div v-if="!isLoadingUser" class="right-nav">
       <div class="logged-items-wrapper" v-show="isLogged">
         <p class="user-name" @click="router.push('/account')">{{ user?.firstName }} - Mon compte</p>
