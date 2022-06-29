@@ -1,6 +1,5 @@
 import config from "../config.json";
 import axios from "axios";
-import config from "../config.json";
 export async function getRestaurantByOwnerId(ownerId:string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/ownerId/`+ownerId);

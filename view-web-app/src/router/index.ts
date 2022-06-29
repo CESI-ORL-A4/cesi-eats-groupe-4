@@ -181,6 +181,15 @@ const router = createRouter({
                 guest: true
             },
         },
+        {
+
+            path: '/Cart',
+            name: 'Cart',
+            component: () => import('../views/CartView.vue'),
+            meta: {
+                guest: true
+            },
+        },
     ]
 })
 

@@ -4,7 +4,7 @@
 
 <template>
   <div>
-
+    <P>je suis le panier</P>
   </div>
 </template>
 

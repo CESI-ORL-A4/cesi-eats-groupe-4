@@ -36,6 +36,8 @@ const personalButtonLink = computed(() => {
    switch (role) {
      case "OWNER":
        return "/owner";
+     case "BASIC":
+       return "/Cart";
      default:
        return "/home";
    }
