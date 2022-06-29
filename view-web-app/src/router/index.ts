@@ -164,7 +164,7 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/restaurant',
+            path: '/restaurant/:id',
             name: 'restaurant',
             component: () => import('../views/restaurantView.vue'),
             meta: {

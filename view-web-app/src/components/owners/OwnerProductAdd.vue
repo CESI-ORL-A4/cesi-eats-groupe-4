@@ -2,9 +2,11 @@
 import FormData from "form-data"
 import {addArticle} from "@/modules/articleAPI";
 import {ref} from "vue";
+import useGlobalStore from "@/stores/store";
 
 const name = ref("");
 const type = ref("");
+const store = useGlobalStore();
 
 const productTypeOptions = [
   { value: "plat", text: "Un plat" },
@@ -13,9 +15,8 @@ const productTypeOptions = [
   { value: "boisson", text: "Une boisson" },
 ]
 
-const restaurantId = localStorage.getItem('restaurantId');
-const addProductEvent = async (e) => {
-  e.preventDefault();
+const addProductEvent = async() => {
+  const restaurantId = store.state.user?.restaurantId;
   if (!restaurantId)
     return;
   const formData = {name: name.value, type: type.value};
