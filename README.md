@@ -54,6 +54,16 @@ CATALOG_DB_PORT=27017
 CATALOG_DB_HOST=catalog-service-db
 CATALOG_SERVICE_API_HOST=catalog-service-api
 CATALOG_SERVICE_API_PORT=8080
+
+############## NOTIFICATION MICROSERVICE ##############
+
+NOTIFICATION_DB_USERNAME=admin
+NOTIFICATION_DB_PASSWORD=admin
+NOTIFICATION_DB_DATABASE=notification
+NOTIFICATION_DB_PORT=27017
+NOTIFICATION_DB_HOST=notification-service-db
+NOTIFICATION_SERVICE_API_HOST=notification-service-api
+NOTIFICATION_SERVICE_API_PORT=8080
 ```
 # Run the app
 
@@ -76,3 +86,5 @@ To keep the data of the two SQL Server database when the containers go down, cre
 `mkdir -p order-microservice/mongo/data`
 
 `mkdir -p catalog-microservice/mongo/data`
+
+`mkdir -p notification-microservice/mongo/data`

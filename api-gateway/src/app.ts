@@ -7,6 +7,7 @@ import setupAuthRoutes from "./routes/authRoutes";
 import setupUsersRoutes from "./routes/usersRoutes";
 import setupOrdersRoutes from "./routes/ordersRoutes";
 import setupCatalogRoutes from "./routes/catalogRoutes";
+import setupNotificationsRoutes from "./routes/notificationsRoutes";
 
 const swaggerFile = require("../swagger_output.json");
 
@@ -22,6 +23,7 @@ setupAuthRoutes(app);
 setupUsersRoutes(app);
 setupOrdersRoutes(app);
 setupCatalogRoutes(app)
+setupNotificationsRoutes(app);
 
 app.listen(port, () => {
   console.log(`[server]: API-Gateway is running at https://localhost:${port}`);

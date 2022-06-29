@@ -1,7 +1,13 @@
 import OrderModel from "../model/OrderModel";
 import OrderAttributesPayload from "../types/payloads/OrderAttributesPayload";
+import RabbitMQ from "../rabbitmq/RabbitMQ";
+import QueueName from "../rabbitmq/Queues";
 
 export async function createOrder(payload: OrderAttributesPayload) {
+    RabbitMQ.getInstance().then(rabbit => rabbit.send(QueueName.CREATE_ORDER_NOTIFICATION, JSON.stringify({
+        restaurantId: payload.restaurantId,
+        userId: payload.userId,
+    })));
     return await OrderModel.create({
         ...payload,
         createdAt: new Date()
@@ -33,9 +39,15 @@ export async function deleteOrderById(orderId: string) {
     return await OrderModel.findOneAndDelete({ _id: orderId });
 }
 
-export async function updateOrder(orderId: string, payload: OrderAttributesPayload) {
-    return await OrderModel.findOneAndUpdate({ _id: orderId }, payload, {
-        upsert: true,
-        new: true
-    });
+export async function updateOrder(orderId: string, payload: any) {
+    if (payload.state){
+        let order = await getOrderById(orderId);
+        RabbitMQ.getInstance().then(rabbit => rabbit.send(QueueName.MODIFY_ORDER_NOTIFICATION, JSON.stringify({
+            restaurantId: order?.restaurantId,
+            userId: order?.userId,
+            state: payload?.state,
+        })));
+    }
+
+    return await OrderModel.findOneAndUpdate({ _id: orderId }, payload);
 }

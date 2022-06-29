@@ -12,14 +12,14 @@ type IDParam = {
     id: string
 }
 
-ordersRouter.post("/", 
+ordersRouter.post("/",
     validateOrderAttributesData(),
     validateInputData(),
     async (req: ReqWithBody<OrderAttributesPayload>, res: Response) => {
     return res.status(201).json(await createOrder(req.body));
 });
 
-ordersRouter.delete("/:id", 
+ordersRouter.delete("/:id",
     validateMongoIdParam(),
     async (req: Request<IDParam>, res: Response) => {
         const deleted = await deleteOrderById(req.params.id);
@@ -31,9 +31,8 @@ ordersRouter.delete("/:id",
 
 ordersRouter.put("/:id",
     validateMongoIdParam(),
-    validateOrderAttributesData(true),
     validateInputData(),
-    async (req: ReqWithBodyAndParams<IDParam, OrderAttributesPayload>, res: Response) => {
+    async (req: ReqWithBodyAndParams<IDParam, any>, res: Response) => {
         const exists = await orderExists(req.params.id);
         if (exists) {
             const updated = await updateOrder(req.params.id, req.body);
