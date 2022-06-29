@@ -39,7 +39,7 @@ export async function isArticleDeletable(restaurantId: string,articleId: string)
         if (article == articleId)
             return false;
     }
-    return false;
+    return true;
 }
 
 export async function updateArticle(restaurantId: string,articleId: string,payload:UpdateArticlePayload) {
