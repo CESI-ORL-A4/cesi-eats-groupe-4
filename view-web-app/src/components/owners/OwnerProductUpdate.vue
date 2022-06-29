@@ -1,32 +1,59 @@
 <script lang="ts" setup>
-import {getArticle, getArticles} from "@/modules/articleAPI";
-import {updateArticle} from "@/modules/articleAPI";
+import {addArticle, getArticle, getArticles, updateArticle} from "@/modules/articleAPI";
 import useGlobalStore from "@/stores/store";
 import {ref, watch} from "vue";
+import {useRouter} from "vue-router";
+import { useToast } from "vue-toastification";
+
+const store = useGlobalStore();
+const router = useRouter();
+const toast = useToast();
 
 const name = ref("");
 const type = ref("");
 
+const articleId = router.currentRoute.value.params.id;
+
 const productTypeOptions = [
-  { value: "plat", text: "Un plat" },
-  { value: "accompagnement", text: "Un accompagnement" },
-  { value: "sauce", text: "Une sauce" },
-  { value: "boisson", text: "Une boisson" },
+  {value: "plat", text: "Un plat"},
+  {value: "accompagnement", text: "Un accompagnement"},
+  {value: "sauce", text: "Une sauce"},
+  {value: "boisson", text: "Une boisson"},
 ]
 
-const store = useGlobalStore();
 
 watch(() => store.state.user?.restaurantId, async (restaurantId) => {
   if (restaurantId) {
-    const products = await getArticles(restaurantId);
-    console.log(products);
-    if (products) {
-      list_products.value = products;
+    const product = await getArticle(restaurantId, articleId);
+    console.log(product);
+    if (product) {
+      name.value = product.name;
+      type.value = product.type;
     }
   }
-}, { immediate: true });
+}, {immediate: true});
 
-const list_products = ref([]);
+const updateProductEvent = async () => {
+  const restaurantId = store.state.user?.restaurantId;
+  console.log(restaurantId);
+
+  if (!restaurantId && !articleId)
+    return;
+  const formData = {name: name.value, type: type.value};
+  console.log(name.value);
+  const returnArticle =await updateArticle(restaurantId, articleId, formData);
+  if(!returnArticle){
+    toast.error("Une erreur est survenue...", {
+      timeout: 10000
+    });
+  }
+  else{
+    toast.success("Données mises à jour !", {
+      timeout: 5000
+    });
+  }
+}
+
 
 </script>
 
@@ -64,7 +91,6 @@ const list_products = ref([]);
     </div>
   </div>
 </template>
-
 
 
 <style scoped>

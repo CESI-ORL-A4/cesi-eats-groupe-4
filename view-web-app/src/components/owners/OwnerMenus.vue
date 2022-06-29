@@ -43,6 +43,7 @@ const list_menus = ref([]);
         <br></div>
     </div>
     <div class="menu-wrapper">
+      <b-card-group columns>
       <div class="menu-card" :key="menu" v-for="menu in list_menus"
            @click="pushMenuUpdatePage(menu.id)">
         <div>
@@ -61,10 +62,11 @@ const list_menus = ref([]);
               </div>
             </b-card-text>
 
-            <b-button href="#" variant="warning">Modifier / Supprimer le menu</b-button>
+            <b-button href="#" variant="success">Modifier / Supprimer le menu</b-button>
           </b-card>
         </div>
       </div>
+      </b-card-group>
     </div>
   </div>
 </template>
@@ -72,7 +74,7 @@ const list_menus = ref([]);
 <style scoped>
 .flex-container-add_menu {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .line-up {
@@ -96,8 +98,6 @@ const list_menus = ref([]);
 }
 
 .menu-card {
-  margin-left: 30px;
-  margin-top: 20px;
   padding: 10px;
 }
 </style>
