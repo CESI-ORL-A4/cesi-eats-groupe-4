@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import FormData from "form-data"
-import {addArticle} from "@/modules/articleAPI";
+import {getArticle} from "@/modules/articleAPI";
+import {updateArticle} from "@/modules/articleAPI";
 import {ref} from "vue";
 
 const name = ref("");
@@ -14,13 +15,17 @@ const productTypeOptions = [
 ]
 
 const restaurantId = localStorage.getItem('restaurantId');
+
+const urlcourante = document.location.href;
+const articleId = urlcourante.substring (urlcourante.lastIndexOf( "/" )+1 );
+
 const addProductEvent = async (e) => {
   e.preventDefault();
   if (!restaurantId)
     return;
   const formData = {name: name.value, type: type.value};
   console.log(name.value);
-  await addArticle(restaurantId, formData);
+  await updateArticle(restaurantId, articleId, formData);
 }
 
 

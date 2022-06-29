@@ -27,7 +27,7 @@ export async function getArticle(restaurantsId: string, articleId: string) {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/` + restaurantsId + "/articles/" + articleId, {
             headers: {
                 "Content-Type": "multipart/form-data",
-                Authorization: "Bearer " + localStorage.getItem('jwt'),
+                "Authorization": "Bearer " + localStorage.getItem('jwt'),
             },
         })
         if (response.status < 200 || response.status > 300) {
@@ -46,7 +46,8 @@ export async function deleteArticle(restaurantsId: string, articleId: string) {
     try {
         const response = await axios.delete(`${config.GATEWAY_URL}/catalog/restaurants/` + restaurantsId + "/articles/" + articleId, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
             },
         })
         if (response.status < 200 || response.status > 300) {
@@ -85,7 +86,8 @@ export async function updateArticle(restaurantsId: string, articleId: string, fo
     try {
         const response = await axios.put(`${config.GATEWAY_URL}/catalog/restaurants/` + restaurantsId + "/articles/" + articleId, form, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "multipart/form-data",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
             },
         })
         if (response.status < 200 || response.status > 300) {
