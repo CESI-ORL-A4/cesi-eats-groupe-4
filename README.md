@@ -64,7 +64,18 @@ NOTIFICATION_DB_PORT=27017
 NOTIFICATION_DB_HOST=notification-service-db
 NOTIFICATION_SERVICE_API_HOST=notification-service-api
 NOTIFICATION_SERVICE_API_PORT=8080
+
+############## DELIVERY MICROSERVICE ##############
+
+DELIVERY_SERVICE_DB_NAME=Deliveries
+DELIVERY_SERVICE_DB_HOST=delivery-service-db
+DELIVERY_SERVICE_DB_USERNAME=admin
+DELIVERY_SERVICE_DB_PASSWORD=97ded!1lp
+
+DELIVERY_SERVICE_API_HOST=delivery-service-api
+DELIVERY_SERVICE_API_PORT=6000
 ```
+
 # Run the app
 
 Docker is required to run the app.
@@ -88,3 +99,5 @@ To keep the data of the two SQL Server database when the containers go down, cre
 `mkdir -p catalog-microservice/mongo/data`
 
 `mkdir -p notification-microservice/mongo/data`
+
+`mkdir -p delivery-microservice/mongo/data`

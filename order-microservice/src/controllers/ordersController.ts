@@ -1,4 +1,5 @@
 import OrderModel from "../model/OrderModel";
+import OrderState from "../model/OrderState";
 import OrderAttributesPayload from "../types/payloads/OrderAttributesPayload";
 import RabbitMQ from "../rabbitmq/RabbitMQ";
 import QueueName from "../rabbitmq/Queues";
@@ -10,6 +11,7 @@ export async function createOrder(payload: OrderAttributesPayload) {
     })));
     return await OrderModel.create({
         ...payload,
+        state: OrderState.WAITING_VALIDATION,
         createdAt: new Date()
     });
 }
