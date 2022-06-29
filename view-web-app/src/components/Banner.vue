@@ -22,9 +22,11 @@ const personalButtonLink = computed(() => {
     if (!role) return "";
    switch (role) {
      case "OWNER":
-       return "/owner";
+       return "owner";
+     case "DELIVERER":
+       return "deliverer-dashboard"
      default:
-       return "/home";
+       return "home";
    }
 });
 
@@ -40,7 +42,7 @@ function logout() {
     <div v-if="!isLoadingUser" class="right-nav">
       <div class="logged-items-wrapper" v-show="isLogged">
         <p class="user-name" @click="router.push('/account')">{{ user?.firstName }} - Mon compte</p>
-        <p class="personal-button" @click="router.push(personalButtonLink)">{{ personalButtonText }}</p>
+        <p class="personal-button" @click="router.push({ name: personalButtonLink})">{{ personalButtonText }}</p>
         <div class="notification-icon">
             <NotificationIcon/>
         </div>

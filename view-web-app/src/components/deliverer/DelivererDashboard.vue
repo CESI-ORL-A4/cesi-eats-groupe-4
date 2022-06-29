@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import CGU from '@/components/CGU.vue'
 </script>
 
 <template>
-  <CGU/>
+    <p>DASHBOARD</p>
 </template>
+
+<style>
+</style>

@@ -1,3 +1,4 @@
+import DelivererDashboardView from '@/views/DelivererDashboardView.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -182,6 +183,15 @@ const router = createRouter({
                 is_basic: true
             }
         },
+        {
+            path: '/deliverer/dashboard',
+            name: 'deliverer-dashboard',
+            component: DelivererDashboardView,
+            meta: {
+                requiresAuth: true,
+                is_deliverer: true
+            }
+        }
     ]
 })
 
