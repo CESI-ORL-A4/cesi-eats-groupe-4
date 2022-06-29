@@ -20,7 +20,7 @@ const addRestaurantEvent = async (e) => {
   formData.append("description", description.value);
   if(filename)
     formData.append("imageName", filename);
-  formData.append("ownerId", localStorage.getItem('id'));
+  formData.append("ownerId", localStorage.getItem('userId'));
 
   await addRestaurant(formData);
 }
