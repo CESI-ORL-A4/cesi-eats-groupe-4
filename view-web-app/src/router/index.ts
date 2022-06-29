@@ -94,6 +94,16 @@ const router = createRouter({
             }*/
         },
         {
+            path: '/owner/product/:id',
+            name: 'owner-product-update',
+            component: () => import('../views/owners/OwnerProductUpdateView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
             path: '/owner/commands',
             name: 'owner-commands',
             component: () => import('../views/owners/OwnerCommandsView.vue'),
