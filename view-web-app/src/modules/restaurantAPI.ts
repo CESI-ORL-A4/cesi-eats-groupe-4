@@ -1,15 +1,19 @@
 import config from "../config.json";
 import axios from "axios";
-
 export async function getRestaurantByOwnerId(ownerId:string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/ownerId/`+ownerId);
+
         if (response.status < 200 || response.status > 300) {
-            return null;
+            return undefined;
         }
-        return response.data.restaurant;
+
+        if (response.data.restaurant) {
+            return response.data.restaurant;
+        }
+        return undefined;
     } catch (err) {
-        return null;
+        return undefined;
     }
 }
 
@@ -17,7 +21,7 @@ export async function getRestaurants() {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/`, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "application/json"
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);

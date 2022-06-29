@@ -3,16 +3,22 @@ import {getArticles} from "@/modules/articleAPI";
 import {addMenu} from "@/modules/menuAPI";
 import {onBeforeMount, ref} from "vue";
 import useGlobalStore from "@/stores/store";
+import {useRouter} from "vue-router";
+import {useToast} from "vue-toastification";
+
+const store = useGlobalStore();
+const router = useRouter();
+const toast = useToast();
 
 const name = ref("");
 const description = ref("");
-const selectedArticles:Array<string> = [];
+const selectedArticles: Array<string> = [];
 const price = ref("");
 const file = ref();
 let fileName: string;
 let fileData: any;
 
-const store = useGlobalStore();
+
 const restaurantId = store.state.user?.restaurantId;
 console.log(restaurantId);
 
@@ -25,7 +31,6 @@ onBeforeMount(async () => {
 });
 
 const list_products = ref([]);
-
 
 const addMenuEvent = async (e) => {
   e.preventDefault();
@@ -40,7 +45,18 @@ const addMenuEvent = async (e) => {
     imageName: fileName,
   };
   console.log(formData);
-  await addMenu(restaurantId, formData);
+  const returnAddMenu = await addMenu(restaurantId, formData);
+
+  if (!returnAddMenu) {
+    toast.error("Une erreur est survenue...", {
+      timeout: 10000
+    });
+  } else {
+    toast.success("Le menu a bien été ajouté !", {
+      timeout: 5000
+    });
+    router.back();
+  }
 }
 
 const onFilePicked = (event) => {
@@ -48,17 +64,15 @@ const onFilePicked = (event) => {
   fileName = fileData.name;
 };
 
-const changeArticles = (articleId) => {
+const changeArticle = (articleId) => {
   const index = selectedArticles.findIndex(article => article === articleId);
-  if(index === -1){
+  if (index === -1) {
     selectedArticles.push(articleId);
-  }
-  else{
-    selectedArticles.splice(index,1);
+  } else {
+    selectedArticles.splice(index, 1);
   }
   console.log(index);
   console.log(selectedArticles);
-
 };
 
 
@@ -112,7 +126,9 @@ const changeArticles = (articleId) => {
         </b-form-group>
         <b-form-checkbox-groupb>
           <span v-for="(product, index) in list_products">
-            <b-form-checkbox @change="changeArticles" :value="product._id">{{ product.name }} ({{ product.type }})</b-form-checkbox>
+            <b-form-checkbox @change="changeArticle" :value="product._id">{{ product.name }} ({{
+                product.type
+              }})</b-form-checkbox>
           </span>
         </b-form-checkbox-groupb>
 

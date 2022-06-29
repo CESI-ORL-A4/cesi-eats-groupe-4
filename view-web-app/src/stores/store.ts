@@ -12,9 +12,15 @@ export interface UserState {
     restaurantId?: string;
 }
 
+export interface CartState {
+    restaurantId: string;
+    menus: any[];
+}
+
 export interface State {
     isLoadingUserData: boolean;
     user?: UserState;
+    cart?: CartState;
 }
 
 export const storeKey: InjectionKey<Store<State>> = Symbol();
@@ -34,7 +40,10 @@ export const store = createStore<State>({
                   let restaurantId = undefined;
 
                   if (payload.role === "OWNER") {
-                      restaurantId = (await getRestaurantByOwnerId(id))._id;
+                      const restaurant = await getRestaurantByOwnerId(id);
+                      if (restaurant) {
+                          restaurantId = restaurant._id;
+                      }
                   }
 
                   commit("setUserData", {
@@ -55,12 +64,37 @@ export const store = createStore<State>({
       setUserData (state: State, payload: UserState) {
           state.user = payload;
           state.isLoadingUserData = false;
+          console.log("set data", state.user);
       },
       clearUserData (state: State) {
           state.user = undefined;
       },
       setUserDataLoaded(state: State) {
           state.isLoadingUserData = false;
+      },
+      cartAddMenu(state: State, payload: {restaurantId: string, menu: any}) {
+          const { restaurantId, menu } = payload;
+          if (!state.cart) {
+              state.cart = { restaurantId, menus: []};
+          }
+          if (restaurantId === state.cart.restaurantId) {
+              state.cart.menus = [...state.cart.menus, menu];
+          }
+      },
+      cartRemoveMenu(state: State, menuId: string) {
+          if (state.cart) {
+              state.cart.menus = state.cart.menus.filter((menu) => menu._id !== menuId);
+          }
+      },
+      cartRemoveMenuByIndex(state: State, index: number) {
+          if (state.cart) {
+              if (index < state.cart.menus.length) {
+                  state.cart.menus.splice(index, 1);
+              }
+          }
+      },
+      clearCart(state: State) {
+          state.cart = undefined;
       }
   }
 })

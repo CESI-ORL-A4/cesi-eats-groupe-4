@@ -135,6 +135,16 @@ const router = createRouter({
             }*/
         },
         {
+            path: '/owner/menu/:id',
+            name: 'owner-menu-update',
+            component: () => import('../views/owners/OwnerMenuUpdateView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
             path: '/owner/menu/add',
             name: 'owner-menu-add',
             component: () => import('../views/owners/OwnerMenuAddView.vue'),
@@ -175,12 +185,12 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/restaurant',
-            name: 'restaurant',
-            component: () => import('../views/restaurantView.vue'),
+
+            path: '/restaurants',
+            name: 'restaurants',
+            component: () => import('../views/RestaurantsView.vue'),
             meta: {
-                requiresAuth: true,
-                is_basic: true
+                guest: true
             }
         },
         {
@@ -191,7 +201,24 @@ const router = createRouter({
                 requiresAuth: true,
                 is_deliverer: true
             }
-        }
+        },
+        {
+            path: '/restaurant/:id',
+            name: 'restaurant',
+            component: () => import('../views/MenusView.vue'),
+            meta: {
+                guest: true
+            },
+        },
+        {
+
+            path: '/Cart',
+            name: 'cart',
+            component: () => import('../views/CartView.vue'),
+            meta: {
+                guest: true
+            },
+        },
     ]
 })
 
