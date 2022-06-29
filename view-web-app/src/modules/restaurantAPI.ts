@@ -1,24 +1,15 @@
-import FormData from "form-data";
 import config from "../config.json";
 import axios from "axios";
 
 export async function getRestaurantByOwnerId(ownerId:string) {
     try {
-        const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/ownerId/`+ownerId, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": "Bearer " + localStorage.getItem('jwt')
-            },})
+        const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/ownerId/`+ownerId);
         if (response.status < 200 || response.status > 300) {
-            console.log(response);
-            console.log(response.data.error);
             return null;
         }
-        // Don't forget to return something
-        console.log(response);
         return response.data.restaurant;
     } catch (err) {
-        console.error(err);
+        return null;
     }
 }
 

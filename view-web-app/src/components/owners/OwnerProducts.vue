@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import router from "@/router";
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, ref, watch} from "vue";
 import {getArticles} from "@/modules/articleAPI";
+import useGlobalStore from "@/stores/store";
+import {loadUserData} from "@/modules/userAPI";
+
+const store = useGlobalStore();
 
 function pushProductUpdatePage(id: string) {
   router.push({path: `/owner/product/${id}`})
@@ -11,13 +15,15 @@ function pushProductAddPage() {
   router.push({name: "owner-product-add"})
 }
 
-onBeforeMount(async () => {
-  const products = await getArticles(localStorage.getItem('restaurantId'));
-  console.log(products);
-  if (products) {
-    list_products.value = products;
-  }
-});
+watch(() => store.state.user?.restaurantId, async (restaurantId) => {
+  if (restaurantId) {
+      const products = await getArticles(restaurantId);
+      console.log(products);
+      if (products) {
+        list_products.value = products;
+      }
+    }
+}, { immediate: true });
 
 const list_products = ref([]);
 
