@@ -1,8 +1,7 @@
 <template>
-  <div class="product-card">
+  <div>
     <b-card-group columns>
-      <b-card>
-        <b-card-title>Title</b-card-title>
+      <b-card title="Title" img-src="https://placekitten.com/500/350" img-alt="Image" img-top>
         <b-card-text>
           This card has supporting text below as a natural lead-in to additional content.
         </b-card-text>
@@ -20,6 +19,6 @@
 
 <style scoped>
 .product-card {
-  margin : 20px;
+  margin: 20px;
 }
 </style>

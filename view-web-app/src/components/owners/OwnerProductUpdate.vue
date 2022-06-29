@@ -1,30 +1,34 @@
 <script lang="ts" setup>
-import {getArticle, getArticles} from "@/modules/articleAPI";
-import {updateArticle} from "@/modules/articleAPI";
+import {getArticle, getArticles, updateArticle} from "@/modules/articleAPI";
 import useGlobalStore from "@/stores/store";
 import {ref, watch} from "vue";
+import {useRouter} from "vue-router";
+import config from "../config.json";
+
+const store = useGlobalStore();
+const router = useRouter();
 
 const name = ref("");
 const type = ref("");
 
 const productTypeOptions = [
-  { value: "plat", text: "Un plat" },
-  { value: "accompagnement", text: "Un accompagnement" },
-  { value: "sauce", text: "Une sauce" },
-  { value: "boisson", text: "Une boisson" },
+  {value: "plat", text: "Un plat"},
+  {value: "accompagnement", text: "Un accompagnement"},
+  {value: "sauce", text: "Une sauce"},
+  {value: "boisson", text: "Une boisson"},
 ]
 
-const store = useGlobalStore();
 
 watch(() => store.state.user?.restaurantId, async (restaurantId) => {
   if (restaurantId) {
-    const products = await getArticles(restaurantId);
+    const articleId = router.currentRoute.value.params.id;
+    const products = await getArticle(restaurantId, articleId);
     console.log(products);
     if (products) {
       list_products.value = products;
     }
   }
-}, { immediate: true });
+}, {immediate: true});
 
 const list_products = ref([]);
 
@@ -64,7 +68,6 @@ const list_products = ref([]);
     </div>
   </div>
 </template>
-
 
 
 <style scoped>
