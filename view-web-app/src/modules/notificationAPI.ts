@@ -3,7 +3,7 @@ import config from "@/config.json";
 
 export async function getNotifications(userId:string) {
     try {
-        const response = await axios.get(`${config.GATEWAY_URL}"/users/${userId}/notifications"`, {
+        const response = await axios.get(`${config.GATEWAY_URL}/users/${userId}/notifications`, {
             headers: {
                 "Content-Type": 'application/json',
                 "Authorization": "Bearer " + localStorage.getItem('jwt')
@@ -13,12 +13,30 @@ export async function getNotifications(userId:string) {
             console.log(response.data.error);
             return null;
         }
-        // Don't forget to return something
         return response.data.notifications;
     } catch (err) {
         console.error(err);
     }
 }
+
+export async function getNotificationsCount(userId:string) {
+    try {
+        const response = await axios.get(`${config.GATEWAY_URL}/users/${userId}/notifications/countunread`, {
+            headers: {
+                "Content-Type": 'application/json',
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+            },})
+        if (response.status < 200 || response.status > 300) {
+            console.log(response);
+            console.log(response.data.error);
+            return null;
+        }
+        return response.data.count;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 export async function deleteNotification(notificationId: string) {
     try {
         const response = await axios.delete(`${config.GATEWAY_URL}/notifications/${notificationId}/`, {
