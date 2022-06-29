@@ -4,17 +4,35 @@ import {onBeforeMount, ref, watch} from "vue";
 import {getMenus} from "@/modules/menuAPI";
 import useGlobalStore from "@/stores/store";
 import {getArticles} from "@/modules/articleAPI";
+import {useRoute} from "vue-router";
 
 const store = useGlobalStore();
+const role = store.state.user?.role;
+const route = useRoute();
+
 
 function pushMenuUpdatePage(id: string) {
-  router.push({path: `/owner/menu/${id}`})
+  if(role=== "OWNER"){
+    router.push({path: `/owner/menu/${id}`})
+  }
+}
+
+function addMenuToCart(menu: any) {
+  store.commit("cartAddMenu", {
+    restaurantId: route.params.id,
+    menu
+  });
 }
 
 function pushMenuAddPage() {
   router.push({name: "owner-menu-add"})
 }
 
+watch(() => store.state.cart?.menus, (menus: any[] | undefined) => {
+  if (menus) {
+    console.log("MENUS CHANGE", menus);
+  }
+});
 
 watch(() => store.state.user?.restaurantId, async (restaurantId) => {
   if (restaurantId) {
@@ -24,7 +42,15 @@ watch(() => store.state.user?.restaurantId, async (restaurantId) => {
       list_menus.value = menus;
     }
   }
-}, { immediate: true });
+  if (route.params.id) {
+    const menus = await getMenus(route.params.id as string);
+    console.log(menus);
+    if (menus) {
+      list_menus.value = menus;
+    }
+  }
+
+}, {immediate: true});
 
 
 const list_menus = ref([]);
@@ -33,8 +59,8 @@ const list_menus = ref([]);
 </script>
 
 <template>
-  <div>
-    <div class="flex-container-add_menu">
+  <div><br/>
+    <div class="flex-container-add_menu" v-if="role === 'OWNER' ">
       <div><h2 class="line-up">Menus disponibles dans votre restaurant :</h2></div>
       <div>
         <p>
@@ -42,30 +68,36 @@ const list_menus = ref([]);
         </p>
         <br></div>
     </div>
+    <div v-else class="BasicTitle"><h1> Nos Menus :</h1></div><br/>
     <div class="menu-wrapper">
       <b-card-group columns>
-      <div class="menu-card" :key="menu" v-for="menu in list_menus"
-           @click="pushMenuUpdatePage(menu.id)">
-        <div>
-          <b-card
-              :title="menu.name"
-              :img-src="menu.linkImage"
-              :img-alt="menu.name"
-              img-top
-              tag="article"
-              style="max-width: 20rem;"
-              class="mb-2"
-          >
-            <b-card-text v-for="article in menu.articles">
-              <div v-if="article != null">
-                - {{ article.name }}
-              </div>
-            </b-card-text>
+        <div class="menu-card" :key="menu" v-for="menu in list_menus"
 
-            <b-button href="#" variant="success">Modifier / Supprimer le menu</b-button>
-          </b-card>
+             @click="pushMenuUpdatePage(menu.id)">
+          <div>
+            <b-card
+                :title="menu.name"
+                :img-src="menu.linkImage"
+                :img-alt="menu.name"
+                img-top
+                tag="article"
+                style="max-width: 20rem;"
+                class="mb-2"
+            >
+              <b-card-text v-for="article in menu.articles">
+                <div v-if="article != null">
+                  - {{ article.name }}
+                </div>
+              </b-card-text>
+              <div v-if="role === 'OWNER' ">
+                <b-button href="#" variant="success">Modifier / Supprimer le menu</b-button>
+              </div>
+              <div v-if="role === 'BASIC' ">
+                <b-button @click="addMenuToCart(menu)" variant="success">Ajouter au panier</b-button>
+              </div>
+            </b-card>
+          </div>
         </div>
-      </div>
       </b-card-group>
     </div>
   </div>
@@ -95,6 +127,9 @@ const list_menus = ref([]);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+.BasicTitle{
+  margin-left: 80px;
 }
 
 .menu-card {
