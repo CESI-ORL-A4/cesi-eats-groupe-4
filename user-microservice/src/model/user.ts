@@ -10,6 +10,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<Model>> 
     declare birthdate: Date;
     declare address : string;
     declare sponsorship: Date | undefined;
+    declare role : string | undefined;
 }
 
 export async function initUser() {
@@ -47,6 +48,10 @@ export async function initUser() {
             },
             sponsorship: {
                 type: DataTypes.DATE,
+                allowNull: true
+            },
+            role: {
+                type: DataTypes.STRING,
                 allowNull: true
             },
         },
