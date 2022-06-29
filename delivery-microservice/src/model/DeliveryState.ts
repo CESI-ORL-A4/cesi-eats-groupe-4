@@ -1,5 +1,5 @@
 enum DeliveryState {
-    UNDER_SHIPMENT = "DELIVERED",
+    UNDER_SHIPMENT = "UNDER_SHIPMENT",
     DELIVERED = "DELIVERED"
 }
 

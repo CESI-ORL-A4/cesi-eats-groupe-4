@@ -4,7 +4,7 @@ import { MongoID } from "../types/mongoose";
 import DeliveryAttributesPayload from "../types/payloads/DeliveryAttributesPayload";
 
 export async function createDelivery(payload: DeliveryAttributesPayload) {
-    return await DeliveryModel.create(payload);
+    return await DeliveryModel.create({...payload, state: DeliveryState.UNDER_SHIPMENT});
 }
 
 export async function getAllDeliveries() {
@@ -20,16 +20,16 @@ export async function getDeliveryById(id: MongoID) {
     return await DeliveryModel.findById(id).exec();
 }
 
-export async function getUnderShipmentDeliveriesForDeliverer(deliverId: number) {
-    return await DeliveryModel.findOne({ deliverId, state: DeliveryState.UNDER_SHIPMENT });
+export async function getUnderShipmentDeliveriesForDeliverer(delivererId: number) {
+    return await DeliveryModel.find({ delivererId, state: DeliveryState.UNDER_SHIPMENT });
 }
 
-export async function getDeliveredDeliveriesForDeliverer(deliverId: number) {
-    return await DeliveryModel.findOne({ deliverId, state: DeliveryState.DELIVERED });
+export async function getDeliveredDeliveriesForDeliverer(delivererId: number) {
+    return await DeliveryModel.find({ delivererId, state: DeliveryState.DELIVERED });
 }
 
-export async function getAllDeliveriesForDeliverer(deliverId: number) {
-    return await DeliveryModel.findOne({ deliverId });
+export async function getAllDeliveriesForDeliverer(delivererId: number) {
+    return await DeliveryModel.find({ delivererId });
 }
 
 export async function deleteDeliveryById(_id: MongoID) {
@@ -37,5 +37,7 @@ export async function deleteDeliveryById(_id: MongoID) {
 }
 
 export async function updateDelivery(_id: MongoID, payload: { state: DeliveryState }) {
-    return await DeliveryModel.findOneAndUpdate({ _id }, payload);
+    return await DeliveryModel.findOneAndUpdate({ _id }, payload, {
+        new: true
+    });
 }

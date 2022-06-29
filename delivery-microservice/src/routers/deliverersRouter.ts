@@ -10,19 +10,19 @@ type IDParam = {
 deliverersRouter.get("/:id/deliveries",
     async (req: Request<IDParam>, res: Response) => {
         const id = parseInt(req.params.id);
-        return res.json(200).json(await getAllDeliveriesForDeliverer(id));
+        return res.status(200).json(await getAllDeliveriesForDeliverer(id));
 });
 
 deliverersRouter.get("/:id/deliveries/under-shipment",
     async (req: Request<IDParam>, res: Response) => {
         const id = parseInt(req.params.id);
-        return res.json(200).json(await getUnderShipmentDeliveriesForDeliverer(id));
+        return res.status(200).json(await getUnderShipmentDeliveriesForDeliverer(id));
 });
 
 deliverersRouter.get("/:id/deliveries/delivered",
     async (req: Request<IDParam>, res: Response) => {
         const id = parseInt(req.params.id);
-        return res.json(200).json(await getDeliveredDeliveriesForDeliverer(id));
+        return res.status(200).json(await getDeliveredDeliveriesForDeliverer(id));
 });
 
 export default deliverersRouter;
