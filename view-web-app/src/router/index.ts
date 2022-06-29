@@ -134,6 +134,16 @@ const router = createRouter({
             }*/
         },
         {
+            path: '/owner/menu/:id',
+            name: 'owner-menu-update',
+            component: () => import('../views/owners/OwnerMenuUpdateView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
             path: '/owner/menu/add',
             name: 'owner-menu-add',
             component: () => import('../views/owners/OwnerMenuAddView.vue'),

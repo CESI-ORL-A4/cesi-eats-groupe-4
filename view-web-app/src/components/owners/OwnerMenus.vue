@@ -44,8 +44,7 @@ const list_menus = ref([]);
     </div>
     <div class="menu-wrapper">
       <b-card-group columns>
-      <div class="menu-card" :key="menu" v-for="menu in list_menus"
-           @click="pushMenuUpdatePage(menu.id)">
+      <div class="menu-card" :key="menu" v-for="menu in list_menus">
         <div>
           <b-card
               :title="menu.name"
@@ -62,7 +61,7 @@ const list_menus = ref([]);
               </div>
             </b-card-text>
 
-            <b-button href="#" variant="success">Modifier / Supprimer le menu</b-button>
+            <b-button @click="pushMenuUpdatePage(menu._id)" variant="dark">Modifier / Supprimer le menu</b-button>
           </b-card>
         </div>
       </div>

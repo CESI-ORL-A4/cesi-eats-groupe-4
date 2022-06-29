@@ -3,7 +3,7 @@ import {addArticle, getArticle, getArticles, updateArticle} from "@/modules/arti
 import useGlobalStore from "@/stores/store";
 import {ref, watch} from "vue";
 import {useRouter} from "vue-router";
-import { useToast } from "vue-toastification";
+import {useToast} from "vue-toastification";
 
 const store = useGlobalStore();
 const router = useRouter();
@@ -39,15 +39,17 @@ const updateProductEvent = async () => {
 
   if (!restaurantId && !articleId)
     return;
-  const formData = {name: name.value, type: type.value};
+  const formData = {
+    name: name.value,
+    type: type.value
+  };
   console.log(name.value);
-  const returnArticle =await updateArticle(restaurantId, articleId, formData);
-  if(!returnArticle){
+  const returnArticle = await updateArticle(restaurantId, articleId, formData);
+  if (!returnArticle) {
     toast.error("Une erreur est survenue...", {
       timeout: 10000
     });
-  }
-  else{
+  } else {
     toast.success("Données mises à jour !", {
       timeout: 5000
     });
