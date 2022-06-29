@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import DeliveryState from "../../model/DeliveryState";
 
 type DeliveryAttributesPayload = {
     delivererId: number;

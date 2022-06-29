@@ -6,6 +6,7 @@ import validateMongoIdParam from "../middlewares/validateMongoIdParam";
 import { ReqWithBody } from "../types/expressTypes";
 import { mongoIDFromString } from "../types/mongoose";
 import DeliveryAttributesPayload from "../types/payloads/DeliveryAttributesPayload";
+import DeliveryState from "../model/DeliveryState";
 
 const deliveriesRouter = Router({ mergeParams: true });
 
