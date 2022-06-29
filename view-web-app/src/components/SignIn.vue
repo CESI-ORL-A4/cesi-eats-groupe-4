@@ -1,25 +1,43 @@
 <script lang="ts" setup>
-import {ref} from "vue";
-import {loginAPI} from "@/modules/identify";
+import {onMounted, ref} from "vue";
+import {loginAPI} from "@/modules/authAPI";
 import {useRouter} from "vue-router";
+import useGlobalStore from "@/stores/store";
+import { useToast } from "vue-toastification";
 
+const store = useGlobalStore();
+const toast = useToast();
 const email = ref("");
 const password = ref("");
 const router = useRouter()
 
-const login = (e) => {
-  e.preventDefault();
+onMounted(() => {
+    if (!!store.state.user) {
+        router.push("/home");
+    }
+})
+
+const login = () => {
+    toast.clear();
   loginAPI(email.value, password.value).then((result) => {
-    if (!result)
-      router.push('/')
-    else if (result.role === "basic")
-      router.push('/basic')
-    else if (result.role === "deliverer")
-      router.push('/deliverer')
-    else if (result.role === "owner")
-      router.push('/owner')
-    else
-      router.push('/account')
+      if (!result) {
+          toast.error("Email ou mot de passe incorrect")
+      } else {
+          store.dispatch("fetchUserData", result);
+          switch (result.role) {
+              case "BASIC":
+                router.push("/basic");
+                break;
+              case "DELIVERER":
+                router.push("/delivere");
+                break;
+              case "OWNER":
+                router.push("/owner");
+                break;
+              default:
+                router.push("/account");
+          }
+      }
   })
 }
 </script>
@@ -29,7 +47,7 @@ const login = (e) => {
   <div class="signin-page">
     <div class="signin-wrapper">
       <h2>Connexion</h2>
-      <b-form>
+      <b-form @submit.prevent="login">
         <b-form-group
             label="Email :"
             label-for="email-input"
@@ -50,13 +68,12 @@ const login = (e) => {
           <b-form-input
               v-model="password"
               id="password-input"
-              placeholder="VotreMotDePasse"
               type="password"
               required
           >
           </b-form-input>
         </b-form-group>
-        <b-button @click="login" variant="dark">Se connecter</b-button>
+        <b-button type="submit" variant="dark">Se connecter</b-button>
       </b-form>
     </div>
   </div>

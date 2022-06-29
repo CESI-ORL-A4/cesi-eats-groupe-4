@@ -1,48 +1,96 @@
 <script setup lang="ts">
-import router from "@/router"
+import { logoutAPI } from "@/modules/authAPI";
+import useGlobalStore from "@/stores/store";
+import { computed } from "@vue/reactivity";
+import { useRouter } from "vue-router";
+import LogoutIcon from "./icons/LogoutIcon.vue";
+import NotificationIcon from "./icons/NotificationIcon.vue";
 
-const role = localStorage.getItem('role');
+const store = useGlobalStore();
+const router = useRouter();
 
-function btn_sign_up() {
-  router.push({name: "signUp"})
+const user = computed(() => store.state.user);;
+const isLogged = computed(() => !!store.state.user);
+const isLoadingUser = computed(() => store.state.isLoadingUserData);
+const personalButtonText = computed(() => {
+    const role = store.state.user?.role;
+    if (!role) return "";
+    return role === "BASIC" ? "Panier" : "Dashboard";
+});
+const personalButtonLink = computed(() => {
+    const role = store.state.user?.role;
+    if (!role) return "";
+    return role === "BASIC" ? "/home" : "/home";
+});
+
+function logout() {
+    logoutAPI(store);
+    router.push("/home");
 }
-
-function btn_sign_in() {
-  router.push({name: "signIn"})
-}
-
-function btn_account() {
-  router.push({name: "account"})
-}
-
-function homePage() {
-  if(!role)
-  {
-    router.push({name: "home"})
-  }
-  else if(role == "BASIC")
-  {
-    router.push({name: "restaurant"})
-  }
-
-}
-
 </script>
 
 <template>
   <header class="flex-container">
-    <p class="header-title" @click="homePage">Cesi <span>Eats</span></p>
-    <div class="item-x">
-      <button v-show="role" type="button" class="btn_notif"><img height="13" alt="Notif" src="@/assets/icon-notif.png"></button>
-      <button v-show="role" type="button" class="btn_account" @click="btn_account">Mon compte</button>
-      <button v-show="!role" type="button" class="btn_sign_in" @click="btn_sign_in">Connexion</button>
-      <button v-show="!role" type="button" class="btn_sign_up" @click="btn_sign_up">Inscription</button>
+    <p class="header-title" @click="router.push('/home')">Cesi <span>Eats</span></p>
+    <div v-if="!isLoadingUser" class="right-nav">
+      <div class="logged-items-wrapper" v-show="isLogged">
+        <p class="user-name" @click="router.push('/account')">{{ user?.firstName }} - Mon compte</p>
+        <p class="personal-button" @click="router.push(personalButtonLink)">{{ personalButtonText }}</p>
+        <div class="notification-icon">
+            <NotificationIcon/>
+        </div>
+        <div class="logout-icon" @click="logout()">
+            <LogoutIcon/>
+        </div>
+      </div>
+      <button v-show="!isLogged" @click="router.push('/signIn')" type="button" class="btn_sign_in">Connexion</button>
+      <button v-show="!isLogged" @click="router.push('/signUp')" type="button" class="btn_sign_up">Inscription</button>
     </div>
   </header>
 </template>
 
 
 <style scoped>
+.logged-items-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.personal-button {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 8px 30px;
+    cursor: pointer;
+    margin: 0 12px;
+}
+
+.logout-icon {
+    width: 30px;
+    cursor: pointer;
+}
+
+.logout-icon:hover {
+    opacity: 0.9;
+}
+
+.notification-icon {
+    width: 25px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.user-name {
+    margin: 0;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 16px;
+}
+
+.user-name:hover {
+    color: #06C167; 
+}
+
 button {
   outline: none;
   border: none;
@@ -122,10 +170,9 @@ p {
   font-family: "PoppinsSemiBold";
 }
 
-.item-x {
+.right-nav {
   /* flex:0 1 auto; */
   align-self: center;
   color: white;
-
 }
 </style>
