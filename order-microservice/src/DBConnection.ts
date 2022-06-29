@@ -4,6 +4,7 @@ export async function connectMongoDB() {
     const dbHost = process.env.ORDER_SERVICE_DB_HOST || "localhost";
     const dbUsername = process.env.ORDER_SERVICE_DB_USERNAME || "admin";
     const dbPassword = process.env.ORDER_SERVICE_DB_PASSWORD || "admin";
+    console.log(`mongodb://${dbUsername}:${dbPassword}@${dbHost}`);
     let isConnected = false;
     do {
         console.log("Try connecting to mongodb...");

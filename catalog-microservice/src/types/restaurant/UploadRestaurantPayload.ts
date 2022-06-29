@@ -3,7 +3,7 @@ type UploadRestaurantPayload = {
     name: string;
     address: string;
     description: string|undefined;
-    imageLink: string|undefined;
+    image: string|undefined;
 }
 
 

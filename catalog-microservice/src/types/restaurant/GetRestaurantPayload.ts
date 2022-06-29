@@ -1,5 +1,5 @@
 type GetRestaurantPayload = {
-    idRestaurant: string;
+    restaurantId: string;
 }
 
 export default GetRestaurantPayload;

@@ -18,10 +18,7 @@ menuRouter.post("/",upload.single('imageData'),
     async (req: any, res: Response) => {
         const payload = req.body;
         const restaurantId = req.params?.restaurantId;
-        console.log(restaurantId);
-        console.log("Create menu");
         const testFormatted = isMenuGoodFormat(payload);
-        console.log(payload);
         if (!payload)
             return res.status(400).json({error:"No Body"});
         if (!testFormatted.error)
@@ -41,8 +38,6 @@ menuRouter.get("/:menuId",async (req: ReqWithParams<GetMenuPayload>, res: Respon
     const payload = req.params;
     const restaurantId = req.params?.restaurantId;
     const menuId = req.params?.menuId;
-    console.log("get menu ");
-    console.log(payload);
     if (!menuId || !restaurantId) {
         return res.status(400).json({error: "Restaurant or Menu ID missing"});
     }
@@ -60,14 +55,8 @@ menuRouter.get("/",
     async (req: ReqWithParams<GetMenusPayload>, res: Response) => {
     const payload = req.params;
     let menus;
-    //try
     menus = await getMenus(payload.restaurantId);
-    /*}
-    catch(e:any) {
-        console.log(e.message);
-        return res.status(400).json({ error: "error" });
-    }*/
-    return res.status(200).json({ status: "Menus",menus});
+    return res.status(200).json({ status: "menus",menus});
     });
 
 menuRouter.put("/:menuId",upload.single('imageData'),
@@ -76,8 +65,6 @@ menuRouter.put("/:menuId",upload.single('imageData'),
         const menuId = req.params.menuId;
         const restaurantId = req.params.restaurantId;
         const payload = req.body;
-        console.log("update ");
-        console.log(menuId);
         if (!menuId || ! restaurantId) {
             return res.status(400).json({ error: "Id is required" });
         }
@@ -87,8 +74,8 @@ menuRouter.put("/:menuId",upload.single('imageData'),
             const testFormatted = isMenuUpdateGoodFormat(payload);
             if (!testFormatted.error)
             {
-                const addedUser = await updateMenu(menuId,restaurantId,payload,req.file?.buffer);
-                return res.status(201).json({status: "Menu registered", Menu: addedUser});
+                const addedMenu = await updateMenu(menuId,restaurantId,payload,req.file?.buffer);
+                return res.status(201).json({status: "Menu registered", menu: addedMenu});
             }
             else{
                 return res.status(400).json({error:testFormatted?.error?.message});
@@ -101,17 +88,12 @@ menuRouter.put("/:menuId",upload.single('imageData'),
 menuRouter.delete("/:menuId",
     async (req: ReqWithParams<DeleteMenuPayload>, res: Response) => {
         const payload:DeleteMenuPayload = req.params;
-        console.log("get ");
-        console.log(payload);
         if (!payload.menuId) {
             return res.status(400).json({ error: "Menu Id is required" });
         }
         if (!await restaurantExistByIdRestaurant(payload.restaurantId)) {
             return res.status(400).json({ error: "Restaurant does not exist" });
-        }/*
-        if (!await isMenuDeletable(payload.restaurantId,payload.menuId)) {
-            return res.status(400).json({ error: "Restaurant does not exist" });
-        }*/
+        }
         if (await getMenu(payload.menuId,payload.restaurantId)) {
             return res.status(200).json({ status: "Menu delete",menuId:await deleteMenu(payload.menuId,payload.restaurantId)});
         }
