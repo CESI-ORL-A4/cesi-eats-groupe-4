@@ -42,7 +42,7 @@ const payload = ref({
     phone: "",
 });
 
-function onSubmit() {
+function onSubmit(){
     isEditing.value = false;
     isLoading.value = true;
     const { password, ...payloadContent } = payload.value;

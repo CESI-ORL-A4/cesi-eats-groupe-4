@@ -86,7 +86,7 @@ export async function updateArticle(restaurantsId: string, articleId: string, fo
     try {
         const response = await axios.put(`${config.GATEWAY_URL}/catalog/restaurants/` + restaurantsId + "/articles/" + articleId, form, {
             headers: {
-                "Content-Type": "multipart/form-data",
+                'Content-Type': 'application/json',
                 "Authorization": "Bearer " + localStorage.getItem('jwt')
             },
         })
