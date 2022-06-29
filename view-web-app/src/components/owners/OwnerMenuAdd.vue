@@ -1,18 +1,8 @@
 <script lang="ts" setup>
-import FormData from "form-data";
+import {getArticles} from "@/modules/articleAPI";
 import {addMenu} from "@/modules/menuAPI";
 import {onBeforeMount, ref} from "vue";
-import {getArticles} from "@/modules/articleAPI";
-
-onBeforeMount(async () => {
-  const products = await getArticles(localStorage.getItem('restaurantId'));
-  console.log(products);
-  if (products) {
-    list_products.value = products;
-  }
-});
-
-const list_products = ref([]);
+import useGlobalStore from "@/stores/store";
 
 const name = ref("");
 const description = ref("");
@@ -22,7 +12,21 @@ const file = ref();
 let fileName: string;
 let fileData: any;
 
-const restaurantId = localStorage.getItem('restaurantId');
+const store = useGlobalStore();
+const restaurantId = store.state.user?.restaurantId;
+console.log(restaurantId);
+
+onBeforeMount(async () => {
+  const products = await getArticles(restaurantId);
+  console.log(products);
+  if (products) {
+    list_products.value = products;
+  }
+});
+
+const list_products = ref([]);
+
+
 const addMenuEvent = async (e) => {
   e.preventDefault();
   if (!restaurantId)

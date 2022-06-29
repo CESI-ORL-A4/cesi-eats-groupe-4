@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import FormData from "form-data"
-import {getArticle} from "@/modules/articleAPI";
+import {getArticle, getArticles} from "@/modules/articleAPI";
 import {updateArticle} from "@/modules/articleAPI";
-import {ref} from "vue";
+import useGlobalStore from "@/stores/store";
+import {ref, watch} from "vue";
 
 const name = ref("");
 const type = ref("");
@@ -14,20 +14,19 @@ const productTypeOptions = [
   { value: "boisson", text: "Une boisson" },
 ]
 
-const restaurantId = localStorage.getItem('restaurantId');
+const store = useGlobalStore();
 
-const urlcourante = document.location.href;
-const articleId = urlcourante.substring (urlcourante.lastIndexOf( "/" )+1 );
+watch(() => store.state.user?.restaurantId, async (restaurantId) => {
+  if (restaurantId) {
+    const products = await getArticles(restaurantId);
+    console.log(products);
+    if (products) {
+      list_products.value = products;
+    }
+  }
+}, { immediate: true });
 
-const updateProductEvent = async (e) => {
-  e.preventDefault();
-  if (!restaurantId)
-    return;
-  const formData = {name: name.value, type: type.value};
-  console.log(name.value);
-  await updateArticle(restaurantId, articleId, formData);
-}
-
+const list_products = ref([]);
 
 </script>
 
@@ -35,7 +34,7 @@ const updateProductEvent = async (e) => {
 <template>
   <div class="owner_add_menu-page">
     <div class="owner_add_menu-wrapper">
-      <h2>Ajout d'un nouvel article</h2>
+      <h2>Modification d'un article</h2>
       <b-form @submit.prevent="updateProductEvent">
         <b-form-group
             label="Nom de l'article :"

@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import router from "@/router";
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, ref, watch} from "vue";
 import {getMenus} from "@/modules/menuAPI";
+import useGlobalStore from "@/stores/store";
+import {getArticles} from "@/modules/articleAPI";
+
+const store = useGlobalStore();
 
 function pushMenuUpdatePage(id: string) {
   router.push({path: `/owner/menu/${id}`})
@@ -11,13 +15,17 @@ function pushMenuAddPage() {
   router.push({name: "owner-menu-add"})
 }
 
-onBeforeMount(async () => {
-  const menus = await getMenus(localStorage.getItem('restaurantId'));
-  console.log(menus);
-  if (menus) {
-    list_menus.value = menus;
+
+watch(() => store.state.user?.restaurantId, async (restaurantId) => {
+  if (restaurantId) {
+    const menus = await getMenus(restaurantId);
+    console.log(menus);
+    if (menus) {
+      list_menus.value = menus;
+    }
   }
-});
+}, { immediate: true });
+
 
 const list_menus = ref([]);
 
