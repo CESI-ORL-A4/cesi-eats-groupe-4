@@ -5,7 +5,7 @@ const endpointsFiles = [
     './src/routes/usersRoutes.ts',
     './src/routes/ordersRoutes.ts',
     './src/routes/catalogRoutes.ts',
-    './src/routes/notificationsRoutes.ts'
+    './src/routes/notificationsRoutes.ts',
     './src/routes/deliveriesRoutes.ts'
 ];
 

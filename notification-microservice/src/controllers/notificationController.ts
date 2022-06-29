@@ -11,6 +11,10 @@ export async function getNotificationByUserId(userId: string): Promise<Notificat
     return await notificationModel.find({userId: userId}).exec();
 }
 
+export async function getCountNotificationUnread(userId: string): Promise<NotificationType[]> {
+    return await notificationModel.count({userId: userId,read:false}).exec();
+}
+
 export async function getNotification(notificationId: string) {
     return await notificationModel.find({_id: notificationId});
 }

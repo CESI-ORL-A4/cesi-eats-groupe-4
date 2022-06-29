@@ -135,8 +135,6 @@ services:
     depends_on:
       - catalog-service-db
       - rabbitmq
-    ports:
-      - 8080:8080
     restart: on-failure
     networks:
       - catalog-microservice-network
@@ -169,6 +167,7 @@ services:
       - notification-microservice-network
       - rabbitmq-network
       - app-api-network
+    command: bash -c "ts-node src/app.ts"
   # =============== DELIVERY MICROSERVICE ===============
   delivery-service-db:
     container_name: delivery-service-db
@@ -196,7 +195,6 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
-
 networks:
   rabbitmq-network:
   app-api-network:
@@ -206,4 +204,4 @@ networks:
   catalog-microservice-network:
   notification-microservice-network:
   delivery-microservice-network:
-  
+

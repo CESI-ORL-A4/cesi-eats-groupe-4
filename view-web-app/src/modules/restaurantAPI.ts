@@ -17,7 +17,7 @@ export async function getRestaurants() {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/`, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": 'application/json',
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
@@ -72,7 +72,7 @@ export async function deleteRestaurant(form:FormData,restaurantId:string) {
     try {
         const response = await axios.delete(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantId,{
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": 'application/json',
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);

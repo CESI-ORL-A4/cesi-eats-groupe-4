@@ -2,7 +2,7 @@ import { Router, Response } from "express";
 import {ReqWithBody,ReqWithParams} from "../types/expressTypes";
 import GetNotificationByUserIdPayload from "../types/notification/GetNotificationByUserPayload";
 import {
-    deleteNotificationsByUserId,
+    deleteNotificationsByUserId, getCountNotificationUnread,
     getNotificationByUserId,
     makeUserNotificationRead
 } from "../controllers/notificationController";
@@ -20,6 +20,20 @@ userNotificationRouter.get("/",
             return res.status(400).json({ error: "error" });
         }
         return res.status(200).json({ status: "Notifications",notifications});
+    });
+
+userNotificationRouter.get("/countunread",
+    async (req: ReqWithParams<GetNotificationByUserIdPayload>, res: Response) => {
+        const payload = req.params;
+        let count;
+        try{
+            count = await getCountNotificationUnread(payload.userId);
+        }
+        catch (e:any){
+            console.log(e.message);
+            return res.status(400).json({ error: "error" });
+        }
+        return res.status(200).json({ status: "Notifications",count});
     });
 
 userNotificationRouter.post("/makeread",

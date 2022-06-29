@@ -8,6 +8,7 @@ function setupNotificationsRoutes(app: express.Express) {
     )
 
     app.get("/users/:userId/notifications/", notificationsProxy);
+    app.get("/users/:userId/notifications/countunread", notificationsProxy);
     app.post("/users/:userId/notifications/makeread/", notificationsProxy);
     app.delete("/users/:userId/notifications/", notificationsProxy);
 
