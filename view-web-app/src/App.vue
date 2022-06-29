@@ -20,12 +20,11 @@ body, html {
   margin: 0;
   font-family: Poppins;
   height: 100%;
+  background-color: #fcfcfc;
 }
 
 #app {
   height: 100%;
-  background-color: #fcfcfc;
-
 }
 
 @font-face {
