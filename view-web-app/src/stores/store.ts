@@ -86,6 +86,13 @@ export const store = createStore<State>({
               state.cart.menus = state.cart.menus.filter((menu) => menu._id !== menuId);
           }
       },
+      cartRemoveMenuByIndex(state: State, index: number) {
+          if (state.cart) {
+              if (index < state.cart.menus.length) {
+                  state.cart.menus.splice(index, 1);
+              }
+          }
+      },
       clearCart(state: State) {
           state.cart = undefined;
       }

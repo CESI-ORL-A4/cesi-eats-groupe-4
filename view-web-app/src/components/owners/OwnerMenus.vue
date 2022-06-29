@@ -5,8 +5,10 @@ import {getMenus} from "@/modules/menuAPI";
 import useGlobalStore from "@/stores/store";
 import {getArticles} from "@/modules/articleAPI";
 import {useRoute} from "vue-router";
+import {useToast} from "vue-toastification";
 
 const store = useGlobalStore();
+const toast = useToast();
 const role = store.state.user?.role;
 const route = useRoute();
 
@@ -18,10 +20,16 @@ function pushMenuUpdatePage(id: string) {
 }
 
 function addMenuToCart(menu: any) {
-  store.commit("cartAddMenu", {
-    restaurantId: route.params.id,
-    menu
-  });
+  const restaurantId = route.params.id;
+  if (!store.state.cart || (store.state.cart && store.state.cart.restaurantId === restaurantId)) {
+    store.commit("cartAddMenu", {
+      restaurantId,
+      menu
+    });
+    toast.success(`Le menu ${menu.name} a été ajouté au panier`, { timeout: 2000 });
+  } else {
+    toast.error("Une commande est déjà en cours pour un autre restaurant ! Visitez votre panier");
+  }
 }
 
 function pushMenuAddPage() {
