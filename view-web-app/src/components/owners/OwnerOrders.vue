@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import useGlobalStore from '@/stores/store';
 import config from "../../config.json";
-import { onBeforeMount, reactive, ref, watch } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import axios from 'axios';
-import { useToast } from 'vue-toastification';
+import OrderCard from '../orders/OrderCard.vue';
+import ReloadIcon from '../icons/ReloadIcon.vue';
 
 const store = useGlobalStore();
 const orders = ref<any[]>([]);
-const toast = useToast();
+const isLoading = ref(true);
 
 async function loadMenus(restaurantId: string, order: any) {
     const menus: any[] = [];
@@ -34,126 +35,86 @@ async function loadOrdersDetails(restaurantId: string, ordersList: any[]) {
     return finalOrders;
 }
 
-async function loadAllOrders(restaurantId?: string) {
+async function loadAllOrders() {
+    isLoading.value = true;
+    const restaurantId = store.state.user?.restaurantId;
     if (restaurantId) {
         const ordersList = (await axios.get(`${config.GATEWAY_URL}/restaurants/${restaurantId}/orders/in-process`)).data;
         const loadedOrders = await loadOrdersDetails(restaurantId, ordersList);
         orders.value = loadedOrders;
+        isLoading.value = false;
     }
 }
 
 onBeforeMount(() => {
-    loadAllOrders(store.state.user?.restaurantId);
+    loadAllOrders();
 })
 
 watch(() => store.state.user?.restaurantId, async (restaurantId: string | undefined) => {
-    loadAllOrders(restaurantId);
+    loadAllOrders();
 });
 
-const orderStateTitleMapping: Record<string, string> = {
-    "WAITING_VALIDATION": "En attente de validation",
-    "IN_PRODUCTION": "En cours de production",
-    "READY_TO_SHIP": "Prête à être expédiée",
-    "UNDER_SHIPMENT": "En cours de livraison",
-    "DELIVERED": "Livré"
-}
-
-function getCardTitle(state: string) {
-    return orderStateTitleMapping[state];
-}
-
-function acceptOrder(order: any) {
-    axios.put(`${config.GATEWAY_URL}/orders/${order.id}`, {
-        state: "IN_PRODUCTION"
-    }).then(_ => {
-        toast.success("Commande validée, en cours de production...");
-        orders.value.find((o) => o.id === order.id).state = "IN_PRODUCTION";
-    }, (error) => {
-        toast.error("Une erreur est survenue");
-        console.log("error", error);
-    })
+function deleteOrderCallback(order: any) {
+    const index = orders.value.findIndex((o) => o.id === order.id);
+    orders.value.splice(index, 1);
 }
 
 </script>
 
 <template>
     <section class="orders-section">
-        <h2>Commandes</h2>
-        <div class="commands-list">
-            <b-card
-                v-for="order in orders"
-                no-body
-                header-tag="header"
-                header="warning"
-                header-bg-variant="warning"
-                header-text-variant="white"
-                border-variant="warning"
-            >
-                <template #header>
-                    <div class="card-header-wrapper">
-                        <p class="card-header-text">{{ getCardTitle(order.state) }}</p>
-                        <div class="header-spinner">
-                            <b-spinner style="width: 1.5rem; height: 1.5rem;"  type="grow" variant="white"/>
-                        </div>
-                    </div>
-                </template>
-                <b-card-body>
-                    <b-card-text>
-                        Client : {{ order.user.firstName }} {{ order.user.lastName }}<br/>
-                        Adresse : {{ order.user.address }}<br/>
-                        Téléphone : {{ order.user.phone }}
-                    </b-card-text>
-                    <b-card-text>
-                        Menu(s) acheté(s) :
-                        <p class="menu-item" v-for="menu in order.menus">- {{ menu.name }}</p>
-                    </b-card-text>
-                </b-card-body>
-                <b-button variant="warning" @click="acceptOrder(order)"><p class="white-text-button">Accepter la commande</p></b-button>
-            </b-card> 
+        <div class="orders-header">
+            <h2>Gestion des commandes</h2>
+            <span class="flex-grow"/>
+            <div class="reload-button" @click="loadAllOrders()">
+                <ReloadIcon/>
+            </div>
         </div>
+        <div class="loading-spinner-wrapper" v-if="isLoading">
+            <b-spinner style="width: 5rem; height: 5rem;" variant="success"/>
+        </div>
+        <b-card-group columns v-if="!isLoading">
+            <div class="order-card" v-for="order in orders">
+                <OrderCard :order="order" @delete-order="deleteOrderCallback"/>
+            </div>
+        </b-card-group>
     </section>
 </template>
 
-<style>
-
-p {
-    margin: 0;
-}
-
-.white-text-button {
-    color: white;
-    margin: 0;
-}
-
-.menu-item {
-    margin: 0;
-    margin-left: 10px;
-}
-
-.card-header-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.card-header-text {
-    font-weight: bold;
-    margin-bottom: 0;
-}
-
-.header-spinner {
-    margin-left: 10px;
-    margin-top: 5px;
-}
+<style scoped>
 
 .orders-section {
     margin: 50px;
 }
 
-.commands-list {
+.orders-header {
     display: flex;
-    flex-wrap: wrap;
-    margin-top: 50px;
+    align-items: center;
+    margin-bottom: 30px;
 }
+
+.reload-button {
+    width: 30px;
+    cursor: pointer;
+}
+
+.flex-grow {
+    flex: 1;
+}
+
+.commands-list {
+    margin-top: 100px;
+    width: 100%;
+}
+
+.loading-spinner-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
 </style>
 
 
