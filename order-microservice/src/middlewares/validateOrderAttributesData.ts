@@ -26,7 +26,6 @@ export default function(optional?: boolean) {
                 throw new Error('Array should only contains mongo ObjectID values');
             }
             return true;
-        }),
-        body("state").isIn(Object.values(OrderState))
+        })
     ]
 }

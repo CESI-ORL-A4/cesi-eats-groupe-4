@@ -5,6 +5,8 @@ import { computed } from "@vue/reactivity";
 import { useRouter } from "vue-router";
 import LogoutIcon from "./icons/LogoutIcon.vue";
 import NotificationIcon from "./icons/NotificationIcon.vue";
+import {onBeforeUpdate, ref} from "vue";
+import {getNotificationsCount} from "@/modules/notificationAPI";
 
 const store = useGlobalStore();
 const router = useRouter();
@@ -22,7 +24,9 @@ function redirection(){
     router.push('/home')
   }
 }
-
+function redirectNotifications(){
+  router.push('/notifications')
+}
 
 const personalButtonText = computed(() => {
     const role = store.state.user?.role;
@@ -34,11 +38,13 @@ const personalButtonLink = computed(() => {
     if (!role) return "";
    switch (role) {
      case "OWNER":
-       return "/owner";
+       return "owner";
+     case "DELIVERER":
+       return "deliverer-dashboard"
      case "BASIC":
-       return "/Cart";
+       return "cart";
      default:
-       return "/home";
+       return "home";
    }
 });
 
@@ -54,8 +60,8 @@ function logout() {
     <div v-if="!isLoadingUser" class="right-nav">
       <div class="logged-items-wrapper" v-show="isLogged">
         <p class="user-name" @click="router.push('/account')">{{ user?.firstName }} - Mon compte</p>
-        <p class="personal-button" @click="router.push(personalButtonLink)">{{ personalButtonText }}</p>
-        <div class="notification-icon">
+        <p class="personal-button" @click="router.push({ name: personalButtonLink})">{{ personalButtonText }}</p>
+        <div @click="redirectNotifications" class="notification-icon">
             <NotificationIcon/>
         </div>
         <div class="logout-icon" @click="logout()">
@@ -70,6 +76,7 @@ function logout() {
 
 
 <style scoped>
+
 .logged-items-wrapper {
     display: flex;
     align-items: center;
@@ -107,7 +114,7 @@ function logout() {
 }
 
 .user-name:hover {
-    color: #06C167; 
+    color: #06C167;
 }
 
 button {

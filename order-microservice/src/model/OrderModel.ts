@@ -6,7 +6,7 @@ const OrderSchema = new mongoose.Schema({
         required: true
     },
     userId: {
-        type: mongoose.Types.ObjectId,
+        type: Number,
         required: true
     },
     menuIds: {

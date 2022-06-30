@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import useGlobalStore from "@/stores/store";
 import {computed} from "@vue/reactivity";
+import config from "../config.json";
+import axios from "axios";
+import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
 
 const store = useGlobalStore();
-let cart = store.state.cart;
+const toast = useToast();
+const router = useRouter();
+const isLoading = ref(false);
 
 const cart_menus = computed(() => store.state.cart?.menus);
 const totalPrice = computed(() => {
@@ -20,6 +27,35 @@ const totalPrice = computed(() => {
 
 function deleteEntry(data: any) {
   store.commit("cartRemoveMenuByIndex", data.index);
+}
+
+function checkout() {
+    const cart = store.state.cart;
+    if (cart) {
+        const payload = {
+            restaurantId: cart.restaurantId,
+            userId: store.state.user?.id,
+            menuIds: cart.menus.map(menu => menu._id)
+        }
+        isLoading.value = true;
+        axios.post(`${config.GATEWAY_URL}/orders`, payload).then((_) => {
+            toast.success("Commande payée avec succès, elle est maintenant en cours de préparation !", {
+                timeout: 5000
+            });
+            isLoading.value = false;
+            router.push({ name: "restaurants" });
+            store.commit("clearCart");
+        }, (error) => {
+            let errorMessage = "Une erreur est survenue...";
+            if (error.response.data.error) {
+                errorMessage = error.response.data.error;
+            }
+            toast.error(errorMessage, {
+                timeout: 10000
+            });
+            isLoading.value = false;
+        });
+    }
 }
 
 const fields = [
@@ -70,9 +106,10 @@ const fields = [
             </ul>
           </b-card>
         </div>
-        <div class="btnWrapper">
+        <b-spinner v-if="isLoading" variant="success"/>
+        <div v-if="!isLoading" class="btnWrapper">
           <b-button class="button" variant="warning"> Supprimer la commande</b-button>
-          <b-button class="button" variant="success"> Payer la commande</b-button>
+          <b-button class="button" variant="success" @click="checkout()"> Payer la commande</b-button>
         </div>
       </b-media>
     </b-card>

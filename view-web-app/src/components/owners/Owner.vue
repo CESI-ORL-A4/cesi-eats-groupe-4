@@ -6,7 +6,7 @@ function ownerProductsPage() {
 }
 
 function ownerCommandsPage() {
-  router.push({name: "owner-commands"})
+  router.push({name: "owner-orders"})
 }
 
 function ownerHistoryCommandPage() {

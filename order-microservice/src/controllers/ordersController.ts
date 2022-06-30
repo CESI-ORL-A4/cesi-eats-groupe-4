@@ -33,6 +33,10 @@ export async function getAllOrdersByRestaurantId(restaurantId: string) {
     return await OrderModel.find({ restaurantId });
 }
 
+export async function getAllInProcessOrdersByRestaurantId(restaurantId: string) {
+    return await OrderModel.find({ restaurantId, state: { $ne: OrderState.DELIVERED } });
+}
+
 export async function getAllOrdersByUsersId(userId: string) {
     return await OrderModel.find({ userId });
 }
