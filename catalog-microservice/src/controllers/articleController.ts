@@ -25,7 +25,8 @@ export async function deleteArticle(restaurantId: string,articleId: string) {
     const articles= restaurant.articles;
     if (articles)
     {
-        const findIndex = articles.filter((article: { id: string; }) => article.id !== articleId);
+        const findIndex = articles.findIndex((article: { _id: string; }) => article._id.toString() === articleId);
+        console.log(findIndex);
         articles.splice(findIndex,1);
     }
 
