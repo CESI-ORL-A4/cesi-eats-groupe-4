@@ -4,6 +4,7 @@ import config from "../../config.json";
 import { onBeforeMount, reactive, ref, watch } from 'vue';
 import axios from 'axios';
 import { useToast } from 'vue-toastification';
+import OrderCard from '../orders/OrderCard.vue';
 
 const store = useGlobalStore();
 const orders = ref<any[]>([]);
@@ -39,6 +40,8 @@ async function loadAllOrders(restaurantId?: string) {
         const ordersList = (await axios.get(`${config.GATEWAY_URL}/restaurants/${restaurantId}/orders/in-process`)).data;
         const loadedOrders = await loadOrdersDetails(restaurantId, ordersList);
         orders.value = loadedOrders;
+        console.log("orders", loadedOrders);
+        console.log("livrerId", store.state.user?.id);
     }
 }
 
@@ -50,66 +53,13 @@ watch(() => store.state.user?.restaurantId, async (restaurantId: string | undefi
     loadAllOrders(restaurantId);
 });
 
-const orderStateTitleMapping: Record<string, string> = {
-    "WAITING_VALIDATION": "En attente de validation",
-    "IN_PRODUCTION": "En cours de production",
-    "READY_TO_SHIP": "Prête à être expédiée",
-    "UNDER_SHIPMENT": "En cours de livraison",
-    "DELIVERED": "Livré"
-}
-
-function getCardTitle(state: string) {
-    return orderStateTitleMapping[state];
-}
-
-function acceptOrder(order: any) {
-    axios.put(`${config.GATEWAY_URL}/orders/${order.id}`, {
-        state: "IN_PRODUCTION"
-    }).then(_ => {
-        toast.success("Commande validée, en cours de production...");
-        orders.value.find((o) => o.id === order.id).state = "IN_PRODUCTION";
-    }, (error) => {
-        toast.error("Une erreur est survenue");
-        console.log("error", error);
-    })
-}
-
 </script>
 
 <template>
     <section class="orders-section">
         <h2>Commandes</h2>
         <div class="commands-list">
-            <b-card
-                v-for="order in orders"
-                no-body
-                header-tag="header"
-                header="warning"
-                header-bg-variant="warning"
-                header-text-variant="white"
-                border-variant="warning"
-            >
-                <template #header>
-                    <div class="card-header-wrapper">
-                        <p class="card-header-text">{{ getCardTitle(order.state) }}</p>
-                        <div class="header-spinner">
-                            <b-spinner style="width: 1.5rem; height: 1.5rem;"  type="grow" variant="white"/>
-                        </div>
-                    </div>
-                </template>
-                <b-card-body>
-                    <b-card-text>
-                        Client : {{ order.user.firstName }} {{ order.user.lastName }}<br/>
-                        Adresse : {{ order.user.address }}<br/>
-                        Téléphone : {{ order.user.phone }}
-                    </b-card-text>
-                    <b-card-text>
-                        Menu(s) acheté(s) :
-                        <p class="menu-item" v-for="menu in order.menus">- {{ menu.name }}</p>
-                    </b-card-text>
-                </b-card-body>
-                <b-button variant="warning" @click="acceptOrder(order)"><p class="white-text-button">Accepter la commande</p></b-button>
-            </b-card> 
+            <OrderCard v-for="order in orders" :order="order"/>
         </div>
     </section>
 </template>
