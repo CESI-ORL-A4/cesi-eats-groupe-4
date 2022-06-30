@@ -7,6 +7,7 @@ import LogoutIcon from "./icons/LogoutIcon.vue";
 import NotificationIcon from "./icons/NotificationIcon.vue";
 import {onBeforeUpdate, ref} from "vue";
 import {getNotificationsCount} from "@/modules/notificationAPI";
+import OrderIcon from "@/components/icons/OrderIcon.vue";
 
 const store = useGlobalStore();
 const router = useRouter();
@@ -57,6 +58,9 @@ function logout() {
       <div class="logged-items-wrapper" v-show="isLogged">
         <p class="user-name" @click="router.push('/account')">{{ user?.firstName }} - Mon compte</p>
         <p class="personal-button" @click="router.push({ name: personalButtonLink})">{{ personalButtonText }}</p>
+        <div v-if="role === 'BASIC'" class="order" @click="router.push('/client-order')">
+          <OrderIcon />
+        </div>
         <div @click="redirectNotifications" class="notification-icon">
             <NotificationIcon/>
         </div>
@@ -72,6 +76,10 @@ function logout() {
 
 
 <style scoped>
+.order{
+  cursor: pointer;
+  margin-right: 8px;
+}
 
 .logged-items-wrapper {
     display: flex;

@@ -26,7 +26,7 @@ function getCardTitle() {
     return orderStateTitleMapping[order.state];
 }
 
-const showActionButton = computed(() => !hiddeActionsButton && (order.state === "WAITING_VALIDATION" || order.state === "IN_PRODUCTION" || order.state === "WAITING_PICKUP")); 
+const showActionButton = computed(() => !hiddeActionsButton && (order.state === "WAITING_VALIDATION" || order.state === "IN_PRODUCTION" || order.state === "WAITING_PICKUP"));
 const showSpinnerAnim = computed(() => order.state === "WAITING_VALIDATION" || order.state === "IN_PRODUCTION" || order.state === "WAITING_PICKUP");
 
 function executeOrderAction() {
@@ -52,7 +52,7 @@ const mapActionButtonTextState: Record<string, string> = {
 function getActionButtonText() {
     if (order.state in mapActionButtonTextState) {
         return mapActionButtonTextState[order.state];
-    } 
+    }
     return "";
 }
 
@@ -67,7 +67,7 @@ const mapStateVariant: Record<string, string> = {
 function getVariant() {
     if (order.state in mapStateVariant) {
         return mapStateVariant[order.state];
-    } 
+    }
     return "";
 }
 
@@ -111,7 +111,7 @@ function changeOrderState(state: string, successMessage: string) {
         <b-list-group>
             <b-list-group-item>
                 Commande numéro :<br/>
-                {{ order.id }} 
+                {{ order.id }}
             </b-list-group-item>
             <b-list-group-item>
                 Client : {{ order.user.firstName }} {{ order.user.lastName }}<br/>
@@ -134,7 +134,7 @@ function changeOrderState(state: string, successMessage: string) {
         </b-button>
             </b-list-group-item>
         </b-list-group>
-    </b-card> 
+    </b-card>
 </template>
 
 <style scoped>

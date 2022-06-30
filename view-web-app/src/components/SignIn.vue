@@ -26,7 +26,7 @@ const login = () => {
           store.dispatch("fetchUserData", result);
           switch (result.role) {
               case "BASIC":
-                router.push("/basic");
+                router.push("/restaurants");
                 break;
               case "DELIVERER":
                 router.push("/deliverer/dashboard");

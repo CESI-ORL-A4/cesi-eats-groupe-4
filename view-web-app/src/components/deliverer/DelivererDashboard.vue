@@ -6,20 +6,21 @@ import {addDelivery, deliverieDelivered, getInProcessDeliveries, getOrderReadyto
 import axios from "axios";
 import config from "@/config.json";
 import {useToast} from "vue-toastification";
+import ReloadIcon from "@/components/icons/ReloadIcon.vue"
 
 const charge = ref(false);
 const toast = useToast();
 
 const userId = localStorage.getItem("userId");
 const processDeliveries = ref([]);
+const deliveryId = ref();
 const haveProcessDelivery = ref(true);
 
 const allOrder = ref([]);
 
-async function delivererOrder(deliveryId:any) {
-  debugger;
+async function delivererOrder() {
   charge.value = false;
-  const response = await deliverieDelivered(deliveryId);
+  const response = await deliverieDelivered(deliveryId.value );
   if (!response) {
     toast.error("Une erreur est survenue...", {
       timeout: 10000
@@ -77,10 +78,12 @@ async function loadOrdersDetails(ordersList: any[]) {
 }
 
 const chargeOrder=async ()=>{
+  charge.value = false;
   if (userId) {
 
     let delivery = (await getInProcessDeliveries(userId))[0];
     if (delivery) {
+      deliveryId.value = delivery._id;
       haveProcessDelivery.value = true;
       let order = (await axios.get(`${config.GATEWAY_URL}/orders/${delivery.orderId}`)).data;
       const restaurant = await loadRestaurant(order.restaurantId);
@@ -134,7 +137,13 @@ const fields = [
 <template>
     <div v-if="charge" class="containerBig">
       <div v-if="!haveProcessDelivery">
-        <p class="title">Liste des commandes :</p>
+        <div class="orders-header">
+          <h2>Liste des commandes :</h2>
+          <span class="flex-grow"/>
+          <div class="reload-button" @click="chargeOrder()">
+            <ReloadIcon/>
+          </div>
+        </div>
         <div class="content">
           <b-card >
             <b-media>
@@ -168,7 +177,13 @@ const fields = [
 
       </div>
       <div v-if="haveProcessDelivery">
-        <p class="title">Commande en cours de livraison :</p>
+        <div class="orders-header">
+          <h2>Commande en cours de livraison :</h2>
+          <span class="flex-grow"/>
+          <div class="reload-button" @click="chargeOrder()">
+            <ReloadIcon/>
+          </div>
+        </div>
         <div class="card-container">
         <b-card
             no-body
@@ -233,7 +248,7 @@ const fields = [
             </b-list-group>
           </b-card-body>
           <template v-if="processDeliveries[0].state === 'UNDER_SHIPMENT'">
-            <b-button @click="delivererOrder(processDeliveries[0].id)" variant="outline-success">Valider la livraison</b-button>
+            <b-button @click="delivererOrder" variant="outline-success">Valider la livraison</b-button>
           </template>
           <template v-if="processDeliveries[0].state === 'WAITING_PICKUP'">
             <p class="waitingText" >En attente de récupération de la commande chez le restaurateur</p>
@@ -276,5 +291,23 @@ p{
 }
 .big{
   margin: 0 13%;
+}
+.orders-section {
+  margin: 50px;
+}
+
+.orders-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.reload-button {
+  width: 30px;
+  cursor: pointer;
+}
+
+.flex-grow {
+  flex: 1;
 }
 </style>
