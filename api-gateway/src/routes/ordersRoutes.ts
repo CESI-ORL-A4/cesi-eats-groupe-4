@@ -24,6 +24,7 @@ function setupOrdersRoutes(app: express.Express) {
     app.put("/orders/:id", authCheck(), ordersProxy);
 
     app.post("/orders", authCheck(), ordersProxy);
+    app.get("/orders",authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), ordersProxy);
 
     app.delete("/orders/:id", authCheck([Role.COMMERCIAL, Role.TECHNIC]), ordersProxy);
 }

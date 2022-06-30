@@ -234,6 +234,16 @@ const router = createRouter({
             name: 'noAccess',
             component: () => import('../views/NoAccessView.vue'),
         },
+        {
+
+            path: '/commercial',
+            name: 'commercial',
+            component: () => import('../views/CommercialView.vue'),
+            meta: {
+                requiresAuth: true,
+                is_commercial: true
+            },
+        },
     ]
 })
 
@@ -272,6 +282,15 @@ router.beforeEach((to, from, next) => {
                 }else{
                     next({
                         path: '/no-access',
+                    })
+                }
+            }else if (to.matched.some(record => record.meta.is_commercial)) {
+                //console.log(role);
+                if (role === "COMMERCIAL") {
+                    next()
+                }else{
+                    next({
+                        path: '/commercial',
                     })
                 }
             } else{

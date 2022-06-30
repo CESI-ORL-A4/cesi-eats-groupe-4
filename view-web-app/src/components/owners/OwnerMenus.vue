@@ -87,6 +87,7 @@ const list_menus = ref([]);
                   - {{ article.name }}
                 </div>
               </b-card-text>
+              <div><p class="price">Prix du menu {{menu.price}}€</p></div>
               <div v-if="role === 'OWNER' ">
                 <b-button @click="pushMenuUpdatePage(menu._id)" variant="dark">Modifier / Supprimer le menu</b-button>
               </div>
@@ -99,6 +100,9 @@ const list_menus = ref([]);
 </template>
 
 <style scoped>
+.price{
+  font-weight: bold;
+}
 .flex-container-add_menu {
   display: flex;
   justify-content: space-around;

@@ -34,6 +34,9 @@ const login = () => {
               case "OWNER":
                 router.push("/owner");
                 break;
+              case "COMMERCIAL":
+                router.push("/commercial");
+                break;
               default:
                 router.push("/home");
           }

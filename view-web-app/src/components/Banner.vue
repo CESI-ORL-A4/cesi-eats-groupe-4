@@ -40,6 +40,8 @@ const personalButtonLink = computed(() => {
        return "deliverer-dashboard"
      case "BASIC":
        return "cart";
+     case "COMMERCIAL":
+       return "commercial";
      default:
        return "home";
    }

@@ -3,9 +3,11 @@
 import {onBeforeMount, ref} from "vue";
 import {makeNotificationsRead, getNotifications, deleteNotification} from "@/modules/notificationAPI";
 import {store} from "@/stores/store";
+import ReloadIcon from "@/components/icons/ReloadIcon.vue"
 
 let notifications = ref([])
 const userId = localStorage.getItem('userId');
+const charged = ref(false);
 
 onBeforeMount(async () => {
   await updateNotifications();
@@ -13,6 +15,7 @@ onBeforeMount(async () => {
 })
 
 const updateNotifications = async() =>{
+  charged.value = false;
   store.commit("setNotificationCount", 0)
   if (userId)
   {
@@ -25,7 +28,7 @@ const updateNotifications = async() =>{
         notification.createdAt = date.toLocaleString();
       }
     })
-
+    charged.value = true;
     makeNotificationsRead(userId);
   }
 }
@@ -49,32 +52,40 @@ const fields = [
 </script>
 
 <template>
-  <h1 class="title">Notifications :</h1>
-  <div class="content">
-    <b-card >
-      <b-media>
-        <div>
-          <b-table class="table" :items="notifications" :fields="fields" caption-top>
-            <template  #cell(read)="notification" >
-              <p class="new-text">{{notification.item.read===false?"NEW":""}}</p>
-            </template>
-            <template  #cell(createAd)="notification" >
-              <p class="text">{{notification.item.created_at}} </p>
-            </template>
-            <template #cell(description)="notification" >
-              <p class="text">{{notification.item.description}} </p>
-            </template>
-            <template #cell(delete)="notification" >
-              <b-button size="sm" pill variant="success" class="button" @click="deleteNotificationEvent(notification.item._id)">Supprimer</b-button>
-            </template>
-          </b-table>
-        </div>
-        <template #aside>
-          <b-img blank blank-color="#ccc" width="64" alt="placeholder"></b-img>
-        </template>
-      </b-media>
-    </b-card>
+  <div class="orders-header">
+    <h2>Notifications :</h2>
+    <span class="flex-grow"/>
+    <div class="reload-button" @click="updateNotifications()">
+      <ReloadIcon/>
+    </div>
   </div>
+  <template v-if="charged">
+    <div class="content">
+      <b-card >
+        <b-media>
+          <div>
+            <b-table class="table" :items="notifications" :fields="fields" caption-top>
+              <template  #cell(read)="notification" >
+                <p class="new-text">{{notification.item.read===false?"NEW":""}}</p>
+              </template>
+              <template  #cell(createAd)="notification" >
+                <p class="text">{{notification.item.created_at}} </p>
+              </template>
+              <template #cell(description)="notification" >
+                <p class="text">{{notification.item.description}} </p>
+              </template>
+              <template #cell(delete)="notification" >
+                <b-button size="sm" pill variant="success" class="button" @click="deleteNotificationEvent(notification.item._id)">Supprimer</b-button>
+              </template>
+            </b-table>
+          </div>
+          <template #aside>
+            <b-img blank blank-color="#ccc" width="64" alt="placeholder"></b-img>
+          </template>
+        </b-media>
+      </b-card>
+    </div>
+  </template>
 </template>
 
 <style scoped>
@@ -97,5 +108,19 @@ const fields = [
 }
 p{
   margin:0;
+}
+.reload-button {
+  width: 30px;
+  cursor: pointer;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.orders-header {
+  display: flex;
+  align-items: center;
+  margin: 1.5% 3%;
 }
 </style>

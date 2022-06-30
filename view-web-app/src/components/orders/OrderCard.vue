@@ -62,6 +62,7 @@ const mapStateVariant: Record<string, string> = {
     "READY_TO_SHIP": "success",
     "WAITING_PICKUP": "success",
     "UNDER_SHIPMENT": "success",
+    "DELIVERED": "info",
 }
 
 function getVariant() {
