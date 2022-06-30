@@ -6,7 +6,7 @@ import Restaurant from '@/components/Restaurant.vue'
 </script>
 
 <template>
-  <Home/>
+  <Restaurant/>
 </template>
 
 <style scoped>

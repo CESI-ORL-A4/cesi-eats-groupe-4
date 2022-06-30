@@ -35,7 +35,7 @@ function pushMenu(id: string){
       </h1><br/>
     </div>
      <div class="menu-wrapper">
-      <b-card-group columns>
+      <b-card-group>
         <div :key="restaurant"  v-for="restaurant in list_restaurant" @click="pushMenu(restaurant._id)">
           <div>
             <b-card
@@ -69,12 +69,12 @@ function pushMenu(id: string){
 .menu-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  padding: 30px;
+  justify-content: left;
+  margin-left: 80px;
 }
 
 
 #div_restaurant{
-  margin-left: 20px;
+  margin-left: 80px;
 }
 </style>
