@@ -207,9 +207,11 @@ const router = createRouter({
             name: 'cart',
             component: () => import('../views/CartView.vue'),
             meta: {
-                guest: true
+                requiresAuth: true,
+                is_basic: true
             },
-        },        {
+        },        
+        {
 
             path: '/notifications',
             name: 'notifications',

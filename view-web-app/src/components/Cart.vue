@@ -75,18 +75,19 @@ const fields = [
     <b-card >
       <b-media>
         <div>
+          <h5 class="mt-0">Ma Commande : </h5><br/>
           <b-table :items="cart_menus" :fields="fields" caption-top>
             <template #cell(delete)="row" >
               <b-button size="sm" variant="dark" @click="deleteEntry(row)">Supprimer</b-button>
             </template>
           </b-table>
-          <p>Prix {{ totalPrice }}</p>
+          <p class="mt-1">Prix total de la commande : {{ totalPrice }}€</p>
         </div>
         <template #aside>
           <b-img blank blank-color="#ccc" width="64" alt="placeholder"></b-img>
         </template>
 
-        <h5 class="mt-0">Ma Commande : </h5>
+
         <div class="cart-content">
           <b-card
               v-for="menu in list_menus" :key="menu"
@@ -112,7 +113,7 @@ const fields = [
         </div>
         <b-spinner v-if="isLoading" variant="success"/>
         <div v-if="!isLoading" class="btnWrapper">
-          <b-button class="button" variant="warning"@click="deleteCart()"> Supprimer la commande</b-button>
+          <b-button class="button" variant="warning" @click="deleteCart()"> Supprimer la commande</b-button>
           <b-button class="button" variant="success" @click="checkout()"> Payer la commande</b-button>
         </div>
       </b-media>
@@ -147,6 +148,14 @@ const fields = [
 .mb-2{
   margin-left: 40px;
   max-width: 15rem;
+}
+.mt-1{
+  font-size: 30px;
+}
+
+.mt-0{
+  font-size: 45px;
+ font-style: italic;
 }
 
 </style>
