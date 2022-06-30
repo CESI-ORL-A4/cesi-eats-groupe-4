@@ -197,6 +197,7 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
+
 networks:
   rabbitmq-network:
   app-api-network:
