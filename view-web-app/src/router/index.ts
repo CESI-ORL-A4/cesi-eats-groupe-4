@@ -176,6 +176,16 @@ const router = createRouter({
             }*/
         },
         {
+            path: '/owner/history-command',
+            name: 'owner-history-command',
+            component: () => import('../views/owners/OwnerStatsView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
 
             path: '/restaurants',
             name: 'restaurants',

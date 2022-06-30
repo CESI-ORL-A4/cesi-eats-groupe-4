@@ -23,20 +23,65 @@ function ownerStatsPage() {
 </script>
 
 <template>
-  <div>
-    <button type="button" class="btn_manage_owner" @click="ownerCommandsPage">
-      <p>Gérer les commandes</p>
-      <img height="120" alt="Menu" src="@/assets/images/owners/command.png">
-    </button>
-    <button type="button" class="btn_manage_owner" @click="ownerMenusPage"><p>Accéder aux menus</p>
-      <img height="120" alt="Menu" src="@/assets/images/owners/menu.png"></button>
-    <button type="button" class="btn_manage_owner" @click="ownerProductsPage"><p>Accéder aux articles</p>
-      <img height="120" alt="Menu" src="@/assets/images/owners/product.png"></button>
-    <button type="button" class="btn_manage_owner" @click="ownerHistoryCommandPage"><p>Voir l'historique des
-      commandes</p>
-      <img height="120" alt="Menu" src="@/assets/images/owners/history.png"></button>
-    <button type="button" class="btn_manage_owner" @click="ownerStatsPage"><p>Statistiques du restaurant</p>
-      <img height="120" alt="Menu" src="@/assets/images/owners/stats.png"></button>
+  <div class="line-up">
+    <div>
+      <b-card-group deck>
+        <b-card
+            border-variant="dark" header="Gestion des informations du restaurant" header-bg-variant="dark"
+            header-text-variant="white" align="center">
+          <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/account.png"></b-card-text>
+          <b-card-footer>
+            <b-button @click="ownerAccountPage" variant="dark">Accéder</b-button>
+          </b-card-footer>
+        </b-card>
+        <b-card border-variant="secondary" header="Gestion des articles" header-bg-variant="secondary"
+                header-text-variant="white" align="center">
+          <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/product.png"></b-card-text>
+          <b-card-footer>
+            <b-button @click="ownerProductsPage" variant="secondary">Accéder</b-button>
+          </b-card-footer>
+        </b-card>
+        <b-card border-variant="info" header="Historique des commandes" header-bg-variant="info"
+                header-text-variant="white" align="center">
+          <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/history.png"></b-card-text>
+          <b-card-footer>
+            <!--            <b-button @click="ownerHistoryCommandPage" variant="info">Accéder</b-button>-->
+            <p>#Soon</p>
+          </b-card-footer>
+        </b-card>
+      </b-card-group>
+    </div>
+    <div class="mt-3">
+      <b-card-group deck>
+        <b-card
+            border-variant="primary"
+            header="Gestion des commandes"
+            header-bg-variant="primary"
+            header-text-variant="white"
+            align="center"
+        >
+          <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/command.png"></b-card-text>
+          <b-card-footer>
+            <b-button @click="ownerCommandsPage" variant="primary">Accéder</b-button>
+          </b-card-footer>
+        </b-card>
+        <b-card border-variant="secondary" header="Gestion des menus" header-bg-variant="secondary"
+                header-text-variant="white" align="center">
+          <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/menu.png"></b-card-text>
+          <b-card-footer>
+            <b-button @click="ownerMenusPage" variant="secondary">Accéder</b-button>
+          </b-card-footer>
+        </b-card>
+        <b-card border-variant="info" header="Statistiques" header-bg-variant="info"
+                header-text-variant="white" align="center">
+          <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/stats.png"></b-card-text>
+          <b-card-footer>
+            <!--          <b-button @click="ownerStatsPage" variant="info">Accéder</b-button> -->
+            <p>#Soon</p>
+          </b-card-footer>
+        </b-card>
+      </b-card-group>
+    </div>
   </div>
 </template>
 
@@ -45,26 +90,11 @@ function ownerStatsPage() {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-
-
 }
 
-.btn_manage_owner {
-  margin-top: 30px;
-  background-color: #F6F6F6;
-  border-radius: 10px;
-  font-size: 120%;
-  width: 15em;
-  height: 15em;
-  margin-left: 2em;
-  margin-right: 2em;
-  flex-wrap: wrap;
-}
 
-p {
-  margin: 0;
-  margin-bottom: 10px;
-  font-family: PoppinsSemiBold;
+.line-up {
+  margin: 70px;
 }
 </style>
 
