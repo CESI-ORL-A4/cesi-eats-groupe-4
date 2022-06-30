@@ -29,7 +29,7 @@ const login = () => {
                 router.push("/basic");
                 break;
               case "DELIVERER":
-                router.push("/delivere");
+                router.push("/deliverer/dashboard");
                 break;
               case "OWNER":
                 router.push("/owner");
