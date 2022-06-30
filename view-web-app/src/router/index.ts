@@ -138,24 +138,6 @@ const router = createRouter({
             }
         },
         {
-            path: '/owner/new',
-            name: 'owner-new',
-            component: () => import('../views/owners/OwnerNewView.vue'),
-            meta: {
-                requiresAuth: true,
-                is_owner: true
-            }
-        },
-        {
-            path: '/owner/restaurant-information',
-            name: 'owner-restaurant-information',
-            component: () => import('../views/owners/OwnerRestaurantInformationView.vue'),
-            meta: {
-                requiresAuth: true,
-                is_owner: true
-            }
-        },
-        {
             path: '/owner/stats',
             name: 'owner-stats',
             component: () => import('../views/owners/OwnerStatsView.vue'),
