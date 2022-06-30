@@ -186,7 +186,7 @@ function onSubmit() {
         <b-form-row>
           <b-form-group>
             <input type="checkbox" id="required" name="signup" class="largerCheckbox" required>
-            <label class="checkboxPos">j'accepte les  <button class="checkboxButton" @click="pushCGU()">mentions légales</button>  </label>
+            <label class="checkboxPos">J'accepte les <a href="/CGU" target="_blank">mentions légales</a>  </label>
           </b-form-group>
         </b-form-row>
 

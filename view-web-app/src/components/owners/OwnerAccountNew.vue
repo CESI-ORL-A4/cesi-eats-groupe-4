@@ -11,6 +11,7 @@ const router = useRouter();
 const toast = useToast();
 
 const ownerId = store.state.user?.id;
+console.log(ownerId);
 
 const name = ref("");
 const address = ref("");

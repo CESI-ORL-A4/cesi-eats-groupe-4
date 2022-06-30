@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import {ref, watch} from "vue";
-import {getRestaurantByOwnerId, updateRestaurant} from "@/modules/restaurantAPI";
+import {deleteRestaurant, getRestaurantByOwnerId, updateRestaurant} from "@/modules/restaurantAPI";
 import FormData from "form-data"
 import useGlobalStore from "@/stores/store";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
+import {deleteMenu} from "@/modules/menuAPI";
 
 const store = useGlobalStore();
 const router = useRouter();
@@ -64,10 +65,26 @@ const updateRestaurantEvent = async () => {
   }
 }
 
-
 const onFilePicked = (event) => {
   fileData = event.target.files[0];
   fileName = fileData.name;
+}
+
+const deleteRestaurantEvent = async () => {
+  const restaurantName = name.value;
+  const restaurantId = store.state.user?.restaurantId;
+  const returnRestaurant = await deleteRestaurant(restaurantId);
+
+  if (!returnRestaurant) {
+    toast.error("Une erreur est survenue...", {
+      timeout: 10000
+    });
+  } else {
+    toast.success(`Votre restaurant "` + restaurantName + `" a bien été supprimé !`, {
+      timeout: 5000
+    });
+    router.back();
+  }
 }
 
 function backPage() {

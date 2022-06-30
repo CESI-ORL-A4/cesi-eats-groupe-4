@@ -88,7 +88,7 @@ export async function updateRestaurant(restaurantId: string, form: FormData) {
   }
 }
 
-export async function deleteRestaurant(form: FormData, restaurantId: string) {
+export async function deleteRestaurant(restaurantId: string) {
   try {
     const response = await axios.delete(
       `${config.GATEWAY_URL}/catalog/restaurants/` + restaurantId,
