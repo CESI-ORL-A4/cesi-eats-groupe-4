@@ -4,7 +4,7 @@ import { MongoID } from "../types/mongoose";
 import DeliveryAttributesPayload from "../types/payloads/DeliveryAttributesPayload";
 
 export async function createDelivery(payload: DeliveryAttributesPayload) {
-    return await DeliveryModel.create({...payload, state: DeliveryState.UNDER_SHIPMENT});
+    return await DeliveryModel.create({...payload, state: DeliveryState.PICKING_UP});
 }
 
 export async function getAllDeliveries() {

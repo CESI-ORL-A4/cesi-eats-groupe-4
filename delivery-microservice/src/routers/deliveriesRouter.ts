@@ -32,6 +32,18 @@ deliveriesRouter.delete("/:id",
         return res.status(404).json({ error: `Delivery with id ${req.params.id} doesn't exist` });
 });
 
+deliveriesRouter.post("/:id/picked-up",
+    validateMongoIdParam(),
+    async (req: Request<IDParam>, res: Response) => {
+        const id = mongoIDFromString(req.params.id);
+        const exists = await deliveryExists(id);
+        if (exists) {
+            const updated = await updateDelivery(id, { state: DeliveryState.UNDER_SHIPMENT });
+            return res.status(200).json(updated);
+        }
+        return res.status(404).json({ error: `Delivery with id = ${req.params.id} doesn't exist` });
+});
+
 deliveriesRouter.post("/:id/delivered",
     validateMongoIdParam(),
     async (req: Request<IDParam>, res: Response) => {
