@@ -20,6 +20,10 @@ export async function getDeliveryById(id: MongoID) {
     return await DeliveryModel.findById(id).exec();
 }
 
+export async function getInProcessDeliveriesForDeliverer(delivererId: number) {
+    return await DeliveryModel.find({ delivererId, state: { $ne: DeliveryState.DELIVERED } });
+}
+
 export async function getUnderShipmentDeliveriesForDeliverer(delivererId: number) {
     return await DeliveryModel.find({ delivererId, state: DeliveryState.UNDER_SHIPMENT });
 }

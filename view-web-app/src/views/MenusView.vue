@@ -7,8 +7,8 @@ import OwnerMenus from '@/components/owners/OwnerMenus.vue'
 
 
 <template>
-  <OwnerMenus/>
-<!--  <Menu/>-->
+  <!--OwnerMenus/>-->
+  <Menu/>
 </template>
 
 <style scoped>

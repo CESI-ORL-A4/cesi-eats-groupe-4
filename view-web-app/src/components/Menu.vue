@@ -1,29 +1,33 @@
 <script setup lang="ts">
 
-import Modal from '@/components/Modal.vue'
-import {getRestaurants} from "@/modules/restaurantAPI";
-import {getMenus} from "@/modules/menuAPI";
+import router from "@/router";
 import {onBeforeMount, ref, watch} from "vue";
+import {getMenus} from "@/modules/menuAPI";
+import useGlobalStore from "@/stores/store";
+import {getArticles} from "@/modules/articleAPI";
 import {useRoute} from "vue-router";
-import useGlobalStore, { type CartState} from "@/stores/store";
+import {useToast} from "vue-toastification";
 
-const route = useRoute();
 const store = useGlobalStore();
-let list_menus= ref([]);
+const toast = useToast();
+const role = store.state.user?.role;
+const route = useRoute();
 
-onBeforeMount(async () => {
-  const menus = await getMenus(route.params.id as string);
-  console.log(menus);
-  if(menus){
-    list_menus.value = menus;
-  }
-});
 
-watch(() => store.state.cart, (cart: CartState | undefined) => {
-  if (cart) {
-    console.log("CART CHANGE", cart);
+function addMenuToCart(menu: any) {
+  const restaurantId = route.params.id;
+  if (!store.state.cart || (store.state.cart && store.state.cart.restaurantId === restaurantId)) {
+    store.commit("cartAddMenu", {
+      restaurantId,
+      menu
+    });
+    toast.success(`Le menu ${menu.name} a été ajouté au panier`, { timeout: 2000 });
+  } else {
+    toast.error("Une commande est déjà en cours pour un autre restaurant ! Visitez votre panier");
   }
-});
+}
+
+
 
 watch(() => store.state.cart?.menus, (menus: any[] | undefined) => {
   if (menus) {
@@ -31,99 +35,58 @@ watch(() => store.state.cart?.menus, (menus: any[] | undefined) => {
   }
 });
 
-const list_menu = [
-  {
-    id: "1",
-    name: "Kebab",
-    description: "Tacos triple cordon bleu.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
-    price: "6,50 €",
-    articles: [
-      {name: "Coca-cola"},
-      {name: "Kebab Jambon"},
-      {name: "Glace Vanille"},
-    ],
-  },
-  {
-    id: "2",
-    name: "Tacos simple",
-    description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
-    price: "7,50 €",
-    articles: [
-      {name: "Coca-cola"},
-      {name: "Kebab Jambon"},
-      {name: "Glace Vanille"},
-    ],
-  },
-  {
-    id: "3",
-    name: "Tacos double",
-    description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
-    price: "8,50 €",
-    articles: [
-      {name: "Coca-cola"},
-      {name: "Kebab Jambon"},
-      {name: "Glace Vanille"},
-    ],
-  },
-  {
-    id: "4",
-    name: "Tacos triple",
-    description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
-    price: "9,50 €",
-    articles: [
-      {name: "Coca-cola"},
-      {name: "Kebab Jambon"},
-      {name: "Glace Vanille"},
-    ],
-  },
-  {
-    id: "5",
-    name: "Burger",
-    description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
-    price: "9,00 €",
-    articles: [
-      {name: "Coca-cola"},
-      {name: "Kebab Jambon"},
-      {name: "Glace Vanille"},
-    ],
-  },
-  {
-    id: "6",
-    name: "Sandwich",
-    description: "Viande au choix. Servi avec frites et boisson 33 cl au choix.",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kebab.JPG/1200px-Kebab.JPG",
-    price: "8,00 €",
-    article: [
-      {name: "Coca-cola"},
-      {name: "Kebab Jambon"},
-      {name: "Glace Vanille"},
-    ],
-  },
-];
+watch(() => store.state.user?.restaurantId, async (restaurantId) => {
+  if (restaurantId) {
+    const menus = await getMenus(restaurantId);
+    console.log(menus);
+    if (menus) {
+      list_menus.value = menus;
+    }
+  }
 
+  if (route.params.id) {
+    const menus = await getMenus(route.params.id as string);
+    console.log(menus);
+    if (menus) {
+      list_menus.value = menus;
+    }
+  }
+
+}, {immediate: true});
+
+
+const list_menus = ref([]);
 </script>
 
 <template>
-  <div>
-    <div class="restaurant">
-      <h1>Chez MOMO</h1>
-      <h3>Nos Menus : </h3>
-    </div>
-
-    <div class="menu-wrapper" >
-      <div class="menu-card menu-border"   :key="menu"  v-for="menu in list_menus" >
-        <img alt="menu" :src="menu.image">
-        <h1>{{menu.name}}</h1>
-        <p>{{menu.price}}</p>
-        <div>
-          <Modal :menu="menu"/>
+  <div><br/>
+    <div class="BasicTitle"><h1> Nos Menus :</h1></div><br/>
+    <div class="menu-wrapper">
+      <b-card-group>
+        <div class="menu-card" :key="menu" v-for="menu in list_menus">
+          <div>
+            <b-card
+                :title="menu.name"
+                :img-src="menu.linkImage"
+                :img-alt="menu.name"
+                img-top
+                tag="article"
+                style="max-width: 20rem;"
+                class="mb-2"
+            >
+              <b-card-text v-for="article in menu.articles">
+                <div v-if="article != null">
+                  - {{ article.name }}
+                </div>
+              </b-card-text>
+              <div><p class="price">Prix du menu {{menu.price}}€</p></div>
+              <div v-if="role === 'BASIC' ">
+                <b-button @click="addMenuToCart(menu)" variant="success">Ajouter au panier</b-button>
+              </div>
+            </b-card>
+          </div>
         </div>
-      </div>
+      </b-card-group>
     </div>
   </div>
 </template>
@@ -131,39 +94,39 @@ const list_menu = [
 
 
 <style scoped>
-.restaurant{
-  padding-left: 50px;
+.price{
+  font-weight: bold;
+}
+.flex-container-add_menu {
+  display: flex;
+  justify-content: space-around;
 }
 
+.line-up {
+  margin-top: 20px;
+  margin-left: 60px;
+}
 
+.btn_manage {
+  margin-top: 20px;
+  margin-right: 20px;
+  background-color: #F6F6F6;
+  border-radius: 100px;
+  width: 200px;
+  height: 43px;
+}
 
 .menu-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-
+  justify-content: left;
+}
+.BasicTitle{
+  margin-left: 80px;
 }
 
 .menu-card {
-  margin-left: 10px;
-  border: 1px solid grey;
-  border-radius: 20px;
-  padding: 20px;
-  background-color: antiquewhite;
+  margin-left: 80px;
 }
-
-.menu-border {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 15px;
-}
-img{
-  height: 130px;
-}
-
-.article_name{
-  margin-left: 20px;
-}
-
 
 </style>
