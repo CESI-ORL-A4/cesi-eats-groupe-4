@@ -26,7 +26,7 @@ const login = () => {
           store.dispatch("fetchUserData", result);
           switch (result.role) {
               case "BASIC":
-                router.push("/basic");
+                router.push("/home");
                 break;
               case "DELIVERER":
                 router.push("/deliverer/dashboard");
@@ -35,7 +35,7 @@ const login = () => {
                 router.push("/owner");
                 break;
               default:
-                router.push("/account");
+                router.push("/home");
           }
       }
   })
