@@ -4,7 +4,7 @@ import { MongoID } from "../types/mongoose";
 import DeliveryAttributesPayload from "../types/payloads/DeliveryAttributesPayload";
 
 export async function createDelivery(payload: DeliveryAttributesPayload) {
-    return await DeliveryModel.create({...payload, state: DeliveryState.UNDER_SHIPMENT});
+    return await DeliveryModel.create({...payload, state: DeliveryState.PICKING_UP});
 }
 
 export async function getAllDeliveries() {
@@ -18,6 +18,10 @@ export async function deliveryExists(_id: MongoID) {
 
 export async function getDeliveryById(id: MongoID) {
     return await DeliveryModel.findById(id).exec();
+}
+
+export async function getInProcessDeliveriesForDeliverer(delivererId: number) {
+    return await DeliveryModel.find({ delivererId, state: { $ne: DeliveryState.DELIVERED } });
 }
 
 export async function getUnderShipmentDeliveriesForDeliverer(delivererId: number) {

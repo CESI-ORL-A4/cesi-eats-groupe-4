@@ -1,40 +1,53 @@
 <script setup lang="ts">
 import useGlobalStore from '@/stores/store';
 import config from "../../config.json";
-import { ref, watch } from 'vue';
+import { onBeforeMount, reactive, ref, watch } from 'vue';
 import axios from 'axios';
+import { useToast } from 'vue-toastification';
 
 const store = useGlobalStore();
-const orders = ref<any[]>();
+const orders = ref<any[]>([]);
+const toast = useToast();
 
-watch(() => store.state.user?.restaurantId, (restaurantId: string | undefined) => {
-    if (restaurantId) {
-        axios.get(`${config.GATEWAY_URL}/restaurants/${restaurantId}/orders/in-process`).then( async (response) => {
-            const ordersList = response.data;
-            console.log("result", ordersList);
-            // fetch details for all orders
-            const finalOrders: any []= [];
-            ordersList.forEach(async (order: any) => {
-                // fetch user details
-                const userResponse = await axios.get(`${config.GATEWAY_URL}/users/${order.userId}`);
-                const user = userResponse.data; 
-                // fetch all menus details
-                const menus: any[] = [];
-                order.menuIds.forEach(async (menuId: string) => {
-                    menus.push((await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/${restaurantId}/menus/${menuId}`)).data.menu);
-                });
+async function loadMenus(restaurantId: string, order: any) {
+    const menus: any[] = [];
+    for (const menuId of order.menuIds) {
+        menus.push((await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/${restaurantId}/menus/${menuId}`)).data.menu);
+    }
+    return menus;
+}
 
-                finalOrders.push({
-                    id: order._id,
-                    state: order.state,
-                    user,
-                    menus
-                })
-            });
-            orders.value = finalOrders;
-            console.log("ORDERS", orders.value);
+async function loadOrdersDetails(restaurantId: string, ordersList: any[]) {
+    const finalOrders: any []= [];
+    for (const order of ordersList) {
+        // fetch user details
+        const menus: any[] = await loadMenus(restaurantId, order);
+        const userResponse = await axios.get(`${config.GATEWAY_URL}/users/${order.userId}`);
+        const user = userResponse.data; 
+        finalOrders.push({
+            id: order._id,
+            state: order.state,
+            user,
+            menus
         })
     }
+    return finalOrders;
+}
+
+async function loadAllOrders(restaurantId?: string) {
+    if (restaurantId) {
+        const ordersList = (await axios.get(`${config.GATEWAY_URL}/restaurants/${restaurantId}/orders/in-process`)).data;
+        const loadedOrders = await loadOrdersDetails(restaurantId, ordersList);
+        orders.value = loadedOrders;
+    }
+}
+
+onBeforeMount(() => {
+    loadAllOrders(store.state.user?.restaurantId);
+})
+
+watch(() => store.state.user?.restaurantId, async (restaurantId: string | undefined) => {
+    loadAllOrders(restaurantId);
 });
 
 const orderStateTitleMapping: Record<string, string> = {
@@ -49,6 +62,17 @@ function getCardTitle(state: string) {
     return orderStateTitleMapping[state];
 }
 
+function acceptOrder(order: any) {
+    axios.put(`${config.GATEWAY_URL}/orders/${order.id}`, {
+        state: "IN_PRODUCTION"
+    }).then(_ => {
+        toast.success("Commande validée, en cours de production...");
+        orders.value.find((o) => o.id === order.id).state = "IN_PRODUCTION";
+    }, (error) => {
+        toast.error("Une erreur est survenue");
+        console.log("error", error);
+    })
+}
 
 </script>
 
@@ -84,6 +108,7 @@ function getCardTitle(state: string) {
                         <p class="menu-item" v-for="menu in order.menus">- {{ menu.name }}</p>
                     </b-card-text>
                 </b-card-body>
+                <b-button variant="warning" @click="acceptOrder(order)"><p class="white-text-button">Accepter la commande</p></b-button>
             </b-card> 
         </div>
     </section>
@@ -92,6 +117,11 @@ function getCardTitle(state: string) {
 <style>
 
 p {
+    margin: 0;
+}
+
+.white-text-button {
+    color: white;
     margin: 0;
 }
 

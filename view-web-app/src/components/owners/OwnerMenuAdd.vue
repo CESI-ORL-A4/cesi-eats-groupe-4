@@ -20,11 +20,11 @@ let fileData: any;
 
 
 const restaurantId = store.state.user?.restaurantId;
-console.log(restaurantId);
+//console.log(restaurantId);
 
 onBeforeMount(async () => {
   const products = await getArticles(restaurantId);
-  console.log(products);
+  //console.log(products);
   if (products) {
     list_products.value = products;
   }
@@ -36,6 +36,8 @@ const addMenuEvent = async (e) => {
   e.preventDefault();
   if (!restaurantId)
     return;
+
+  const menuName = name.value;
   const formData = {
     name: name.value,
     description: description.value,
@@ -44,7 +46,9 @@ const addMenuEvent = async (e) => {
     imageData: fileData,
     imageName: fileName,
   };
-  console.log(formData);
+  //console.log(formData);
+
+
   const returnAddMenu = await addMenu(restaurantId, formData);
 
   if (!returnAddMenu) {
@@ -52,7 +56,7 @@ const addMenuEvent = async (e) => {
       timeout: 10000
     });
   } else {
-    toast.success("Le menu a bien été ajouté !", {
+    toast.success(`Le menu "` + menuName + `" a bien été ajouté !`, {
       timeout: 5000
     });
     router.back();
@@ -71,14 +75,19 @@ const changeArticle = (articleId) => {
   } else {
     selectedArticles.splice(index, 1);
   }
-  console.log(index);
-  console.log(selectedArticles);
+  //console.log(index);
+  //console.log(selectedArticles);
 };
 
-
+function backPage() {
+  router.back();
+}
 </script>
 
 <template>
+  <div class="line-up">
+    <b-button @click="backPage" pill variant="outline-secondary">Revenir en arrière</b-button>
+  </div>
   <div class="owner_add_menu-page">
     <div class="owner_add_menu-wrapper">
       <h2>Ajout d'un nouveau menu</h2>
@@ -166,6 +175,11 @@ const changeArticle = (articleId) => {
 
 h2 {
   margin-bottom: 15px;
+}
+
+.line-up {
+  margin-top: 20px;
+  margin-left: 30px;
 }
 
 </style>
