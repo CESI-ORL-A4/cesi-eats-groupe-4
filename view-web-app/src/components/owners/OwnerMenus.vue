@@ -64,9 +64,9 @@ const list_menus = ref([]);
       <div><h2 class="line-up">Menus disponibles dans votre restaurant :</h2></div>
       <div>
         <p>
-          <button type="button" class="btn_manage" @click="pushMenuAddPage">Ajouter un menu</button>
+          <b-button class="btn_manage" @click="pushMenuAddPage" variant="outline-dark">Ajouter un menu</b-button>
         </p>
-        <br></div>
+      </div>
     </div>
     <div v-else class="BasicTitle"><h1> Nos Menus :</h1></div><br/>
     <div class="menu-wrapper">
@@ -90,9 +90,6 @@ const list_menus = ref([]);
               <div v-if="role === 'OWNER' ">
                 <b-button @click="pushMenuUpdatePage(menu._id)" variant="dark">Modifier / Supprimer le menu</b-button>
               </div>
-              <div v-if="role === 'BASIC' ">
-                <b-button @click="addMenuToCart(menu)" variant="success">Ajouter au panier</b-button>
-              </div>
             </b-card>
           </div>
         </div>
@@ -113,12 +110,8 @@ const list_menus = ref([]);
 }
 
 .btn_manage {
-  margin-top: 20px;
-  margin-right: 20px;
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 200px;
-  height: 43px;
+  margin-top: 30px;
+  margin-right: 70px;
 }
 
 .menu-wrapper {

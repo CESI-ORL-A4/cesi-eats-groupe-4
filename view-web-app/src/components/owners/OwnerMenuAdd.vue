@@ -133,13 +133,13 @@ function backPage() {
           >
           </b-form-input>
         </b-form-group>
-        <b-form-checkbox-groupb>
+        <b-form-checkbox-group>
           <span v-for="(product, index) in list_products">
             <b-form-checkbox @change="changeArticle" :value="product._id">{{ product.name }} ({{
                 product.type
               }})</b-form-checkbox>
           </span>
-        </b-form-checkbox-groupb>
+        </b-form-checkbox-group>
 
         <b-form-group
             label="Image :"

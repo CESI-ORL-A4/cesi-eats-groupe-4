@@ -9,8 +9,8 @@ function ownerCommandsPage() {
   router.push({name: "owner-orders"})
 }
 
-function ownerHistoryCommandPage() {
-  router.push({name: "owner-history-command"})
+function ownerHistoryOrderPage() {
+  router.push({name: "owner-history-order"})
 }
 
 function ownerMenusPage() {
@@ -19,6 +19,10 @@ function ownerMenusPage() {
 
 function ownerStatsPage() {
   router.push({name: "owner-stats"})
+}
+
+function ownerAccountPage() {
+  router.push({name: "owner-account-new"})
 }
 </script>
 
@@ -30,22 +34,22 @@ function ownerStatsPage() {
             border-variant="dark" header="Gestion des informations du restaurant" header-bg-variant="dark"
             header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/account.png"></b-card-text>
-          <b-card-footer>
+          <b-card-footer footer-bg-variant="white">
             <b-button @click="ownerAccountPage" variant="dark">Accéder</b-button>
           </b-card-footer>
         </b-card>
         <b-card border-variant="secondary" header="Gestion des articles" header-bg-variant="secondary"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/product.png"></b-card-text>
-          <b-card-footer>
+          <b-card-footer footer-bg-variant="white">
             <b-button @click="ownerProductsPage" variant="secondary">Accéder</b-button>
           </b-card-footer>
         </b-card>
         <b-card border-variant="info" header="Historique des commandes" header-bg-variant="info"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/history.png"></b-card-text>
-          <b-card-footer>
-            <!--            <b-button @click="ownerHistoryCommandPage" variant="info">Accéder</b-button>-->
+          <b-card-footer footer-bg-variant="white">
+            <!--            <b-button @click="ownerHistoryOrderPage" variant="info">Accéder</b-button>-->
             <p>#Soon</p>
           </b-card-footer>
         </b-card>
@@ -61,21 +65,21 @@ function ownerStatsPage() {
             align="center"
         >
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/command.png"></b-card-text>
-          <b-card-footer>
+          <b-card-footer footer-bg-variant="white">
             <b-button @click="ownerCommandsPage" variant="primary">Accéder</b-button>
           </b-card-footer>
         </b-card>
         <b-card border-variant="secondary" header="Gestion des menus" header-bg-variant="secondary"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/menu.png"></b-card-text>
-          <b-card-footer>
+          <b-card-footer footer-bg-variant="white">
             <b-button @click="ownerMenusPage" variant="secondary">Accéder</b-button>
           </b-card-footer>
         </b-card>
         <b-card border-variant="info" header="Statistiques" header-bg-variant="info"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/stats.png"></b-card-text>
-          <b-card-footer>
+          <b-card-footer footer-bg-variant="white">
             <!--          <b-button @click="ownerStatsPage" variant="info">Accéder</b-button> -->
             <p>#Soon</p>
           </b-card-footer>

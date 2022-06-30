@@ -86,8 +86,8 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/owner/product/add',
-            name: 'owner-product-add',
+            path: '/owner/products/add',
+            name: 'owner-products-add',
             component: () => import('../views/owners/OwnerProductAddView.vue'),
             /*
             meta: {
@@ -96,8 +96,8 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/owner/product/:id',
-            name: 'owner-product-update',
+            path: '/owner/products/:id',
+            name: 'owner-products-update',
             component: () => import('../views/owners/OwnerProductUpdateView.vue'),
             /*
             meta: {
@@ -176,9 +176,19 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/owner/history-command',
-            name: 'owner-history-command',
-            component: () => import('../views/owners/OwnerStatsView.vue'),
+            path: '/owner/account-new',
+            name: 'owner-account-new',
+            component: () => import('../views/owners/OwnerAccountNewView.vue'),
+            /*
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }*/
+        },
+        {
+            path: '/owner/account-update',
+            name: 'owner-account-update',
+            component: () => import('../views/owners/OwnerAccountUpdateView.vue'),
             /*
             meta: {
                 requiresAuth: true,
