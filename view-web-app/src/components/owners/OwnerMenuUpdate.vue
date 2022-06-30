@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {updateMenu, getMenu} from "@/modules/menuAPI";
+import {updateMenu, getMenu, deleteMenu} from "@/modules/menuAPI";
 import {onBeforeMount, ref, watch} from "vue";
 import {deleteArticle, getArticle, getArticles} from "@/modules/articleAPI";
 import useGlobalStore from "@/stores/store";
@@ -99,7 +99,7 @@ const deleteMenuEvent = async () => {
   const MenuName = name.value;
   console.log("Menu ID : " + menuId);
   const restaurantId = store.state.user?.restaurantId;
-  const returnArticle = await deleteArticle(restaurantId, menuId);
+  const returnArticle = await deleteMenu(restaurantId, menuId);
 
   if (!returnArticle) {
     toast.error("Une erreur est survenue...", {
