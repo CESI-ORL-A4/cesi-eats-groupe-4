@@ -4,8 +4,11 @@ import Role from "./Role";
 
 const authServiceHost = process.env.AUTH_SERVICE_API_HOST;
 const authServicePort = process.env.AUTH_SERVICE_API_PORT;
-const authServicePrefix = authServiceHost === "localhost" ? "http" : "http";
-const authServiceSecureURL = `${authServicePrefix}://${authServiceHost}:${authServicePort}/auth/secure`;
+let authServiceSecureURL = `http://${authServiceHost}:${authServicePort}/auth/secure`;
+
+if (!process.env.USE_HOST_AS_FULL_URL) {
+    authServiceSecureURL = `http://${authServiceHost}/auth/secure`;
+}
 
 function authCheck(allowedRoles?: Role[]) {
     return async function(req: Request, res: Response, next: NextFunction) {

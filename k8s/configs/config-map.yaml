@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+data:
+  rabbitmq-host: rabbitmq-service
+  auth-service-api-host: auth-api-service
+  auth-service-db-host: auth-db-service
+  user-service-api-host: user-api-service
+  user-service-db-host: user-db-service

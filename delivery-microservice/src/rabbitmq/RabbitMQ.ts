@@ -3,7 +3,7 @@ import amqp, { Channel, Connection, ConsumeMessage } from "amqplib";
 const rabbitmqHost = process.env.RABBITMQ_HOST || "localhost";
 const rabbitmqUser = process.env.RABBITMQ_DEFAULT_USER || "guest";
 const rabbitmqPass = process.env.RABBITMQ_DEFAULT_PASS || "guest";
-const rabbitmqURL = `amqp://${rabbitmqUser}:${rabbitmqPass}@${rabbitmqHost}:5672`
+const rabbitmqURL = `amqp://${rabbitmqUser}:${rabbitmqPass}@${rabbitmqHost}`
 
 export default class RabbitMQ {
     private static _instance: RabbitMQ | null = null;

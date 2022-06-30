@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker build . -f $1 -t cesieatsimages.azurecr.io/$2 && docker push cesieatsimages.azurecr.io/$2
