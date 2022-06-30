@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { createOrder, deleteOrderById, getAllOrders, getOrderById, orderExists, updateOrder } from "../controllers/ordersController";
+import { createOrder, deleteOrderById, getAllOrders, getAllReadyToShipOrders, getOrderById, orderExists, updateOrder } from "../controllers/ordersController";
 import validateInputData from "../middlewares/validateInputData";
 import validateMongoIdParam from "../middlewares/validateMongoIdParam";
 import validateOrderAttributesData from "../middlewares/validateOrderAttributesData";
@@ -11,6 +11,24 @@ const ordersRouter = Router({ mergeParams: true });
 type IDParam = {
     id: string
 }
+
+ordersRouter.get("/", async (_: Request, res: Response) => {
+    return res.status(200).json(await getAllOrders());
+})
+
+ordersRouter.get("/ready-to-ship", async (_: Request, res: Response) => {
+    return res.status(200).json(await getAllReadyToShipOrders());
+})
+
+ordersRouter.get("/:id",
+    validateMongoIdParam(),
+    async (req: Request<IDParam>, res: Response) => {
+        const order = await getOrderById(req.params.id);
+        if (order) {
+            return res.status(200).json(order);
+        }
+        return res.status(404).json({ error: `Order with id = ${req.params.id} doesn't exist` });
+})
 
 ordersRouter.post("/",
     validateOrderAttributesData(),
@@ -40,19 +58,5 @@ ordersRouter.put("/:id",
         }
         return res.status(404).json({ error: `Order with id = ${req.params.id} doesn't exist` });
 });
-
-ordersRouter.get("/", async (_: Request, res: Response) => {
-    return res.status(200).json(await getAllOrders());
-})
-
-ordersRouter.get("/:id",
-    validateMongoIdParam(),
-    async (req: Request<IDParam>, res: Response) => {
-        const order = await getOrderById(req.params.id);
-        if (order) {
-            return res.status(200).json(order);
-        }
-        return res.status(404).json({ error: `Order with id = ${req.params.id} doesn't exist` });
-})
 
 export default ordersRouter;
