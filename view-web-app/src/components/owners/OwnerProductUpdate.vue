@@ -65,7 +65,7 @@ const deleteProductEvent = async () => {
   const returnArticle = await deleteArticle(restaurantId, articleId);
 
   if (!returnArticle) {
-    toast.error("Une erreur est survenue... \nDans le cas où l'article est présent dans un menu, pensez à le retirer !", {
+    toast.error("Une erreur est survenue... \n", {
       timeout: 10000
     });
   } else {

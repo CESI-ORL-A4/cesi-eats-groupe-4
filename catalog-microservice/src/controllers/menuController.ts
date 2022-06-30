@@ -69,7 +69,7 @@ export async function deleteMenu(menuId: string,restaurantId: string) {
     const menus= restaurant.menus;
     if (menus)
     {
-        let findIndex = menus.findIndex((menu: { _id: string; }) => menu._id !== menuId);
+        let findIndex = menus.findIndex((menu: { _id: string; }) => menu._id.toString() === menuId);
         menus.splice(findIndex,1);
     }
     await restaurant.save();
