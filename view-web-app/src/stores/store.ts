@@ -64,7 +64,6 @@ export const store = createStore<State>({
       setUserData (state: State, payload: UserState) {
           state.user = payload;
           state.isLoadingUserData = false;
-          console.log("set data", state.user);
       },
       clearUserData (state: State) {
           state.user = undefined;

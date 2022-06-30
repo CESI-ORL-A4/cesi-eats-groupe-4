@@ -5,7 +5,7 @@ import Map from "./map/Map.vue";
 
 <template>
   <div class="home-wrapper">
-    <p>Retrouvez <span>2300</span> restaurants partout en France :</p>
+    <p class="intro-phrase">Retrouvez <span>2300</span> restaurants partout en France :</p>
     <div class="map-container">
         <Map/>
     </div>
@@ -18,8 +18,8 @@ import Map from "./map/Map.vue";
   padding-top: 30px;
 }
 
-p {
-  margin-left: 20px;
+.intro-phrase {
+    margin-left: 20px;
 }
 
 p span {

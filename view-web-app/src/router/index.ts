@@ -1,4 +1,5 @@
 import DelivererDashboardView from '@/views/DelivererDashboardView.vue'
+import OwnerOrdersView from '@/views/owners/OwnerOrdersView.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -105,19 +106,9 @@ const router = createRouter({
             }*/
         },
         {
-            path: '/owner/commands',
-            name: 'owner-commands',
-            component: () => import('../views/owners/OwnerCommandsView.vue'),
-            /*
-            meta: {
-                requiresAuth: true,
-                is_owner: true
-            }*/
-        },
-        {
-            path: '/owner/history-command',
-            name: 'owner-history-command',
-            component: () => import('../views/owners/OwnerHistoryCommandView.vue'),
+            path: '/owner/orders',
+            name: 'owner-orders',
+            component: OwnerOrdersView,
             /*
             meta: {
                 requiresAuth: true,
