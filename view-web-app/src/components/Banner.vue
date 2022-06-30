@@ -17,13 +17,9 @@ const isLoadingUser = computed(() => store.state.isLoadingUserData);
 const role = localStorage.getItem('role')
 
 function redirection(){
-  if(role == "BASIC"){
-    router.push('/restaurants')
-  }
-  else{
-    router.push('/home')
-  }
+  router.push('/restaurants')
 }
+
 function redirectNotifications(){
   router.push('/notifications')
 }

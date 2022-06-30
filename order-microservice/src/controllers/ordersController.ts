@@ -20,6 +20,10 @@ export async function getAllOrders() {
     return await OrderModel.find().exec();
 }
 
+export async function getAllReadyToShipOrders() {
+    return await OrderModel.find({ state: OrderState.READY_TO_SHIP }).exec();
+}
+
 export async function orderExists(orderId: string) {
     const count = await OrderModel.count({_id: orderId});
     return count > 0;
