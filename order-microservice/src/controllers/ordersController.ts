@@ -41,6 +41,10 @@ export async function getAllInProcessOrdersByRestaurantId(restaurantId: string) 
     return await OrderModel.find({ restaurantId, state: { $ne: OrderState.DELIVERED } });
 }
 
+export async function getRestaurantOrderHistory(restaurantId: string) {
+    return await OrderModel.find({ restaurantId, state: OrderState.DELIVERED });
+}
+
 export async function getAllOrdersByUsersId(userId: string) {
     return await OrderModel.find({ userId });
 }
@@ -55,9 +59,46 @@ export async function updateOrder(orderId: string, payload: any) {
         RabbitMQ.getInstance().then(rabbit => rabbit.send(QueueName.MODIFY_ORDER_NOTIFICATION, JSON.stringify({
             restaurantId: order?.restaurantId,
             userId: order?.userId,
-            state: payload?.state,
+            state: getOrderStateFrench(payload?.state),
         })));
     }
 
     return await OrderModel.findOneAndUpdate({ _id: orderId }, payload);
+}
+
+function getOrderStateFrench(orderState:string){
+    if (!orderState)
+        return "";
+    switch (orderState) {
+        case "WAITING_VALIDATION":
+            return OrderStateFrench.WAITING_VALIDATION;
+            break;
+        case "IN_PRODUCTION":
+            return OrderStateFrench.IN_PRODUCTION;
+            break;
+        case "READY_TO_SHIP":
+            return OrderStateFrench.READY_TO_SHIP;
+            break;
+        case "WAITING_PICKUP":
+            return OrderStateFrench.WAITING_PICKUP;
+            break;
+        case "UNDER_SHIPMENT":
+            return OrderStateFrench.UNDER_SHIPMENT;
+            break;
+        case "DELIVERED":
+            return OrderStateFrench.DELIVERED;
+            break;
+        default:
+            return ""
+            break;
+    }
+}
+
+enum OrderStateFrench {
+    WAITING_VALIDATION = "en attente de validation",
+    IN_PRODUCTION = "en production",
+    READY_TO_SHIP = "prête à être envoyé",
+    WAITING_PICKUP = "en attente du livreur",
+    UNDER_SHIPMENT = "en cours de livraison",
+    DELIVERED = "livrée"
 }

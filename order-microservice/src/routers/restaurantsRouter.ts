@@ -1,5 +1,9 @@
 import { Request, Response, Router } from "express";
-import { getAllInProcessOrdersByRestaurantId, getAllOrdersByRestaurantId } from "../controllers/ordersController";
+import {
+        getAllInProcessOrdersByRestaurantId,
+        getAllOrdersByRestaurantId,
+        getRestaurantOrderHistory
+} from "../controllers/ordersController";
 import validateMongoIdParam from "../middlewares/validateMongoIdParam";
 
 const restaurantsRouter = Router();
@@ -9,6 +13,11 @@ restaurantsRouter.get("/:id/orders",
     async (req: Request<{ id: string}>, res: Response) => {
         return res.status(200).json(await getAllOrdersByRestaurantId(req.params.id));
 })
+
+restaurantsRouter.get("/:id/orders/history",
+    async (req: Request<{ id: string}>, res: Response) => {
+            return res.status(200).json(await getRestaurantOrderHistory(req.params.id));
+    })
 
 restaurantsRouter.get("/:id/orders/in-process",
     validateMongoIdParam(),
