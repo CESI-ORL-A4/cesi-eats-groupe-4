@@ -13,8 +13,11 @@ function setupOrdersRoutes(app: express.Express) {
     app.get("/restaurants/:id/orders",
             authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]),
             ordersProxy);
+    app.get("/restaurants/:id/orders/in-process",
+            authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]),
+            ordersProxy);
 
-    app.put("/orders/:id", ordersProxy);
+    app.put("/orders/:id", authCheck(), ordersProxy);
 
     app.post("/orders", authCheck(), ordersProxy);
 

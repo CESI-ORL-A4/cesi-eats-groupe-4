@@ -6,10 +6,12 @@ import {connectMongoose} from "./DBConnection";
 import cors from "cors";
 import articleRouter from "./routers/articleRouter";
 import menuRouter from "./routers/menuRouter";
+import registerRabbitMQListeners from "./rabbitmq/listeners";
 
 const app: express.Express = express();
 const port = process.env.CATALOG_SERVICE_API_PORT;
 connectMongoose();
+registerRabbitMQListeners();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

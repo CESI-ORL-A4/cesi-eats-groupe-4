@@ -2,12 +2,10 @@ const Joi = require('joi');
 
 let userValidator = Joi.object({
     firstName: Joi.string()
-        .alphanum()
         .min(1)
         .max(30)
         .required(),
     lastName: Joi.string()
-        .alphanum()
         .min(1)
         .max(30)
         .required(),
@@ -21,7 +19,6 @@ let userValidator = Joi.object({
     birthdate: Joi.string()
         .required(),
     phone: Joi.string()
-        .alphanum()
         .min(1)
         .max(16)
         .required(),

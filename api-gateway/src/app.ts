@@ -1,4 +1,4 @@
-import "dotenv/config"
+import "dotenv/config";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
@@ -7,6 +7,7 @@ import setupAuthRoutes from "./routes/authRoutes";
 import setupUsersRoutes from "./routes/usersRoutes";
 import setupOrdersRoutes from "./routes/ordersRoutes";
 import setupCatalogRoutes from "./routes/catalogRoutes";
+import setupNotificationsRoutes from "./routes/notificationsRoutes";
 import setupDeliveriesRoutes from "./routes/deliveriesRoutes";
 
 const swaggerFile = require("../swagger_output.json");
@@ -23,6 +24,7 @@ setupAuthRoutes(app);
 setupUsersRoutes(app);
 setupOrdersRoutes(app);
 setupCatalogRoutes(app);
+setupNotificationsRoutes(app);
 setupDeliveriesRoutes(app);
 
 app.listen(port, () => {

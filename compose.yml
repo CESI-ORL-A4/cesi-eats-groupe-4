@@ -24,7 +24,7 @@ services:
   # =============== AUTH MICROSERVICE ===============
   auth-service-db:
     container_name: auth-service-db
-    build: 
+    build:
       context: ./auth-microservice
       dockerfile: ./dockerfiles/mssql/Dockerfile
     volumes:
@@ -143,6 +143,33 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
+    # =============== NOTIFICATION MICROSERVICE ===============
+  notification-service-db:
+    container_name: notification-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${NOTIFICATION_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${NOTIFICATION_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${NOTIFICATION_DB_DATABASE}
+    volumes:
+      - ./notification-microservice/mongo/data:/data/db
+    networks:
+      - notification-microservice-network
+  notification-service-api:
+    container_name: notification-service-api
+    build:
+      context: ./notification-microservice
+    env_file:
+      - .env
+    depends_on:
+      - notification-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - notification-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
   # =============== DELIVERY MICROSERVICE ===============
   delivery-service-db:
     container_name: delivery-service-db
@@ -170,7 +197,6 @@ services:
       - rabbitmq-network
       - app-api-network
     command: bash -c "ts-node src/app.ts"
-
 networks:
   rabbitmq-network:
   app-api-network:
@@ -178,5 +204,6 @@ networks:
   user-microservice-network:
   order-microservice-network:
   catalog-microservice-network:
+  notification-microservice-network:
   delivery-microservice-network:
-  
+

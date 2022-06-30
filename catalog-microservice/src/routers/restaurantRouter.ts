@@ -80,6 +80,8 @@ restaurantRouter.get("/ownerId/:ownerId",
         catch {
             return res.status(400).json({ error: "error" });
         }
+        if(!restaurants)
+            return res.status(404).json({ error: "restaurant not found" });
         return res.status(200).json({ status: "Restaurants","restaurant":restaurants});
     });
 

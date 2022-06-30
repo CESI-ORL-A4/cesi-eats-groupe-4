@@ -6,7 +6,7 @@ export async function getArticles(restaurantsId: string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/` + restaurantsId + "/articles", {
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": 'application/json',
                 "Authorization": "Bearer " + localStorage.getItem('jwt')
             },
         })
@@ -26,7 +26,7 @@ export async function getArticle(restaurantsId: string, articleId: string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/` + restaurantsId + "/articles/" + articleId, {
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": 'application/json',
                 "Authorization": "Bearer " + localStorage.getItem('jwt'),
             },
         })
@@ -46,7 +46,7 @@ export async function deleteArticle(restaurantsId: string, articleId: string) {
     try {
         const response = await axios.delete(`${config.GATEWAY_URL}/catalog/restaurants/` + restaurantsId + "/articles/" + articleId, {
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": 'application/json',
                 "Authorization": "Bearer " + localStorage.getItem('jwt')
             },
         })
