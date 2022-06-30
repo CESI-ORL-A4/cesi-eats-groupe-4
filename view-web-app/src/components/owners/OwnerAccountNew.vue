@@ -2,6 +2,15 @@
 import {ref} from "vue";
 import {addRestaurant} from "@/modules/restaurantAPI";
 import FormData from "form-data"
+import {addArticle} from "@/modules/articleAPI";
+import useGlobalStore from "@/stores/store";
+import {useRouter} from "vue-router";
+import {useToast} from "vue-toastification";
+
+const store = useGlobalStore();
+const router = useRouter();
+const toast = useToast();
+
 
 const name = ref("");
 const address = ref("");
@@ -22,7 +31,19 @@ const addRestaurantEvent = async (e) => {
     formData.append("imageName", filename);
   formData.append("ownerId", localStorage.getItem('userId'));
 
-  await addRestaurant(formData);
+  const restaurantName = name.value;
+  const returnAddRestaurant = await addRestaurant(formData);
+
+  if (!returnAddRestaurant) {
+    toast.error("Une erreur est survenue...", {
+      timeout: 10000
+    });
+  } else {
+    toast.success(`Votre restaurant "` + restaurantName + `" a bien été crée !`, {
+      timeout: 5000
+    });
+    router.push({name: "owner"})
+  }
 }
 
 const onFilePicked = (event) => {
@@ -32,9 +53,6 @@ const onFilePicked = (event) => {
 </script>
 
 <template>
-  <div class="line-up">
-    <b-button @click="backPage" pill variant="outline-secondary">Revenir en arrière</b-button>
-  </div>
   <div class="owner_add_menu-page">
     <div class="owner_add_menu-wrapper">
       <h2>Informations de votre restaurant</h2>
