@@ -10,9 +10,6 @@ const store = useGlobalStore();
 const router = useRouter();
 const toast = useToast();
 
-const ownerId = store.state.user?.id;
-console.log(ownerId);
-
 const name = ref("");
 const address = ref("");
 const description = ref("");
@@ -21,29 +18,32 @@ let filename: string;
 let fileData: any;
 
 const addRestaurantEvent = async (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  console.log(fileData);
-  formData.append("imageData", fileData);
-  formData.append("name", name.value);
-  formData.append("address", address.value);
-  formData.append("description", description.value);
-  if (filename)
-    formData.append("imageName", filename);
-  formData.append("ownerId", ownerId);
+  if (store.state.user) {
+    e.preventDefault();
+    const formData = new FormData();
+    console.log(fileData);
+    formData.append("imageData", fileData);
+    formData.append("name", name.value);
+    formData.append("address", address.value);
+    formData.append("description", description.value);
+    if (filename)
+      formData.append("imageName", filename);
+    formData.append("ownerId", store.state.user.id);
 
-  const restaurantName = name.value;
-  const returnAddRestaurant = await addRestaurant(formData);
+    const restaurantName = name.value;
+    const returnAddRestaurant = await addRestaurant(formData);
 
-  if (!returnAddRestaurant) {
-    toast.error("Une erreur est survenue...", {
-      timeout: 10000
-    });
-  } else {
-    toast.success(`Votre restaurant "` + restaurantName + `" a bien été crée !`, {
-      timeout: 5000
-    });
-    router.push({name: "owner"})
+    if (!returnAddRestaurant) {
+      toast.error("Une erreur est survenue...", {
+        timeout: 10000
+      });
+    } else {
+      store.commit("setUserRestaurantId", returnAddRestaurant._id);
+      toast.success(`Votre restaurant "` + restaurantName + `" a bien été crée !`, {
+        timeout: 5000
+      });
+      router.push({name: "owner"})
+    }
   }
 }
 

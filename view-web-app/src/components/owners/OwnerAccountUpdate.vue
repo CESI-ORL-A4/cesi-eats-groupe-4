@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import {ref, watch} from "vue";
-import {deleteRestaurant, getRestaurantByOwnerId, updateRestaurant} from "@/modules/restaurantAPI";
+import {deleteRestaurant, getRestaurant, getRestaurantByOwnerId, updateRestaurant} from "@/modules/restaurantAPI";
 import FormData from "form-data"
 import useGlobalStore from "@/stores/store";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 import {deleteMenu} from "@/modules/menuAPI";
+import {computed} from "@vue/reactivity";
 
 const store = useGlobalStore();
 const router = useRouter();
@@ -18,50 +19,48 @@ const file = ref();
 let fileName: string;
 let fileData: any;
 
-const restaurantId = store.state.user?.restaurantId;
-const ownerId = store.state.user?.id;
-
-watch(() => store.state.user?.id, async (ownerId) => {
-  if (ownerId) {
-    const restaurant = await getRestaurantByOwnerId(ownerId);
+watch(() => store.state.user?.restaurantId, async (restaurantId) => {
+    if(!restaurantId){
+      await router.push({name: "owner-account-new"});
+    }
+    const restaurant = await getRestaurant(restaurantId);
     if (restaurant) {
       name.value = restaurant.name;
       address.value = restaurant.address;
       description.value = restaurant.description;
       file.value = restaurant.linkImage;
     }
-  }
 }, {immediate: true});
 
 const updateRestaurantEvent = async () => {
-  if (!ownerId)
-    return;
-  let returnData;
-  const formData = {
-    name: name.value,
-    address: address.value,
-    description: description.value,
-    imageData: fileData,
-  };
-  console.log(formData);
-  if (fileName)
-    returnData = {...formData, imageName: fileName}
-  else
-    returnData = formData
-  formData.imageName = fileName;
-  //console.log(formData);
-  const restaurantName = name.value;
-  const returnRestaurant = await updateRestaurant(restaurantId, returnData);
-  console.log(returnRestaurant);
-  if (!returnRestaurant) {
-    toast.error("Une erreur est survenue...", {
-      timeout: 10000
-    });
-  } else {
-    toast.success(`Le resturant "` + restaurantName + `" a bien été mis à jour !`, {
-      timeout: 5000
-    });
-    router.back();
+  if (store.state.user?.restaurantId) {
+    let returnData;
+    const formData = {
+      name: name.value,
+      address: address.value,
+      description: description.value,
+      imageData: fileData,
+    };
+    console.log(formData);
+    if (fileName)
+      returnData = {...formData, imageName: fileName}
+    else
+      returnData = formData
+    formData.imageName = fileName;
+    //console.log(formData);
+    const restaurantName = name.value;
+    const returnRestaurant = await updateRestaurant(store.state.user.restaurantId, returnData);
+    console.log(returnRestaurant);
+    if (!returnRestaurant) {
+      toast.error("Une erreur est survenue...", {
+        timeout: 10000
+      });
+    } else {
+      toast.success(`Le resturant "` + restaurantName + `" a bien été mis à jour !`, {
+        timeout: 5000
+      });
+      router.back();
+    }
   }
 }
 
@@ -71,19 +70,22 @@ const onFilePicked = (event) => {
 }
 
 const deleteRestaurantEvent = async () => {
-  const restaurantName = name.value;
-  const restaurantId = store.state.user?.restaurantId;
-  const returnRestaurant = await deleteRestaurant(restaurantId);
+  if (store.state.user?.restaurantId) {
+    const restaurantName = name.value;
+    const restaurantId = store.state.user?.restaurantId;
+    const returnRestaurant = await deleteRestaurant(restaurantId);
 
-  if (!returnRestaurant) {
-    toast.error("Une erreur est survenue...", {
-      timeout: 10000
-    });
-  } else {
-    toast.success(`Votre restaurant "` + restaurantName + `" a bien été supprimé !`, {
-      timeout: 5000
-    });
-    router.back();
+    if (!returnRestaurant) {
+      toast.error("Une erreur est survenue...", {
+        timeout: 10000
+      });
+    } else {
+      store.commit("setUserRestaurantId", undefined);
+      toast.success(`Votre restaurant "` + restaurantName + `" a bien été supprimé !`, {
+        timeout: 5000
+      });
+      router.back();
+    }
   }
 }
 
@@ -101,7 +103,7 @@ function backPage() {
   </div>
   <div class="owner_add_menu-page">
     <div class="owner_add_menu-wrapper">
-      <h2>Informations de votre restaurant</h2>
+      <h2>Modification de votre restaurant</h2>
       <b-form @submit.prevent="updateRestaurantEvent">
         <b-form-group
             label="Nom de votre restaurant :"

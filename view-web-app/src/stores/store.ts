@@ -77,6 +77,11 @@ export const store = createStore<State>({
       setUserDataLoaded(state: State) {
           state.isLoadingUserData = false;
       },
+      setUserRestaurantId(state: State, id: string) {
+          if (state.user) {
+              state.user.restaurantId = id;
+          }
+      },
       setNotificationCount(state: State,notificationCount:number) {
           state.notificationCount = notificationCount;
       },
