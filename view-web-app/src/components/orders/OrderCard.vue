@@ -9,13 +9,15 @@ const { order, hiddeActionsButton } = defineProps<{
     hiddeActionsButton?: boolean;
 }>();
 
+const emit = defineEmits(["delete-order"]);
+
 const toast = useToast();
 
 const orderStateTitleMapping: Record<string, string> = {
     "WAITING_VALIDATION": "En attente de validation",
     "IN_PRODUCTION": "En cours de production",
     "READY_TO_SHIP": "En attente d'un livreur",
-    "WAITING_PICKUP": "En attente d'un livreur",
+    "WAITING_PICKUP": "Livreur en route",
     "UNDER_SHIPMENT": "En cours de livraison",
     "DELIVERED": "Livré"
 }
@@ -74,12 +76,17 @@ function changeOrderState(state: string, successMessage: string) {
         state
     }).then(_ => {
         toast.success(successMessage);
-        order.state = state;
+        if (state === "UNDER_SHIPMENT") {
+            emit("delete-order", order.id);
+        } else {
+            order.state = state;
+        }
     }, (error) => {
         toast.error("Une erreur est survenue");
         console.log("error", error);
     })
 }
+
 
 </script>
 
@@ -95,6 +102,7 @@ function changeOrderState(state: string, successMessage: string) {
         <template #header>
             <div class="card-header-wrapper">
                 <p class="card-header-text">{{ getCardTitle() }}</p>
+                <span class="flex-grow"/>
                 <div class="header-spinner" v-if="showSpinnerAnim">
                     <b-spinner style="width: 1.5rem; height: 1.5rem;"  type="grow" variant="white"/>
                 </div>
@@ -114,16 +122,53 @@ function changeOrderState(state: string, successMessage: string) {
                 Menu(s) acheté(s) :
                 <p class="menu-item" v-for="menu in order.menus">- {{ menu.name }}</p>
             </b-list-group-item>
-        </b-list-group>
-        <b-button
-            v-if="showActionButton"
-            :variant="getVariant()"
-            @click="executeOrderAction()"
-        >
-        <p class="white-text-button">{{ getActionButtonText() }}</p>
+            <b-list-group-item v-if="showActionButton">
+                <b-button
+                    :variant="getVariant()"
+                    @click="executeOrderAction()"
+                    block
+                    squared
+                    center
+                >
+            <p class="white-text-button">{{ getActionButtonText() }}</p>
         </b-button>
+            </b-list-group-item>
+        </b-list-group>
     </b-card> 
 </template>
 
-<style>
+<style scoped>
+p {
+    margin: 0;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.white-text-button {
+    color: white;
+    margin: 0;
+}
+
+.menu-item {
+    margin: 0;
+    margin-left: 10px;
+}
+
+.card-header-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.card-header-text {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.header-spinner {
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
 </style>
