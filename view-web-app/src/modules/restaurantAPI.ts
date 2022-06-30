@@ -44,7 +44,7 @@ export async function getRestaurants() {
 export async function addRestaurant(form: FormData) {
   try {
     const response = await axios.post(
-      `http://localhost:8080/catalog/restaurants/`,
+        `${config.GATEWAY_URL}/catalog/restaurants/`,
       form,
       {
         headers: {
@@ -65,10 +65,10 @@ export async function addRestaurant(form: FormData) {
   }
 }
 
-export async function updateRestaurant(form: FormData, restaurantId: string) {
+export async function updateRestaurant(restaurantId: string, form: FormData) {
   try {
     const response = await axios.put(
-      `${config.GATEWAY_URL}/catalog/restaurants/` + restaurantId,
+      `http://localhost:8080/catalog/restaurants/` + restaurantId,
       form,
       {
         headers: {

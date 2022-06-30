@@ -62,7 +62,6 @@ const updateMenuEvent = async () => {
   if (!restaurantId)
     return;
   let returnData;
-  const menuName = name.value;
   const formData = {
     name: name.value,
     description: description.value,
@@ -76,6 +75,7 @@ const updateMenuEvent = async () => {
     returnData = formData
   formData.imageName = fileName;
   //console.log(formData);
+  const menuName = name.value;
   const returnMenu = await updateMenu(restaurantId, menuId, returnData);
   if (!returnMenu) {
     toast.error("Une erreur est survenue...", {

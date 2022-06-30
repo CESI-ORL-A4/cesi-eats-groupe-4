@@ -85,11 +85,13 @@ restaurantRouter.get("/ownerId/:ownerId",
         return res.status(200).json({ status: "Restaurants","restaurant":restaurants});
     });
 
-restaurantRouter.put("/:restaurantId",
+restaurantRouter.put("/:restaurantId",upload.single('imageData'),
     async (req: any, res: Response) => {
 
         const restaurantId = req.params?.restaurantId;
         const payload = req.body;
+        console.log("Update restaurant");
+        console.log(payload);
         if (!restaurantId) {
             return res.status(400).json({ error: "Id is required" });
         }

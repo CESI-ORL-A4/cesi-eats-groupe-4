@@ -2,7 +2,6 @@
 import {ref} from "vue";
 import {addRestaurant} from "@/modules/restaurantAPI";
 import FormData from "form-data"
-import {addArticle} from "@/modules/articleAPI";
 import useGlobalStore from "@/stores/store";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
@@ -11,6 +10,7 @@ const store = useGlobalStore();
 const router = useRouter();
 const toast = useToast();
 
+const ownerId = store.state.user?.id;
 
 const name = ref("");
 const address = ref("");
@@ -29,7 +29,7 @@ const addRestaurantEvent = async (e) => {
   formData.append("description", description.value);
   if (filename)
     formData.append("imageName", filename);
-  formData.append("ownerId", localStorage.getItem('userId'));
+  formData.append("ownerId", ownerId);
 
   const restaurantName = name.value;
   const returnAddRestaurant = await addRestaurant(formData);
@@ -116,17 +116,6 @@ const onFilePicked = (event) => {
 </template>
 
 <style scoped>
-.positioned {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.form {
-  border: 1px solid black;
-  margin-top: 20px;
-  padding: 20px;
-}
 
 thead,
 tfoot {
@@ -137,13 +126,6 @@ tbody {
   text-align: left;
 }
 
-.btn_sign_in_form {
-  background-color: #F6F6F6;
-  border-radius: 100px;
-  width: 100px;
-  height: 40px;
-  float: right;
-}
 
 
 .owner_add_menu-page {
@@ -159,13 +141,5 @@ tbody {
 }
 
 
-.client-type-selector {
-  margin-bottom: 1rem;
-}
-
-.line-up {
-  margin-top: 20px;
-  margin-left: 30px;
-}
 
 </style>

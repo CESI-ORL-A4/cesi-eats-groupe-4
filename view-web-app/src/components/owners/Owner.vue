@@ -22,7 +22,7 @@ function ownerStatsPage() {
 }
 
 function ownerAccountPage() {
-  router.push({name: "owner-account-new"})
+  router.push({name: "owner-account-update"})
 }
 </script>
 
