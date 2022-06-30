@@ -14,9 +14,10 @@ function setupDeliveriesRoutes(app: express.Express) {
     app.get("/deliverers/:id/deliveries", authCheck([Role.DELIVERER, Role.COMMERCIAL, Role.TECHNIC]), deliveriesProxy);
     app.get("/deliverers/:id/deliveries/under-shipment", authCheck([Role.DELIVERER, Role.COMMERCIAL, Role.TECHNIC]), deliveriesProxy);
     app.get("/deliverers/:id/deliveries/delivered", authCheck([Role.DELIVERER, Role.COMMERCIAL, Role.TECHNIC]), deliveriesProxy);
-    app.get("/deliverers/:id/deliveries/picked-up", authCheck([Role.DELIVERER, Role.COMMERCIAL, Role.TECHNIC]), deliveriesProxy);
+    app.get("/deliverers/:id/deliveries/in-process", authCheck([Role.DELIVERER, Role.COMMERCIAL, Role.TECHNIC]), deliveriesProxy);
 
     app.post("/deliveries", authCheck([Role.DELIVERER]), deliveriesProxy);
+    app.post("/deliveries/:id/picked-up", authCheck([Role.DELIVERER]), deliveriesProxy);
     app.post("/deliveries/:id/delivered", authCheck([Role.DELIVERER]), deliveriesProxy);
 
     app.delete("/deliveries/:id", authCheck([Role.DELIVERER, Role.COMMERCIAL, Role.TECHNIC]), deliveriesProxy);
