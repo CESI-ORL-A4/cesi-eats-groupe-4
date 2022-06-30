@@ -155,7 +155,6 @@ const fields = [
 
 .mt-0{
   font-size: 45px;
- font-style: italic;
 }
 
 </style>

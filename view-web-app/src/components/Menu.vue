@@ -79,6 +79,7 @@ const list_menus = ref([]);
                   - {{ article.name }}
                 </div>
               </b-card-text>
+              <div><p class="price">Prix du menu {{menu.price}}€</p></div>
               <div v-if="role === 'BASIC' ">
                 <b-button @click="addMenuToCart(menu)" variant="success">Ajouter au panier</b-button>
               </div>
@@ -93,7 +94,9 @@ const list_menus = ref([]);
 
 
 <style scoped>
-
+.price{
+  font-weight: bold;
+}
 .flex-container-add_menu {
   display: flex;
   justify-content: space-around;
