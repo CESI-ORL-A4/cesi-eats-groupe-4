@@ -6,7 +6,7 @@ export async function getMenus(restaurantsId:string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantsId+"/menus", {
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": 'application/json',
                 "Authorization": "Bearer " + localStorage.getItem('jwt')
             },})
         if (response.status < 200 || response.status > 300) {
@@ -25,7 +25,7 @@ export async function getMenu(restaurantsId:string,menuId:string) {
     try {
         const response = await axios.get(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantsId+"/menus/"+menuId, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": 'application/json',
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);
@@ -43,7 +43,7 @@ export async function deleteMenu(restaurantsId:string,menuId:string) {
     try {
         const response = await axios.delete(`${config.GATEWAY_URL}/catalog/restaurants/`+restaurantsId+"/menus/"+menuId, {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": 'application/json',
             },})
         if (response.status < 200 || response.status > 300) {
             console.log(response);

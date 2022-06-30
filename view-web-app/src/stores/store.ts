@@ -5,6 +5,10 @@ import { createStore, Store, useStore  } from 'vuex';
 import { loadUserData } from '@/modules/userAPI';
 import {getRestaurantByOwnerId} from "@/modules/restaurantAPI";
 
+export interface Notifications{
+    notificationsCount: number,
+}
+
 export interface UserState {
     id: string;
     role: string;
@@ -21,6 +25,7 @@ export interface State {
     isLoadingUserData: boolean;
     user?: UserState;
     cart?: CartState;
+    notificationCount: number,
 }
 
 export const storeKey: InjectionKey<Store<State>> = Symbol();
@@ -28,7 +33,8 @@ export const storeKey: InjectionKey<Store<State>> = Symbol();
 export const store = createStore<State>({
   state() {
     return {
-        isLoadingUserData: true
+        isLoadingUserData: true,
+        notificationCount:0
     }
   },
   actions: {
@@ -70,6 +76,9 @@ export const store = createStore<State>({
       },
       setUserDataLoaded(state: State) {
           state.isLoadingUserData = false;
+      },
+      setNotificationCount(state: State,notificationCount:number) {
+          state.notificationCount = notificationCount;
       },
       cartAddMenu(state: State, payload: {restaurantId: string, menu: any}) {
           const { restaurantId, menu } = payload;
