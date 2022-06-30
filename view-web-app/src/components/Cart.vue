@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useGlobalStore from "@/stores/store";
+import useGlobalStore, {State} from "@/stores/store";
 import {computed} from "@vue/reactivity";
 
 const store = useGlobalStore();
@@ -17,6 +17,10 @@ const totalPrice = computed(() => {
   }
   return 0;
 });
+
+function deleteCart(){
+  store.commit("clearCart");
+}
 
 function deleteEntry(data: any) {
   store.commit("cartRemoveMenuByIndex", data.index);
@@ -71,7 +75,7 @@ const fields = [
           </b-card>
         </div>
         <div class="btnWrapper">
-          <b-button class="button" variant="warning"> Supprimer la commande</b-button>
+          <b-button class="button" @click="deleteCart" variant="warning"> Supprimer la commande</b-button>
           <b-button class="button" variant="success"> Payer la commande</b-button>
         </div>
       </b-media>
