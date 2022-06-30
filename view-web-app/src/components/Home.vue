@@ -32,4 +32,8 @@ p span {
   margin-top: 20px;
   border-top: solid 1px #a8a8a8;
 }
+
+.menu-card {
+  padding: 10px;
+}
 </style>

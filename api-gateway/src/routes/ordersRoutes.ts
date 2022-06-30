@@ -17,10 +17,14 @@ function setupOrdersRoutes(app: express.Express) {
     app.get("/restaurants/:id/orders/in-process",
             authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]),
             ordersProxy);
+    app.get("/restaurants/:id/orders/history",
+        authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]),
+        ordersProxy);
 
     app.put("/orders/:id", authCheck(), ordersProxy);
 
     app.post("/orders", authCheck(), ordersProxy);
+    app.get("/orders",authCheck([Role.COMMERCIAL, Role.TECHNIC, Role.OWNER]), ordersProxy);
 
     app.delete("/orders/:id", authCheck([Role.COMMERCIAL, Role.TECHNIC]), ordersProxy);
 }

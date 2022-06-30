@@ -180,16 +180,13 @@ function onSubmit() {
               </b-form-input>
             </b-form-group>
           </b-col>
-
-
         </b-form-row>
         <b-form-row>
-          <b-form-group>
-            <input type="checkbox" id="required" name="signup" class="largerCheckbox" required>
-            <label class="checkboxPos">J'accepte les <a href="/CGU" target="_blank">mentions légales</a>  </label>
+          <b-form-group >
+            <input type="checkbox" required/>
+              J'accepte les <a href="/CGU" target="_blank">mentions légales</a>
           </b-form-group>
         </b-form-row>
-
         <b-button v-if="!isLoading" type="submit" variant="dark">S'inscrire</b-button>
         <b-spinner v-if="isLoading" variant="success"/>
       </b-form>

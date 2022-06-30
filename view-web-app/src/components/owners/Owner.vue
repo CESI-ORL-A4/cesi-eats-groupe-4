@@ -49,8 +49,7 @@ function ownerAccountPage() {
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/history.png"></b-card-text>
           <b-card-footer footer-bg-variant="white">
-            <!--            <b-button @click="ownerHistoryOrderPage" variant="dark">Accéder</b-button>-->
-            <p>#Soon</p>
+            <b-button @click="ownerHistoryOrderPage" variant="dark">Accéder</b-button>
           </b-card-footer>
         </b-card>
       </b-card-group>

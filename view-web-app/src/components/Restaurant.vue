@@ -1,27 +1,22 @@
 <script setup lang="ts">
 
 import router from "@/router";
-import axios from "axios";
 import {onBeforeMount, ref} from "vue";
-import {getRestaurantByOwnerId, getRestaurants} from "@/modules/restaurantAPI";
-import {getMenus} from "@/modules/menuAPI";
-import {useRoute} from "vue-router";
+import {getRestaurants} from "@/modules/restaurantAPI";
 
-let list_restaurant= ref([]);
-
-
+let list_restaurant = ref([]);
 
 
 onBeforeMount(async () => {
   const restaurants = await getRestaurants();
   console.log(restaurants);
-  if(restaurants){
+  if (restaurants) {
     list_restaurant.value = restaurants;
   }
 });
 
 
-function pushMenu(id: string){
+function pushMenu(id: string) {
   router.push({path: `/restaurant/${id}`})
 }
 
@@ -34,9 +29,9 @@ function pushMenu(id: string){
         Nos restaurants :
       </h1><br/>
     </div>
-     <div class="menu-wrapper">
+    <div class="menu-wrapper">
       <b-card-group>
-        <div :key="restaurant"  v-for="restaurant in list_restaurant" @click="pushMenu(restaurant._id)">
+        <div class="menu-card"  :key="restaurant" v-for="restaurant in list_restaurant" @click="pushMenu(restaurant._id)">
           <div>
             <b-card
                 :title="restaurant.name"
@@ -49,16 +44,15 @@ function pushMenu(id: string){
             >
               <b-card-text>
                 <h5>Adresse : </h5>
-                <p> {{restaurant.address}}</p>
+                <p> {{ restaurant.address }}</p>
                 <h5>Description : </h5>
-                <p>{{restaurant.description}}</p>
+                <p>{{ restaurant.description }}</p>
               </b-card-text>
             </b-card>
           </div>
         </div>
       </b-card-group>
     </div>
-
 
 
   </div>
@@ -74,7 +68,11 @@ function pushMenu(id: string){
 }
 
 
-#div_restaurant{
+#div_restaurant {
   margin-left: 80px;
+}
+
+.menu-card {
+  padding: 20px;
 }
 </style>

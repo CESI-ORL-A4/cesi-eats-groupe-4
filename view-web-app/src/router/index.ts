@@ -69,131 +69,109 @@ const router = createRouter({
             path: '/owner',
             name: 'owner',
             component: () => import('../views/OwnerView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/products',
             name: 'owner-products',
             component: () => import('../views/owners/OwnerProductsView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/products/add',
             name: 'owner-products-add',
             component: () => import('../views/owners/OwnerProductAddView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/products/:id',
             name: 'owner-products-update',
             component: () => import('../views/owners/OwnerProductUpdateView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/orders',
             name: 'owner-orders',
             component: OwnerOrdersView,
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/menus',
             name: 'owner-menus',
             component: () => import('../views/owners/OwnerMenusView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/menu/:id',
             name: 'owner-menu-update',
             component: () => import('../views/owners/OwnerMenuUpdateView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/menu/add',
             name: 'owner-menu-add',
             component: () => import('../views/owners/OwnerMenuAddView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
-        },
-        {
-            path: '/owner/new',
-            name: 'owner-new',
-            component: () => import('../views/owners/OwnerNewView.vue'),
-            /*
-            meta: {
-                requiresAuth: true,
-                is_owner: true
-            }*/
-        },
-        {
-            path: '/owner/restaurant-information',
-            name: 'owner-restaurant-information',
-            component: () => import('../views/owners/OwnerRestaurantInformationView.vue'),
-            /*
-            meta: {
-                requiresAuth: true,
-                is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/stats',
             name: 'owner-stats',
             component: () => import('../views/owners/OwnerStatsView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/account-new',
             name: 'owner-account-new',
             component: () => import('../views/owners/OwnerAccountNewView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
         },
         {
             path: '/owner/account-update',
             name: 'owner-account-update',
             component: () => import('../views/owners/OwnerAccountUpdateView.vue'),
-            /*
             meta: {
                 requiresAuth: true,
                 is_owner: true
-            }*/
+            }
+        },
+        {
+            path: '/owner/history-order',
+            name: 'owner-history-order',
+            component: () => import('../views/owners/OwnerOrdersHistoryView.vue'),
+            meta: {
+                requiresAuth: true,
+                is_owner: true
+            }
         },
         {
 
@@ -223,14 +201,14 @@ const router = createRouter({
         },
         {
 
-            path: '/Cart',
+            path: '/cart',
             name: 'cart',
             component: () => import('../views/CartView.vue'),
             meta: {
                 requiresAuth: true,
                 is_basic: true
             },
-        },        
+        },
         {
 
             path: '/notifications',
@@ -238,6 +216,32 @@ const router = createRouter({
             component: () => import('../views/NotificationsView.vue'),
             meta: {
                 requiresAuth: true
+            },
+        },
+        {
+
+            path: '/client-order',
+            name: 'clientOrder',
+            component: () => import('../views/ClientOrderView.vue'),
+            meta: {
+                requiresAuth: true,
+                is_basic: true
+            },
+        },
+        {
+
+            path: '/no-access',
+            name: 'noAccess',
+            component: () => import('../views/NoAccessView.vue'),
+        },
+        {
+
+            path: '/commercial',
+            name: 'commercial',
+            component: () => import('../views/CommercialView.vue'),
+            meta: {
+                requiresAuth: true,
+                is_commercial: true
             },
         },
     ]
@@ -251,34 +255,56 @@ router.beforeEach((to, from, next) => {
                 params: {nextUrl: to.fullPath}
             })
         } else {
-            const role = localStorage.getItem('role')
+            const role = localStorage.getItem('role');
+            console.log(role);
+            console.log(to);
             if (to.matched.some(record => record.meta.is_basic)) {
-                //console.log(role);
                 if (role === "BASIC") {
                     next()
+                }else{
+                    next({
+                        path: '/no-access',
+                    })
                 }
             } else if (to.matched.some(record => record.meta.is_deliverer)) {
                 //console.log(role);
                 if (role === "DELIVERER") {
                     next()
+                }else{
+                    next({
+                        path: '/no-access',
+                    })
                 }
             } else if (to.matched.some(record => record.meta.is_owner)) {
                 //console.log(role);
                 if (role === "OWNER") {
                     next()
+                }else{
+                    next({
+                        path: '/no-access',
+                    })
                 }
-            } else {
+            }else if (to.matched.some(record => record.meta.is_commercial)) {
+                //console.log(role);
+                if (role === "COMMERCIAL") {
+                    next()
+                }else{
+                    next({
+                        path: '/no-access',
+                    })
+                }
+            } else{
                 next()
             }
         }
     } else if (to.matched.some(record => record.meta.guest)) {
         if (localStorage.getItem('jwt') == null) {
             next()
-        } else {
-            next()
+        } else{
+            next();
         }
-    } else {
-        next()
+    } else{
+        next();
     }
 })
 
