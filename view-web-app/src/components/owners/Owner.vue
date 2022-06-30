@@ -38,18 +38,18 @@ function ownerAccountPage() {
             <b-button @click="ownerAccountPage" variant="dark">Accéder</b-button>
           </b-card-footer>
         </b-card>
-        <b-card border-variant="secondary" header="Gestion des articles" header-bg-variant="secondary"
+        <b-card border-variant="dark" header="Gestion des articles" header-bg-variant="dark"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/product.png"></b-card-text>
           <b-card-footer footer-bg-variant="white">
-            <b-button @click="ownerProductsPage" variant="secondary">Accéder</b-button>
+            <b-button @click="ownerProductsPage" variant="dark">Accéder</b-button>
           </b-card-footer>
         </b-card>
-        <b-card border-variant="info" header="Historique des commandes" header-bg-variant="info"
+        <b-card border-variant="dark" header="Historique des commandes" header-bg-variant="dark"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/history.png"></b-card-text>
           <b-card-footer footer-bg-variant="white">
-            <!--            <b-button @click="ownerHistoryOrderPage" variant="info">Accéder</b-button>-->
+            <!--            <b-button @click="ownerHistoryOrderPage" variant="dark">Accéder</b-button>-->
             <p>#Soon</p>
           </b-card-footer>
         </b-card>
@@ -58,29 +58,29 @@ function ownerAccountPage() {
     <div class="mt-3">
       <b-card-group deck>
         <b-card
-            border-variant="primary"
+            border-variant="dark"
             header="Gestion des commandes"
-            header-bg-variant="primary"
+            header-bg-variant="dark"
             header-text-variant="white"
             align="center"
         >
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/command.png"></b-card-text>
           <b-card-footer footer-bg-variant="white">
-            <b-button @click="ownerCommandsPage" variant="primary">Accéder</b-button>
+            <b-button @click="ownerCommandsPage" variant="dark">Accéder</b-button>
           </b-card-footer>
         </b-card>
-        <b-card border-variant="secondary" header="Gestion des menus" header-bg-variant="secondary"
+        <b-card border-variant="dark" header="Gestion des menus" header-bg-variant="dark"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/menu.png"></b-card-text>
           <b-card-footer footer-bg-variant="white">
-            <b-button @click="ownerMenusPage" variant="secondary">Accéder</b-button>
+            <b-button @click="ownerMenusPage" variant="dark">Accéder</b-button>
           </b-card-footer>
         </b-card>
-        <b-card border-variant="info" header="Statistiques" header-bg-variant="info"
+        <b-card border-variant="dark" header="Statistiques" header-bg-variant="dark"
                 header-text-variant="white" align="center">
           <b-card-text><img height="100" alt="Menu" src="@/assets/images/owners/stats.png"></b-card-text>
           <b-card-footer footer-bg-variant="white">
-            <!--          <b-button @click="ownerStatsPage" variant="info">Accéder</b-button> -->
+            <!--          <b-button @click="ownerStatsPage" variant="dark">Accéder</b-button> -->
             <p>#Soon</p>
           </b-card-footer>
         </b-card>
