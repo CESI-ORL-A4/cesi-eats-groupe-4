@@ -23,6 +23,10 @@ spec:
         env:
         - name: USER_SERVICE_API_PORT
           value: "3000"
+        - name: DEFAULT_USER_TECHNIC_EMAIL
+          value: "technic@gmail.com"
+        - name: DEFAULT_USER_TECHNIC_PASS
+          value: "admin"
         - name: USER_SERVICE_DB_HOST
           valueFrom:
             configMapKeyRef:

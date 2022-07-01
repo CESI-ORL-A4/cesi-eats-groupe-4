@@ -23,6 +23,26 @@ spec:
         env:
         - name: AUTH_SERVICE_API_PORT
           value: "3000"
+        - name: AUTH_JWT_ACCESS_TOKEN_LIFE
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: jwt-access-life
+        - name: AUTH_JWT_REFRESH_TOKEN_LIFE
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: jwt-refresh-life
+        - name: AUTH_JWT_ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: jwt-access-secret
+        - name: AUTH_JWT_REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: jwt-refresh-secret
         - name: AUTH_SERVICE_DB_HOST
           valueFrom:
             configMapKeyRef:

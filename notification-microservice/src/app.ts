@@ -8,7 +8,7 @@ import notificationRouter from "./routers/notificationRouter";
 import registerRabbitMQListeners from "./rabbitmq/listeners";
 
 const app: express.Express = express();
-const port = process.env.CATALOG_SERVICE_API_PORT;
+const port = process.env.NOTIFICATION_SERVICE_API_PORT;
 
 registerRabbitMQListeners();
 connectMongoose();

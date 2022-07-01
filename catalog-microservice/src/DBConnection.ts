@@ -1,16 +1,15 @@
-const username = process.env.CATALOG_DB_USERNAME;
-const password = process.env.CATALOG_DB_PASSWORD;
-const networkName = process.env.CATALOG_DB_HOST;
 let mongoose = require('mongoose');
 
 export async function connectMongoose() {
-    console.log("Connect to mongodb...");
-    console.log(`mongodb://${username}:${password}@${networkName}`);
+    const username = process.env.CATALOG_DB_USERNAME || "localhost";
+    const password = process.env.CATALOG_DB_PASSWORD || "admin";
+    const networkName = process.env.CATALOG_DB_HOST || "admin";
     let isConnected = false;
     do {
         console.log("Try connecting to mongodb...");
+        console.log(`mongodb://${username.trim()}:${password}@${networkName}`);
         try {
-            await mongoose.connect(`mongodb://${username}:${password}@${networkName}`);
+            await mongoose.connect(`mongodb://${username.trim()}:${password}@${networkName}`);
             console.log("Mongo is connected");
             isConnected = true
         }catch (e) {

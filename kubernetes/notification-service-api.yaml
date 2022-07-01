@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service-api-deployment
+  labels:
+    app: notification-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service-api
+  template:
+    metadata:
+      labels:
+        app: notification-service-api
+    spec:
+      containers:
+      - name: notification-service-api
+        image: cesieatsimages.azurecr.io/notification-service-api
+        ports:
+        - containerPort: 2000
+        command: ["bash", "-c", "ts-node src/app.ts"]
+        env:
+        - name: NOTIFICATION_SERVICE_API_PORT
+          value: "2000"
+        - name: NOTIFICATION_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: notification-service-db-host
+        - name: NOTIFICATION_DB_USERNAME
+          value: "admin"
+        - name: NOTIFICATION_DB_PASSWORD
+          value: "admin"
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: rabbitmq-host
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-api-service
+spec:
+  selector:
+    app: notification-service-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 2000

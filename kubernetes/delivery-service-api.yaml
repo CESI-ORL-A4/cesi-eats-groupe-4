@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-service-api-deployment
+  labels:
+    app: delivery-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delivery-service-api
+  template:
+    metadata:
+      labels:
+        app: delivery-service-api
+    spec:
+      containers:
+      - name: delivery-service-api
+        image: cesieatsimages.azurecr.io/delivery-service-api
+        ports:
+        - containerPort: 2000
+        command: ["bash", "-c", "ts-node src/app.ts"]
+        env:
+        - name: DELIVERY_SERVICE_API_PORT
+          value: "2000"
+        - name: DELIVERY_SERVICE_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: delivery-service-db-host
+        - name: DELIVERY_SERVICE_DB_USERNAME
+          value: "admin"
+        - name: DELIVERY_SERVICE_DB_PASSWORD
+          value: "admin"
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: rabbitmq-host
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delivery-api-service
+spec:
+  selector:
+    app: delivery-service-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 2000
