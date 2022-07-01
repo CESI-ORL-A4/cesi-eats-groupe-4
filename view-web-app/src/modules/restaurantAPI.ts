@@ -63,7 +63,7 @@ export async function getRestaurants() {
 export async function addRestaurant(form: FormData) {
   try {
     const response = await axios.post(
-        `http://localhost:8080/catalog/restaurants/`,
+        `${config.CATALOG_SERVICE_URL}/catalog/restaurants/`,
       form,
       {
         headers: {
@@ -87,7 +87,7 @@ export async function addRestaurant(form: FormData) {
 export async function updateRestaurant(restaurantId: string, form: FormData) {
   try {
     const response = await axios.put(
-      `http://localhost:8080/catalog/restaurants/` + restaurantId,
+      `${config.CATALOG_SERVICE_URL}/catalog/restaurants/` + restaurantId,
       form,
       {
         headers: {

@@ -59,7 +59,7 @@ export async function deleteMenu(restaurantsId:string,menuId:string) {
 
 export async function addMenu(restaurantsId:string,form:FormData) {
     try {
-        const response = await axios.post(`http://localhost:8080/catalog/restaurants/`+restaurantsId+"/menus/",form, {
+        const response = await axios.post(`${config.CATALOG_SERVICE_URL}/catalog/restaurants/`+restaurantsId+"/menus/",form, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": "Bearer " + localStorage.getItem('jwt')
@@ -78,7 +78,7 @@ export async function addMenu(restaurantsId:string,form:FormData) {
 
 export async function updateMenu(restaurantsId:string,menuId:string,form:FormData) {
     try {
-        const response = await axios.put(`http://localhost:8080/catalog/restaurants/`+restaurantsId+"/menus/"+menuId,form, {
+        const response = await axios.put(`${config.CATALOG_SERVICE_URL}/catalog/restaurants/`+restaurantsId+"/menus/"+menuId,form, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },})
