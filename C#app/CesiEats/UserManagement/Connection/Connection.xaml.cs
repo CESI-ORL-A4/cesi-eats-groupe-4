@@ -46,7 +46,7 @@ namespace CesiEats.UserManagement.Connection
             var encodedContent = new FormUrlEncodedContent(parameters);
             UserToken userToken = null;
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:4000/");
+            client.BaseAddress = new Uri("http://api-gateway.e073562a5ba0470182a1.northeurope.aksapp.io/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var response = await client.PostAsync("auth/login/", encodedContent);
