@@ -18,7 +18,7 @@ namespace CesiEats.UserManagement.APIConnection
         {
             if(client.DefaultRequestHeaders.Authorization == null)
             {
-                client.BaseAddress = new Uri("http://localhost:4000/");
+                client.BaseAddress = new Uri("http://api-gateway.e073562a5ba0470182a1.northeurope.aksapp.io/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken.accessToken);
