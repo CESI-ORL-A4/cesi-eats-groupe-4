@@ -1,0 +1,3 @@
+/mssql/data/
+/mssql/data/*
+node_modules

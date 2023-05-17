@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-api-deployment
+  labels:
+    app: user-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service-api
+  template:
+    metadata:
+      labels:
+        app: user-service-api
+    spec:
+      containers:
+      - name: user-service-api
+        image: cesieatsimages.azurecr.io/user-service-api
+        ports:
+        - containerPort: 3000
+        command: ["bash", "-c", "ts-node src/app.ts"]
+        env:
+        - name: USER_SERVICE_API_PORT
+          value: "3000"
+        - name: DEFAULT_USER_TECHNIC_EMAIL
+          value: "technic@gmail.com"
+        - name: DEFAULT_USER_TECHNIC_PASS
+          value: "admin"
+        - name: USER_SERVICE_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: user-service-db-host
+        - name: USER_SERVICE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: db-password
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: rabbitmq-host
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-api-service
+spec:
+  selector:
+    app: user-service-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

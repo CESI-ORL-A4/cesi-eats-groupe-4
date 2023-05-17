@@ -1,0 +1,11 @@
+.idea/
+.github/
+node_modules/
+.github/
+.idea/
+.env
+swagger_output.json
+.vs/
+.vs/*
+obj/
+bin/

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-api-deployment
+  labels:
+    app: order-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service-api
+  template:
+    metadata:
+      labels:
+        app: order-service-api
+    spec:
+      containers:
+      - name: order-service-api
+        image: cesieatsimages.azurecr.io/order-service-api
+        ports:
+        - containerPort: 2000
+        command: ["bash", "-c", "ts-node src/app.ts"]
+        env:
+        - name: ORDER_SERVICE_API_PORT
+          value: "2000"
+        - name: ORDER_SERVICE_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: order-service-db-host
+        - name: ORDER_SERVICE_DB_USERNAME
+          value: "admin"
+        - name: ORDER_SERVICE_DB_PASSWORD
+          value: "admin"
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: rabbitmq-host
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-api-service
+spec:
+  selector:
+    app: order-service-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 2000

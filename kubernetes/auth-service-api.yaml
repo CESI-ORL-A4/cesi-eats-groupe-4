@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service-api-deployment
+  labels:
+    app: auth-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service-api
+  template:
+    metadata:
+      labels:
+        app: auth-service-api
+    spec:
+      containers:
+      - name: auth-service-api
+        image: cesieatsimages.azurecr.io/auth-service-api
+        ports:
+        - containerPort: 3000
+        command: ["bash", "-c", "ts-node src/app.ts"]
+        env:
+        - name: AUTH_SERVICE_API_PORT
+          value: "3000"
+        - name: AUTH_JWT_ACCESS_TOKEN_LIFE
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: jwt-access-life
+        - name: AUTH_JWT_REFRESH_TOKEN_LIFE
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: jwt-refresh-life
+        - name: AUTH_JWT_ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: jwt-access-secret
+        - name: AUTH_JWT_REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: jwt-refresh-secret
+        - name: AUTH_SERVICE_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: auth-service-db-host
+        - name: AUTH_SERVICE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: db-password
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: rabbitmq-host
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-api-service
+spec:
+  selector:
+    app: auth-service-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+data:
+  jwt-access-life: "8h"
+  jwt-refresh-life: "7d"
+  rabbitmq-host: rabbitmq-service
+  auth-service-api-host: auth-api-service
+  auth-service-db-host: auth-db-service
+  user-service-api-host: user-api-service
+  user-service-db-host: user-db-service
+  order-service-api-host: order-api-service
+  order-service-db-host: order-db-service
+  catalog-service-api-host: catalog-api-service
+  catalog-service-db-host: catalog-db-service
+  delivery-service-api-host: delivery-api-service
+  delivery-service-db-host: delivery-db-service
+  notification-service-api-host: notification-api-service
+  notification-service-db-host: notification-db-service

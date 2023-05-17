@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-db-deployment
+  labels:
+    app: user-service-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service-db
+  template:
+    metadata:
+      labels:
+        app: user-service-db
+    spec:
+      containers:
+      - name: user-service-db
+        image: cesieatsimages.azurecr.io/user-service-db
+        ports:
+        - containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: db-password
+        - name: USER_SERVICE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key : db-password
+        command: ["bash", "-c", "./entrypoint.sh"]
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-db-service
+spec:
+  selector:
+    app: user-service-db
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433

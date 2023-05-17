@@ -1,0 +1,210 @@
+version: "3.8"
+
+services:
+  # =============== RABBITMQ ===============
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    env_file:
+        - .env
+    networks:
+      - rabbitmq-network
+  # =============== API GATEWAY ===============
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+    env_file:
+        - .env
+    ports:
+      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
+    networks:
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== AUTH MICROSERVICE ===============
+  auth-service-db:
+    container_name: auth-service-db
+    build:
+      context: ./auth-microservice
+      dockerfile: ./dockerfiles/mssql/Dockerfile
+    volumes:
+      - ./auth-microservice/mssql/data:/var/opt/mssql/data
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+        - AUTH_SERVICE_DB_PASSWORD=${AUTH_SERVICE_DB_PASSWORD}
+    env_file:
+        - .env
+    networks:
+      - auth-microservice-network
+    command: bash -c "./entrypoint.sh"
+  auth-service-api:
+    container_name: auth-service-api
+    build:
+      context: ./auth-microservice
+      dockerfile: ./dockerfiles/node-app/Dockerfile
+    env_file:
+        - .env
+    depends_on:
+      - auth-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - auth-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== USER MICROSERVICE ===============
+  user-service-db:
+    container_name: user-service-db
+    build:
+      context: ./user-microservice
+      dockerfile: ./dockerfiles/mssql/Dockerfile
+    volumes:
+      - ./user-microservice/mssql/data:/var/opt/mssql/data
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+      - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+    env_file:
+        - .env
+    networks:
+      - user-microservice-network
+    command: bash -c "./entrypoint.sh"
+  user-service-api:
+    container_name: user-service-api
+    build:
+      context: ./user-microservice
+      dockerfile: ./dockerfiles/node-app/Dockerfile
+    env_file:
+        - .env
+    depends_on:
+      - user-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - user-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== ORDER MICROSERVICE ===============
+  order-service-db:
+    container_name: order-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${ORDER_SERVICE_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${ORDER_SERVICE_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${ORDER_SERVICE_DB_NAME}
+    volumes:
+      - ./order-microservice/mongo/data:/data/db
+    networks:
+      - order-microservice-network
+  order-service-api:
+    container_name: order-service-api
+    build:
+      context: ./order-microservice
+    env_file:
+        - .env
+    depends_on:
+      - order-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - order-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== CATALOG MICROSERVICE ===============
+  catalog-service-db:
+    container_name: catalog-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${CATALOG_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${CATALOG_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${CATALOG_DB_DATABASE}
+    volumes:
+      - ./catalog-microservice/mongo/data:/data/db
+    networks:
+      - catalog-microservice-network
+  catalog-service-api:
+    container_name: catalog-service-api
+    build:
+      context: ./catalog-microservice
+    env_file:
+        - .env
+    depends_on:
+      - catalog-service-db
+      - rabbitmq
+    ports:
+      - 8080:8080
+    restart: on-failure
+    networks:
+      - catalog-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+    # =============== NOTIFICATION MICROSERVICE ===============
+  notification-service-db:
+    container_name: notification-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${NOTIFICATION_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${NOTIFICATION_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${NOTIFICATION_DB_DATABASE}
+    volumes:
+      - ./notification-microservice/mongo/data:/data/db
+    networks:
+      - notification-microservice-network
+  notification-service-api:
+    container_name: notification-service-api
+    build:
+      context: ./notification-microservice
+    env_file:
+      - .env
+    depends_on:
+      - notification-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - notification-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+  # =============== DELIVERY MICROSERVICE ===============
+  delivery-service-db:
+    container_name: delivery-service-db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DELIVERY_SERVICE_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${DELIVERY_SERVICE_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DELIVERY_SERVICE_DB_NAME}
+    volumes:
+      - ./delivery-microservice/mongo/data:/data/db
+    networks:
+      - delivery-microservice-network
+  delivery-service-api:
+    container_name: delivery-service-api
+    build:
+      context: ./delivery-microservice
+    env_file:
+        - .env
+    depends_on:
+      - delivery-service-db
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - delivery-microservice-network
+      - rabbitmq-network
+      - app-api-network
+    command: bash -c "ts-node src/app.ts"
+
+networks:
+  rabbitmq-network:
+  app-api-network:
+  auth-microservice-network:
+  user-microservice-network:
+  order-microservice-network:
+  catalog-microservice-network:
+  notification-microservice-network:
+  delivery-microservice-network:
+

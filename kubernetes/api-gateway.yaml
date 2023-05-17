@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+  labels:
+    app: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: cesieatsimages.azurecr.io/api-gateway
+        ports:
+        - containerPort: 4000
+        command: ["bash", "-c", "ts-node src/app.ts"]
+        env:
+        - name: API_GATEWAY_PORT
+          value: "4000"
+        - name: USE_HOST_AS_FULL_URL
+          value: "true"
+        - name: USER_SERVICE_API_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: user-service-api-host
+        - name: AUTH_SERVICE_API_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: auth-service-api-host
+        - name: ORDER_SERVICE_API_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: order-service-api-host
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: api-gateway
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000

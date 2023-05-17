@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service-api-deployment
+  labels:
+    app: catalog-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-service-api
+  template:
+    metadata:
+      labels:
+        app: catalog-service-api
+    spec:
+      containers:
+      - name: catalog-service-api
+        image: cesieatsimages.azurecr.io/catalog-service-api
+        ports:
+        - containerPort: 2000
+        command: ["bash", "-c", "ts-node src/app.ts"]
+        env:
+        - name: CATALOG_SERVICE_API_PORT
+          value: "2000"
+        - name: CATALOG_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: catalog-service-db-host
+        - name: CATALOG_DB_USERNAME
+          value: "admin"
+        - name: CATALOG_DB_PASSWORD
+          value: "admin"
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-map
+              key: rabbitmq-host
+      imagePullSecrets:
+      - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-api-service
+spec:
+  type: ClusterIP
+  selector:
+    app: catalog-service-api
+  ports:
+    - port: 80
+      targetPort: 2000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: catalog-service-api
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: catalog-service-api.e073562a5ba0470182a1.northeurope.aksapp.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: catalog-api-service
+            port: 
+              number: 80
